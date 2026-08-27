@@ -1,6 +1,7 @@
 import { LayoutDashboard, CalendarCheck } from 'lucide-react';
 import Dashboard from './pages/Dashboard.jsx';
 import GuestPhoto from './pages/GuestPhotopage.jsx';
+import VisaServices from "./pages/VisaServiceAdmin.jsx"
 
 /**
  * ╔══════════════════════════════════════════════════════════╗
@@ -33,6 +34,13 @@ export const adminRoutes = [
     label: 'Bookings',
     icon: CalendarCheck,
     element: <GuestPhoto />,
+    showInNav: true,
+  },
+   {
+    path: 'VisaServices',
+    label: 'VisaServices',
+    icon: CalendarCheck,
+    element: <VisaServices />,
     showInNav: true,
   },
 

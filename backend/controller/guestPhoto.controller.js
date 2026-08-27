@@ -1,8 +1,9 @@
 const GuestPhoto = require('../models/GuestPhoto');
 const { saveImage, deleteImage } = require('../services/media.service');
+const { buildUrl } = require('../services/s3.service');
 
 /**
- * Upload a new guest photo
+ * Upload single guest photo
  * POST /api/guest-photos
  */
 const uploadGuestPhoto = async (req, res) => {
@@ -11,35 +12,34 @@ const uploadGuestPhoto = async (req, res) => {
 
     // Validation
     if (!bookingId) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Booking ID is required' 
+      return res.status(400).json({
+        success: false,
+        message: 'Booking ID is required'
       });
     }
 
     if (!customerName) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Customer name is required' 
+      return res.status(400).json({
+        success: false,
+        message: 'Customer name is required'
       });
     }
 
     if (!req.file) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Photo file is required' 
+      return res.status(400).json({
+        success: false,
+        message: 'Photo file is required'
       });
     }
 
-    // Upload to S3
+    // Upload to S3 - only key and alt return hoga
     const uploadResult = await saveImage(req.file, 'guest-photos');
 
-    // Save to database
+    // Save to database - sirf key aur alt store karo
     const guestPhoto = new GuestPhoto({
       bookingId,
       customerName,
       photoKey: uploadResult.key,
-      photoUrl: uploadResult.url,
       alt: uploadResult.alt,
       metadata: {
         size: req.file.size,
@@ -51,10 +51,14 @@ const uploadGuestPhoto = async (req, res) => {
 
     await guestPhoto.save();
 
+    // Convert to object and add photoUrl for response
+    const photoData = guestPhoto.toObject();
+    photoData.photoUrl = buildUrl(photoData.photoKey);
+
     return res.status(201).json({
       success: true,
       message: 'Guest photo uploaded successfully',
-      data: guestPhoto
+      data: photoData
     });
 
   } catch (error) {
@@ -73,9 +77,9 @@ const uploadGuestPhoto = async (req, res) => {
  */
 const getAllGuestPhotos = async (req, res) => {
   try {
-    const { 
-      page = 1, 
-      limit = 10, 
+    const {
+      page = 1,
+      limit = 10,
       bookingId,
       customerName,
       sortBy = 'createdAt',
@@ -105,21 +109,68 @@ const getAllGuestPhotos = async (req, res) => {
       GuestPhoto.countDocuments(filter)
     ]);
 
+    // Add photoUrl to each photo
+    const photosWithUrls = photos.map(photo => ({
+      ...photo,
+      photoUrl: buildUrl(photo.photoKey)
+    }));
+
     return res.status(200).json({
       success: true,
-      data: photos,
+      data: photosWithUrls,
       pagination: {
         page: parseInt(page),
         limit: limitNum,
         total,
         totalPages: Math.ceil(total / limitNum),
-        hasNext: page * limit < total,
-        hasPrev: page > 1
+        hasNext: parseInt(page) * limitNum < total,
+        hasPrev: parseInt(page) > 1
       }
     });
 
   } catch (error) {
     console.error('Error fetching guest photos:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch guest photos',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Get guest photos by booking ID
+ * GET /api/guest-photos/booking/:bookingId
+ */
+const getGuestPhotosByBooking = async (req, res) => {
+  try {
+    const { bookingId } = req.params;
+
+    if (!bookingId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Booking ID is required'
+      });
+    }
+
+    const photos = await GuestPhoto.find({ bookingId })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // Add photoUrl to each photo
+    const photosWithUrls = photos.map(photo => ({
+      ...photo,
+      photoUrl: buildUrl(photo.photoKey)
+    }));
+
+    return res.status(200).json({
+      success: true,
+      count: photosWithUrls.length,
+      data: photosWithUrls
+    });
+
+  } catch (error) {
+    console.error('Error fetching guest photos by booking:', error);
     return res.status(500).json({
       success: false,
       message: 'Failed to fetch guest photos',
@@ -144,9 +195,13 @@ const getGuestPhotoById = async (req, res) => {
       });
     }
 
+    // Convert to object and add photoUrl
+    const photoData = photo.toObject();
+    photoData.photoUrl = buildUrl(photoData.photoKey);
+
     return res.status(200).json({
       success: true,
-      data: photo
+      data: photoData
     });
 
   } catch (error) {
@@ -183,10 +238,14 @@ const updateGuestPhoto = async (req, res) => {
 
     await photo.save();
 
+    // Convert to object and add photoUrl
+    const photoData = photo.toObject();
+    photoData.photoUrl = buildUrl(photoData.photoKey);
+
     return res.status(200).json({
       success: true,
       message: 'Guest photo updated successfully',
-      data: photo
+      data: photoData
     });
 
   } catch (error) {
@@ -260,16 +319,17 @@ const bulkUploadGuestPhotos = async (req, res) => {
 
     const uploadPromises = req.files.map(async (file) => {
       const uploadResult = await saveImage(file, 'guest-photos');
-      
+
       const guestPhoto = new GuestPhoto({
         bookingId,
         customerName,
         photoKey: uploadResult.key,
-        photoUrl: uploadResult.url,
         alt: uploadResult.alt,
         metadata: {
           size: file.size,
-          format: 'webp'
+          format: 'webp',
+          width: file.width || null,
+          height: file.height || null
         }
       });
 
@@ -278,10 +338,16 @@ const bulkUploadGuestPhotos = async (req, res) => {
 
     const savedPhotos = await Promise.all(uploadPromises);
 
+    // Add photoUrl to each saved photo
+    const photosWithUrls = savedPhotos.map(photo => ({
+      ...photo.toObject(),
+      photoUrl: buildUrl(photo.photoKey)
+    }));
+
     return res.status(201).json({
       success: true,
       message: `${savedPhotos.length} guest photos uploaded successfully`,
-      data: savedPhotos
+      data: photosWithUrls
     });
 
   } catch (error) {
@@ -294,9 +360,11 @@ const bulkUploadGuestPhotos = async (req, res) => {
   }
 };
 
+// Export all controllers
 module.exports = {
   uploadGuestPhoto,
   getAllGuestPhotos,
+  getGuestPhotosByBooking,
   getGuestPhotoById,
   updateGuestPhoto,
   deleteGuestPhoto,

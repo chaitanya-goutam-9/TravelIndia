@@ -17,10 +17,7 @@ const guestPhotoSchema = new mongoose.Schema({
     required: [true, 'Photo key is required'],
     unique: true
   },
-  photoUrl: {
-    type: String,
-    required: [true, 'Photo URL is required']
-  },
+  // photoUrl field hata diya
   alt: {
     type: String,
     default: 'Guest photo'

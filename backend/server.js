@@ -4,6 +4,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const guestPhotoRoutes = require('./routes/guestPhoto.routes');
+const visaServiceRoutes = require('./routes/visaService.routes');
+
 
 const app = express();
 
@@ -27,6 +29,8 @@ mongoose.connect(process.env.MONGO_URI)
 // Routes
 app.use('/api/admin/auth', require('./routes/adminAuthRoutes'));
 app.use('/api/guest-photos', guestPhotoRoutes);
+app.use('/api/visa-services', visaServiceRoutes);
+
 
 // Health Check
 app.get('/api/health', (req, res) => {

@@ -5,9 +5,8 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 
-// Handle environment variable safely
-const API_URL = import.meta.env.VITE_API_BASE_URL;
-
+// API URL - ensure ye sahi hai
+const API_URL = import.meta.env.VITE_API_BASE_URL ;
 
 const GuestPhoto = () => {
   const [photos, setPhotos] = useState([]);
@@ -52,9 +51,6 @@ const GuestPhoto = () => {
 
   // Fetch photos when filters or pagination changes
   useEffect(() => {
-    if (pagination.page === 1 && filters.bookingId === '' && filters.customerName === '') {
-      return;
-    }
     fetchPhotos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination.page, filters]);
@@ -62,13 +58,26 @@ const GuestPhoto = () => {
   const fetchPhotos = async () => {
     try {
       setLoading(true);
-      const params = new URLSearchParams({
-        page: pagination.page,
-        limit: pagination.limit,
-        ...filters
-      });
       
-      const response = await axios.get(`${API_URL}/guest-photos?${params}`);
+      // Build query params
+      const params = new URLSearchParams();
+      params.append('page', pagination.page);
+      params.append('limit', pagination.limit);
+      
+      if (filters.bookingId) {
+        params.append('bookingId', filters.bookingId);
+      }
+      if (filters.customerName) {
+        params.append('customerName', filters.customerName);
+      }
+      
+      console.log('Fetching photos with params:', params.toString());
+      
+      const response = await axios.get(`${API_URL}/api/guest-photos?${params.toString()}`);
+      
+      console.log('Response data:', response.data);
+      
+      // Backend se data aa raha hai with photoUrl
       setPhotos(response.data.data || []);
       setPagination(response.data.pagination || {
         page: 1,
@@ -80,6 +89,7 @@ const GuestPhoto = () => {
       });
     } catch (error) {
       console.error('Error fetching photos:', error);
+      console.error('Error details:', error.response?.data);
       setPhotos([]);
       setPagination({
         page: 1,
@@ -150,7 +160,9 @@ const GuestPhoto = () => {
     uploadData.append('photo', formData.photo);
 
     try {
-      await axios.post(`${API_URL}/api/guest-photos`, uploadData, {
+      const response =  await axios.post(`${API_URL}/api/guest-photos`, uploadData, {
+             
+
         headers: { 'Content-Type': 'multipart/form-data' },
         onUploadProgress: (progressEvent) => {
           const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -158,10 +170,15 @@ const GuestPhoto = () => {
         }
       });
 
+      console.log('Upload response:', response.data);
+
       setFormData({ bookingId: '', customerName: '', photo: null });
       setFormErrors({});
       setUploadProgress(0);
       setShowUploadModal(false);
+      
+      // Reset to page 1 and fetch
+      setPagination(prev => ({ ...prev, page: 1 }));
       await fetchPhotos();
       
       alert('Photo uploaded successfully!');
@@ -177,7 +194,7 @@ const GuestPhoto = () => {
     if (!window.confirm('Are you sure you want to delete this photo?')) return;
 
     try {
-      await axios.delete(`${API_URL}/guest-photos/${id}`);
+      await axios.delete(`${API_URL}/api/guest-photos/${id}`);
       await fetchPhotos();
       alert('Photo deleted successfully!');
     } catch (error) {
@@ -210,9 +227,12 @@ const GuestPhoto = () => {
 
     setIsSubmitting(true);
     try {
+      // If new photo is selected, delete old and upload new
       if (formData.photo) {
-        await axios.delete(`${API_URL}/guest-photos/${editingPhoto._id}`);
+        // Delete old photo
+        await axios.delete(`${API_URL}/api/guest-photos${editingPhoto._id}`);
         
+        // Upload new photo
         const uploadData = new FormData();
         uploadData.append('bookingId', formData.bookingId);
         uploadData.append('customerName', formData.customerName);
@@ -222,8 +242,9 @@ const GuestPhoto = () => {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       } else {
-        await axios.patch(`${API_URL}/guest-photos/${editingPhoto._id}`, {
-          bookingId: formData.bookingId,
+        // Update only metadata
+await axios.patch(`${API_URL}/api/guest-photos/${editingPhoto._id}`, {   
+         bookingId: formData.bookingId,
           customerName: formData.customerName
         });
       }
