@@ -2,19 +2,19 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-[#680C0E] to-[#11152D] text-white pt-16 pb-8">
-      <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <footer className="bg-linear-to-b from-[#680C0E] to-[#11152D] text-white pb-6 pt-16 sm:pt-20">
+      <div className="mx-auto w-full px-3 sm:px-6 lg:px-12">
+        <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 sm:gap-x-8 lg:grid-cols-4 lg:gap-x-12">
           {/* Quick Contact */}
           <div>
-            <h4 className="text-lg font-extrabold text-white mb-4">Quick Contact</h4>
+            <h4 className="mb-6 text-lg font-extrabold text-white">Quick Contact</h4>
             <ul className="space-y-2  text-gray-300 text-1md">
               <li>📞 +91 7552421243</li>
               <li>📞 +91 9981996650</li>
               <li>📞 +91 9993717120</li>
               <li>✉️ info@travelindiatourism.com</li>
             </ul>
-            <div className="mt-4">
+            <div className="mt-6">
               <p className="text-sm text-gray-300">Currencies</p>
               <p className="text-sm font-semibold text-white">INR</p>
             </div>
@@ -22,7 +22,7 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="text-lg font-extrabold text-white mb-4">Company</h4>
+            <h4 className="mb-6 text-lg font-extrabold text-white">Company</h4>
             <ul className="space-y-2 text-2md">
               <li>
                 <Link
@@ -69,7 +69,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-lg font-extrabold text-white mb-4">Contact</h4>
+            <h4 className="mb-6 text-lg font-extrabold text-white">Contact</h4>
             <ul className="space-y-2 text-2md">
               <li>
                 <Link
@@ -100,8 +100,8 @@ export default function Footer() {
 
           {/* Follow Us */}
           <div>
-            <h4 className="text-lg font-extrabold text-white mb-4">Social</h4>
-            <div className="flex gap-4 ">
+            <h4 className="mb-6 text-lg font-extrabold text-white">Social</h4>
+            <div className="flex gap-5">
               <a
                 href="https://www.facebook.com/TravelIndiaTourism"
                 className="text-gray-300 hover:text-white transition"
@@ -156,25 +156,25 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-6 border-t border-white/20 text-sm text-center text-gray-300">
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-15">
-            <div>
+        <div className="mt-10 border-t border-white/20 pt-5 text-sm text-gray-300">
+          <div className="grid grid-cols-1 items-center gap-6 text-center lg:grid-cols-[1fr_auto_1fr] lg:text-left">
+            <div className="lg:justify-self-start">
               &copy; {new Date().getFullYear()} Travel India Tourism Pvt Ltd.
               All Rights Reserved.
             </div>
-            <div className="flex items-center gap-15">
+            <div className="flex items-center justify-center">
               <img
                 src="https://modtour.travelerwp.com/wp-content/uploads/2022/04/Frame-3182.svg"
                 alt="VISA DISCOVER Powered by Innovativbez"
                 className="h-6 w-auto "
               />
-              <a
+            </div>
+            <a
                 href="https://innovativebiz.in/"
-                className="text-gray-400 font-bold"
+                className="text-center font-bold text-gray-400 lg:justify-self-end"
               >
                 <p>Powered by Innovativebiz</p>
-              </a>
-            </div>
+            </a>
           </div>
         </div>
       </div>

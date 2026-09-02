@@ -80,7 +80,7 @@ export default function GuestPhotos() {
   // Loading skeleton
   const renderSkeleton = () => {
     return Array(6).fill(0).map((_, i) => (
-      <div key={i} className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 aspect-[4/3] group bg-gray-200 animate-pulse">
+      <div key={i} className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 aspect-[4/6] group bg-gray-200 animate-pulse">
         <div className="w-full h-full bg-gray-200"></div>
       </div>
     ));
@@ -89,10 +89,10 @@ export default function GuestPhotos() {
   return (
     <div className="w-full font-sans">
       {/* Hero / Banner */}
-      <section className="relative h-[400px] flex items-center justify-center bg-[#0a1b33]">
+      <section className="relative h-[500px] flex items-center justify-center bg-[#0a1b33]">
         <div className="absolute inset-0 bg-[#0a1b33]">
           <img
-            src="https://travelindiatourism.com/wp-content/uploads/2026/06/Guest-Photos.png"
+            src="https://travelindiatourism.com/wp-content/uploads/2026/06/Guest-Photos1.png"
             alt="Guest Photos background"
             className="w-full h-full object-cover opacity-40"
           />
@@ -107,9 +107,9 @@ export default function GuestPhotos() {
         </div>
         <div className="relative z-10 text-center px-4">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Guest <span className="text-blue-400">Photos</span>
+            Guest <span className="text-white">Photos</span>
           </h1>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+          <p className="text-yellow-300 text-xl max-w-4xl mx-auto font-bold text-8xl">
             Real journeys, real memories, and unforgettable experiences shared by our happy travelers.
           </p>
           {/* Stats */}
@@ -120,12 +120,17 @@ export default function GuestPhotos() {
       {/* Description Section */}
       <section className="py-16 bg-white">
         <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-[3rem] font-extrabold text-[#1a2b48] mb-6 leading-tight">
+          <div className="max-w-6xl mx-auto text-center">
+            <h2 className="text-[3rem] font-extrabold text-[#1a2b48] mb-6 leading-tight whitespace-nowrap">
               Memories Created With Travel India Tourism
             </h2>
             <p className="text-gray-600 text-md leading-relaxed">
-              Every journey tells a story. Explore the beautiful moments captured by our guests during their holidays, family vacations, honeymoon trips, group tours, and international adventures. These memories reflect the trust, happiness, and experiences we create for every traveler.
+              <span className="block md:whitespace-nowrap">
+                Every journey tells a story. Explore the beautiful moments captured by our guests during their holidays, family vacations, honeymoon trips,
+              </span>
+              <span className="block md:whitespace-nowrap">
+                group tours, and international adventures. These memories reflect the trust, happiness, and experiences we create for every traveler.
+              </span>
             </p>
           </div>
         </div>
@@ -133,7 +138,7 @@ export default function GuestPhotos() {
 
       {/* Photo Gallery */}
       <section className="pb-16 bg-white">
-        <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
+        <div className="max-w-[1400px] mx-auto px-5 lg:px-8">
           {error && (
             <div className="text-center py-8 text-red-500">
               <p>{error}</p>
@@ -146,14 +151,14 @@ export default function GuestPhotos() {
             </div>
           )}
           
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {loading ? (
               renderSkeleton()
             ) : photos.length > 0 ? (
               photos.map((photo) => (
                 <div
                   key={photo._id}
-                  className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 aspect-[4/3] group"
+                  className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 aspect-[4/5] group"
                 >
                   <img
                     src={photo.photoUrl}

@@ -44,27 +44,27 @@ export default function CustomizeTrip({ onClose }) {
   if (!isOpen) return null;
 
   const inputStyle =
-    "w-full px-4 py-3.5 rounded-md bg-white border border-gray-300 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent";
+    "w-full min-w-0 px-4 py-3.5 rounded-md bg-white border border-gray-300 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent";
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
-      <div className="w-full max-w-2xl bg-white rounded-lg overflow-hidden shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center overflow-y-auto bg-black/60 p-3 sm:p-4">
+      <div className="my-2 sm:my-0 flex max-h-[calc(100vh-1rem)] w-full max-w-2xl flex-col overflow-hidden rounded-lg bg-white shadow-2xl sm:max-h-[calc(100vh-2rem)]">
         {/* Header */}
-        <div className="bg-[#c0272d] relative flex items-center justify-center py-6 px-6">
-          <h2 className="text-white text-2xl md:text-3xl font-bold">
+        <div className="relative flex shrink-0 items-center justify-center bg-[#c0272d] px-12 py-4 sm:px-16 sm:py-6">
+          <h2 className="text-center text-xl font-bold text-white sm:text-2xl md:text-3xl">
             Customize Your Trip
           </h2>
           <button
             onClick={handleClose}
             aria-label="Close"
-            className="absolute right-5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white flex items-center justify-center hover:bg-gray-100 transition-colors"
+            className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white hover:bg-gray-100 transition-colors sm:right-5"
           >
             <X size={18} className="text-[#c0272d]" strokeWidth={3} />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 overflow-y-auto p-4 sm:p-6 md:p-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
               type="text"

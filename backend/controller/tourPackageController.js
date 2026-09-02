@@ -14,9 +14,14 @@ exports.getTours = async (req, res) => {
       query.isPopular = isPopular === 'true';
     }
 
-    // Filter by Category slug or ID
+    // Filter by Category slug, name, or ID
     if (category) {
-      const cat = await Category.findOne({ slug: category });
+      const cat = await Category.findOne({
+        $or: [
+          { slug: category.toLowerCase() },
+          { name: { $regex: `^${category}$`, $options: 'i' } }
+        ]
+      });
       if (cat) {
         query.categories = cat._id;
       } else {

@@ -152,7 +152,7 @@ function CountryCard({ country }) {
   return (
     <Link
       to={`/location/world/${country.slug}`}
-      className="group relative rounded-xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 block"
+      className="group relative block min-h-[220px] overflow-hidden rounded-xl shadow-md transition-all duration-300 hover:shadow-2xl"
       style={{ aspectRatio: '4/3' }}
     >
       <img
@@ -161,7 +161,7 @@ function CountryCard({ country }) {
         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
       />
       <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500" />
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
+      <div className="absolute inset-0 flex flex-col items-center justify-center p-5 text-center">
         <h3 className="text-white font-bold text-xl md:text-2xl tracking-wide drop-shadow-md">
           {country.name}
         </h3>
@@ -327,7 +327,7 @@ export default function WorldPage() {
       )}
 
       {/* ══════════ MAIN CONTENT ══════════ */}
-      <div className="max-w-[1200px] mx-auto w-full px-5 py-12 md:py-16">
+      <div className="max-w-[1400px] mx-auto w-full px-5 py-12 md:py-16">
 
         {/* VIEW 1: WORLD MAIN PAGE */}
         {!countrySlug && (

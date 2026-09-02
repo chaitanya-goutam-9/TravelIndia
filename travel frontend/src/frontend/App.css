@@ -1,1 +1,29 @@
 @import "tailwindcss";
+
+.hide-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+@keyframes enquiry-button-shake {
+	0%, 100% {
+		transform: translate(0, 0);
+	}
+	25% {
+		transform: translate(-2px, -2px);
+	}
+	50% {
+		transform: translate(2px, 2px);
+	}
+	75% {
+		transform: translate(-2px, 2px);
+	}
+}
+
+.enquiry-button:hover {
+	animation: enquiry-button-shake 0.35s ease-in-out;
+}

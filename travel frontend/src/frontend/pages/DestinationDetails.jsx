@@ -294,9 +294,9 @@ export default function DestinationDetails() {
       </div>
 
       {/* TOURS SECTION */}
-      <div className="w-full max-w-[1200px] mx-auto px-5 py-16">
+      <div className="w-full max-w-[1400px] mx-auto px-5 py-16">
         <div className="mb-10 inline-block">
-          <h2 className="text-[28px] md:text-[32px] font-bold text-white bg-[#4279e8] px-4 py-1 leading-tight">
+          <h2 className="text-[28px] md:text-[32px] font-bold text-black bg- px-4 py-1 leading-tight">
             Exclusive {dest.name} Tour Packages
           </h2>
           <div className="h-[2px] w-[120px] bg-[#4279e8] mt-2"></div>
@@ -305,12 +305,12 @@ export default function DestinationDetails() {
         {tours.length === 0 ? (
           <div className="text-gray-500 text-lg">No tour packages found for {dest.name}.</div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
             {tours.map(tour => (
               <Link 
                 key={tour._id} 
                 to={`/tour/${tour._id || tour.slug}`}
-                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col border border-gray-100"
+                className="min-h-[400px] bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col border border-gray-100"
               >
                 <div className="relative overflow-hidden" style={{ aspectRatio: '4/3' }}>
                   <img 

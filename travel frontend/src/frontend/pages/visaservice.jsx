@@ -1,16 +1,24 @@
 import { useState, useEffect } from "react";
-import { Send, Phone, Mail } from "lucide-react";
+import { Send, Phone, Mail, MapPin, Navigation2, RefreshCw } from "lucide-react";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
+
+function WhatsAppIcon({ size = 24 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+      <path d="M20.52 3.449A11.815 11.815 0 0 0 12.04 0C5.495 0 .164 5.33.161 11.876c0 2.092.547 4.134 1.588 5.933L.057 24l6.335-1.664a11.9 11.9 0 0 0 5.643 1.424h.005c6.542 0 11.875-5.33 11.878-11.876a11.82 11.82 0 0 0-3.398-8.435zM12.04 21.76h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.759.986 1.003-3.666-.235-.376a9.86 9.86 0 0 1-1.511-5.236C2.145 6.45 6.579 2.016 12.04 2.016a9.82 9.82 0 0 1 6.987 2.898 9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.877-9.88 9.877z" />
+    </svg>
+  );
+}
 
 /* ── Visa Card Component ── */
 function VisaCard({ visa }) {
   const [expanded, setExpanded] = useState(true);
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border-2 border-gray-200 hover:shadow-md hover:border-blue-100 transition-all duration-300 min-w-0">
-      {/* Image with flag in top-right corner */}
-      <div className="relative h-[220px] overflow-hidden">
+    <div className="bg-white rounded-lg overflow-hidden shadow-[0_1px_8px_rgba(15,23,42,0.18)] border border-gray-200 hover:shadow-md transition-all duration-300 min-w-0 h-full flex flex-col">
+      <div className="relative h-[158px] overflow-hidden m-2 mb-0 rounded-md">
         <img
           src={visa.bannerUrl}
           alt={visa.country}
@@ -21,45 +29,46 @@ function VisaCard({ visa }) {
           }}
         />
         {visa.flagUrl && (
-          <div className="absolute top-2 right-2">
+          <div className="absolute -bottom-1 right-1 z-10">
             <img
               src={visa.flagUrl}
               alt={`${visa.country} flag`}
-              className="w-10 h-7 object-cover rounded shadow-md border border-white/50"
+              className="w-10 h-7 object-cover rounded-sm shadow-md border border-white"
               onError={(e) => { e.target.style.display = 'none'; }}
             />
           </div>
         )}
       </div>
 
-      <div className="px-5 pt-4 pb-5">
-        {/* Country name */}
-        <h3 className="font-bold text-blue-600 text-[1.2rem] mb-4 leading-snug">{visa.country}</h3>
+      <div className="px-2.5 pt-5 pb-2.5 flex flex-col flex-1">
+        <h3 className="font-bold text-[#082b70] text-[1.05rem] mb-4 leading-tight min-h-[2.5rem] flex items-start">
+          {visa.country}
+        </h3>
 
         {/* + DATE expandable row */}
         <button
           onClick={() => setExpanded(!expanded)}
-          className="w-full flex items-center justify-between bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold uppercase tracking-widest px-5 py-3 rounded-lg transition-colors"
+          className="w-full flex items-center justify-between bg-[#078df0] hover:bg-[#087ed1] text-white text-sm font-bold uppercase tracking-wide px-3.5 py-3 rounded-lg transition-colors"
         >
-          <span className="flex items-center gap-1.5">
-            <span className="text-base font-bold leading-none">+</span> Date
+          <span className="flex items-center gap-3">
+            <span className="text-xl font-bold leading-none">+</span> Date
           </span>
-          <span className="text-base">{expanded ? '▲' : '▾'}</span>
+          <span className="text-sm">{expanded ? '⌃' : '⌄'}</span>
         </button>
 
         {/* Dates table */}
         {expanded && visa.appointmentDates?.length > 0 && (
-          <div className="border border-t-0 border-gray-200 rounded-b-lg overflow-hidden">
-            <div className="grid grid-cols-3 bg-gray-50 px-5 py-3">
-              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Month</span>
-              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Date</span>
-              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Year</span>
+          <div className="border border-t-0 border-gray-200 rounded-b-lg overflow-hidden flex-1">
+            <div className="grid grid-cols-3 bg-white px-3.5 py-3">
+              <span className="text-xs text-[#182238] font-bold uppercase">Month</span>
+              <span className="text-xs text-[#182238] font-bold uppercase">Date</span>
+              <span className="text-xs text-[#182238] font-bold uppercase">Year</span>
             </div>
             {visa.appointmentDates.map((date, j) => (
-              <div key={j} className={`grid grid-cols-3 px-5 py-3 ${j % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
-                <span className="text-blue-500 text-sm font-semibold">{date.month}</span>
-                <span className="text-gray-700 text-sm font-semibold">{date.day}</span>
-                <span className="text-gray-700 text-sm font-semibold">{date.year}</span>
+              <div key={j} className={`grid grid-cols-3 px-3.5 py-1.5 ${j % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                <span className="text-[#1685dd] text-sm">{date.month}</span>
+                <span className="text-gray-600 text-sm">{date.day}</span>
+                <span className="text-gray-600 text-sm">{date.year}</span>
               </div>
             ))}
           </div>
@@ -72,7 +81,15 @@ function VisaCard({ visa }) {
 export default function VisaServices() {
   const [formData, setFormData] = useState({
     email: "",
+    captcha: "",
   });
+  const [captchaQuestion, setCaptchaQuestion] = useState(() => makeCaptcha());
+
+  function makeCaptcha() {
+    const a = Math.floor(Math.random() * 8) + 1;
+    const b = Math.floor(Math.random() * 8) + 1;
+    return { a, b, answer: a * b };
+  }
 
   const [upcomingVisas, setUpcomingVisas] = useState([]);
   const [biometricVisas, setBiometricVisas] = useState([]);
@@ -111,8 +128,15 @@ export default function VisaServices() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (parseInt(formData.captcha, 10) !== captchaQuestion.answer) {
+      alert("Please answer the verification question correctly.");
+      setCaptchaQuestion(makeCaptcha());
+      setFormData({ ...formData, captcha: "" });
+      return;
+    }
     alert("Thank you for subscribing!");
-    setFormData({ email: "" });
+    setFormData({ email: "", captcha: "" });
+    setCaptchaQuestion(makeCaptcha());
   };
 
   // Loading skeleton for visa cards (matches the static card shape)
@@ -148,14 +172,14 @@ export default function VisaServices() {
       {/* Hero / Banner */}
 
       {/* Upcoming Visa Appointment Date */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
+      <section className="py-10 bg-white">
+        <div className="max-w-[1400px] mx-auto px-10 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-[2.4rem] font-bold text-[#1a2b48] mb-4 leading-tight">
+            <h2 className="text-[2rem] font-bold text-[#1a2b48] mb-4 leading-tight">
               <span className="italic font-serif font-semibold">Upcoming</span>{" "}
               Visa Appointment Date
             </h2>
-            <p className="text-gray-600 text-sm max-w-3xl mx-auto leading-relaxed">
+            <p className="text-gray-600 text-sm max-w-3xl mx-auto leading-relaxed whitespace-nowrap">
               We are delighted to inform you of the upcoming visa appointment dates for this{" "}
               <span className="text-red-500 font-bold">(-)</span>{" "}
               month, specifically for the United Kingdom, France, and Switzerland.
@@ -192,145 +216,121 @@ export default function VisaServices() {
       </section>
 
       {/* Contact Section */}
-      <section className="py-16 bg-[#f7f8fa]">
-        <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-3xl overflow-hidden shadow-2xl border border-gray-100">
+      <section className="bg-white py-12 sm:py-16">
+        <div className="mx-auto w-full max-w-[1200px] px-5 lg:px-8">
+          <h2 className="mb-8 text-center font-serif text-4xl font-bold text-[#0a1b33] sm:mb-10 sm:text-5xl">
+            Contact Us
+          </h2>
+          <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-16">
             {/* Left Side - Contact Form */}
-            <div className="bg-white p-8 md:p-12">
-              <h2 className="text-3xl font-bold text-[#1a2b48] mb-2">Send a message</h2>
-              <p className="text-gray-500 mb-8 text-sm">
-                Fill out the form and our team will get back to you within 24 hours.
-              </p>
+            <div className="rounded-3xl bg-white p-6 shadow-xl sm:p-8">
+              <h3 className="mb-6 text-2xl font-bold text-[#0a1b33]">Send a message</h3>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                    Your Name *
-                  </label>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <input
                     type="text"
                     name="name"
                     required
-                    placeholder="Enter your full name"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm"
+                    placeholder="Your name*"
+                    className="w-full rounded-xl border border-gray-200 bg-[#f3f3f3] px-4 py-3.5 text-sm text-gray-700 placeholder-gray-500 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Phone number"
+                    className="w-full rounded-xl border border-gray-200 bg-[#f3f3f3] px-4 py-3.5 text-sm text-gray-700 placeholder-gray-500 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      placeholder="your@email.com"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      placeholder="+91 99999 99999"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm"
-                    />
-                  </div>
-                </div>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="Your email*"
+                  className="w-full rounded-xl border border-gray-200 bg-[#f3f3f3] px-4 py-3.5 text-sm text-gray-700 placeholder-gray-500 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                    Destination
-                  </label>
+                <textarea
+                  name="message"
+                  rows="4"
+                  placeholder="Message"
+                  className="w-full resize-none rounded-xl border border-gray-200 bg-[#f3f3f3] px-4 py-3.5 text-sm text-gray-700 placeholder-gray-500 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+
+                <div className="flex flex-wrap items-center gap-3 pt-2 text-sm text-gray-600">
+                  <span className="font-medium">What is</span>
+                  <span className="rounded border border-gray-200 bg-white px-3 py-2 font-mono text-base tracking-widest">
+                    {captchaQuestion.a} x {captchaQuestion.b} ?
+                  </span>
                   <input
                     type="text"
-                    name="destination"
-                    placeholder="Which country do you want to visit?"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm"
+                    name="captcha"
+                    value={formData.captcha}
+                    onChange={handleChange}
+                    required
+                    placeholder="Answer"
+                    className="w-24 rounded-xl border border-gray-200 bg-[#f3f3f3] px-3 py-2.5 text-center focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                    Message
-                  </label>
-                  <textarea
-                    name="message"
-                    rows="4"
-                    placeholder="Tell us about your visa requirements..."
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none text-sm"
-                  />
+                  <button type="button" onClick={() => { setCaptchaQuestion(makeCaptcha()); setFormData({ ...formData, captcha: "" }); }} aria-label="Refresh verification question" className="text-gray-500 transition-colors hover:text-blue-600">
+                    <RefreshCw size={18} />
+                  </button>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-6 rounded-full transition-colors flex items-center justify-center gap-2 text-sm"
+                  className="mt-2 flex items-center justify-center gap-2 rounded-full bg-[#101d70] px-8 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#0a1b33]"
                 >
-                  <Send size={18} />
-                  Send Message
+                  Send Message <Send size={18} />
                 </button>
               </form>
             </div>
 
             {/* Right Side - Office Info */}
-            <div className="bg-[#f7f8fa] p-8 md:p-12">
-              <h3 className="text-2xl font-bold text-[#1a2b48] mb-6">Contact Us</h3>
-
-              <div className="space-y-6">
-                <div>
-                  <h4 className="font-bold text-[#1a2b48] text-sm uppercase tracking-wider mb-2">
-                    Head Office
-                  </h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    Vande Matram Square, C-27 Parijat Complex Bittan Market, E-5, Arera Colony,
-                    Bhopal, Madhya Pradesh 462016
-                  </p>
+            <div className="pt-2 sm:pt-6">
+              <div className="space-y-7 text-gray-800">
+                <div className="flex items-start gap-4">
+                  <Navigation2 className="mt-1 shrink-0 text-red-500" size={24} />
+                  <p className="text-base leading-relaxed"><strong>Head Office:</strong> Vande Matram Square, C-27 Parijat Complex Bittan Market, E-5, Arera Colony, Bhopal, Madhya Pradesh 462016</p>
                 </div>
-
-                <div>
-                  <h4 className="font-bold text-[#1a2b48] text-sm uppercase tracking-wider mb-2">
-                    Branch Office
-                  </h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    1st Floor, Guru Bakshish Arced, Danapani Rd, opposite Priyadarshini
-                    Adhishthan, Bawadiya Kalan, Pallavi Nagar, Bhopal, Madhya Pradesh
-                  </p>
+                <div className="flex items-start gap-4">
+                  <MapPin className="mt-1 shrink-0 text-red-500" size={24} />
+                  <p className="text-base leading-relaxed"><strong>Branch Office:</strong> 1st Floor, Guru Bakshish Arced, Danapani Rd, opposite Priyadarshini Adhishthan, Bawadiya Kalan, Pallavi Nagar, Bhopal, Madhya Pradesh</p>
                 </div>
-
-                <div className="space-y-2">
+                <div className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
                   <a
                     href="tel:+919893574731"
-                    className="flex items-center gap-2 text-gray-600 hover:text-blue-600 text-sm"
+                    className="flex items-center gap-3 text-base hover:text-red-500"
                   >
-                    <Phone size={16} />
+                    <Phone className="text-red-500" size={22} />
                     +91 98935 74731
                   </a>
                   <a
                     href="tel:+919893225370"
-                    className="flex items-center gap-2 text-gray-600 hover:text-blue-600 text-sm"
+                    className="flex items-center gap-3 text-base hover:text-red-500"
                   >
-                    <Phone size={16} />
+                    <Phone className="text-red-500" size={22} />
                     +91 98932 25370
                   </a>
                   <a
                     href="tel:+919893121733"
-                    className="flex items-center gap-2 text-gray-600 hover:text-blue-600 text-sm"
+                    className="flex items-center gap-3 text-base hover:text-red-500"
                   >
-                    <Phone size={16} />
+                    <Phone className="text-red-500" size={22} />
                     +91 98931 21733
                   </a>
                   <a
                     href="mailto:visa@travelindiatourism.com"
-                    className="flex items-center gap-2 text-gray-600 hover:text-blue-600 text-sm"
+                    className="flex items-center gap-3 text-base hover:text-red-500"
                   >
-                    <Mail size={16} />
+                    <Mail className="text-red-500" size={22} />
                     visa@travelindiatourism.com
                   </a>
                 </div>
+                <a href="https://wa.me/919893539555" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-base hover:text-green-600">
+                  <WhatsAppIcon size={24} />
+                  Message on WhatsApp &gt;&gt;
+                </a>
               </div>
             </div>
           </div>
@@ -340,13 +340,13 @@ export default function VisaServices() {
       {/* Visa Biometric Services With VFS */}
       <section className="py-16 bg-white">
         <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 lg:gap-12 items-center mb-12">
             {/* Left Side - Text */}
             <div>
-              <h2 className="text-[2rem] font-bold text-[#1a2b48] mb-4">
+              <h2 className="text-[2rem] font-extrabold text-[#1a2b48] mb-4">
                 Visa Biometric Services With <span className="text-blue-600">VFS</span>
               </h2>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="max-w-3xl text-[18px] text-gray-600 leading-6">
                 At Travel India Tourism's office in Bhopal, our collaborative partnership with{" "}
                 <strong>VFS Global</strong> ensures hassle-free biometric and document
                 verification for visa applications. With their expertise, we simplify the

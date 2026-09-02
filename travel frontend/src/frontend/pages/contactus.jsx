@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Navigation2, Phone, Mail, MessageCircle, RefreshCw } from "lucide-react";
+import { MapPin, Navigation2, Phone, Mail, RefreshCw } from "lucide-react";
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
@@ -183,15 +183,24 @@ export default function ContactUs() {
 
       {/* Floating WhatsApp button */}
       <a
-        href="https://wa.me/919993717120"
+        href="https://wa.me/919893539555"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
         className="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#1ebe5b] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-105"
       >
-        <MessageCircle size={26} fill="white" strokeWidth={0} />
+        <WhatsAppIcon size={26} />
       </a>
     </div>
+  );
+}
+
+function WhatsAppIcon({ size = 24, className }) {
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+      <path d="M20.52 3.449A11.815 11.815 0 0 0 12.04 0C5.495 0 .164 5.33.161 11.876c0 2.092.547 4.134 1.588 5.933L.057 24l6.335-1.664a11.9 11.9 0 0 0 5.643 1.424h.005c6.542 0 11.875-5.33 11.878-11.876a11.82 11.82 0 0 0-3.398-8.435zM12.04 21.76h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.759.986 1.003-3.666-.235-.376a9.86 9.86 0 0 1-1.511-5.236C2.145 6.45 6.579 2.016 12.04 2.016a9.82 9.82 0 0 1 6.987 2.898 9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.877-9.88 9.877z" />
+    </svg>
   );
 }
 

@@ -339,16 +339,16 @@ export default function LocationPage() {
         const base = import.meta.env.VITE_API_BASE_URL || '';
         // 1️⃣ Get all categories (id + slug)
         const catRes = await axios.get(`${base}/api/categories`);
-        const catMap = {}; // slug -> id
+        const catMap = {}; // normalized category key -> id
         (catRes.data.data || []).forEach(c => {
           catMap[c.slug] = c._id;
+          catMap[c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')] = c._id;
         });
-        // 2️⃣ Get all tours
+        // State pages and India category sections use the complete tour list.
         const toursRes = await axios.get(`${base}/api/tours`);
         const tours = toursRes.data.data || [];
         setAllTours(tours);
         if (isIndia && !activeState) {
-          // Group tours by the known category slugs
           const grouped = {
             leisure: [],
             beaches: [],
@@ -357,23 +357,27 @@ export default function LocationPage() {
             spiritual: [],
             wellness: [],
           };
-          tours.forEach(t => {
-            // t.categories can be populated objects [{_id, slug, name}] or raw IDs
-            const tourCatSlugs = (t.categories || []).map(c => 
-              typeof c === 'object' ? (c.slug || '') : ''
-            );
-            const tourCatIds = (t.categories || []).map(c => 
-              typeof c === 'object' ? (c._id || c) : c
-            ).map(String);
 
-            Object.keys(grouped).forEach(slug => {
-              // Match by slug directly OR by category ID
-              if (tourCatSlugs.includes(slug) || tourCatIds.includes(String(catMap[slug]))) {
-                grouped[slug].push(t);
+          tours.forEach((tour) => {
+            const tourCategorySlugs = (tour.categories || []).flatMap((category) =>
+              typeof category === 'object'
+                ? [
+                    category.slug || '',
+                    (category.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+                  ]
+                : []
+            );
+            const tourCategoryIds = (tour.categories || [])
+              .map((category) => typeof category === 'object' ? category._id || category : category)
+              .map(String);
+
+            Object.keys(grouped).forEach((slug) => {
+              if (tourCategorySlugs.includes(slug) || tourCategoryIds.includes(String(catMap[slug]))) {
+                grouped[slug].push(tour);
               }
             });
           });
-          // keep only first 5 for each category (as per UI design)
+
           setCategoryTours({
             leisure: grouped.leisure.slice(0, 5),
             beaches: grouped.beaches.slice(0, 5),
@@ -560,19 +564,7 @@ export default function LocationPage() {
                 {isIndia && (
                   <div className="mt-10">
                     {/* Sticky Tabs */}
-                    <div className="sticky top-20 z-40 bg-gray-50 py-4 -mx-5 px-5 md:mx-0 md:px-0 border-y border-gray-200 mb-10 overflow-x-auto shadow-sm backdrop-blur-md bg-opacity-90">
-                      <div className="flex gap-3 min-w-max pb-1">
-                        {TOUR_CATEGORIES.map(cat => (
-                          <a
-                            key={cat.id}
-                            href={`#cat-${cat.id}`}
-                            className="bg-white border border-gray-200 hover:border-blue-600 hover:text-blue-600 text-[#1a2b48] font-bold px-6 py-2.5 rounded-full transition-all whitespace-nowrap shadow-sm text-sm"
-                          >
-                            {cat.title}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
+                   
 
                     {/* Category Lists */}
                     <div className="flex flex-col gap-16">
@@ -595,7 +587,9 @@ export default function LocationPage() {
                               <div className="absolute right-0 bottom-0 flex gap-2 hidden md:flex">
                                 <button
                                   onClick={() => {
-                                    document.getElementById(`scroll-${cat.id}`).scrollBy({ left: -320, behavior: 'smooth' });
+                                    const carousel = document.getElementById(`scroll-${cat.id}`);
+                                    const card = carousel?.firstElementChild;
+                                    carousel?.scrollBy({ left: -(card?.getBoundingClientRect().width + 20 || 320), behavior: 'smooth' });
                                   }}
                                   className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-blue-600 hover:text-blue-600 transition-colors"
                                 >
@@ -603,7 +597,9 @@ export default function LocationPage() {
                                 </button>
                                 <button
                                   onClick={() => {
-                                    document.getElementById(`scroll-${cat.id}`).scrollBy({ left: 320, behavior: 'smooth' });
+                                    const carousel = document.getElementById(`scroll-${cat.id}`);
+                                    const card = carousel?.firstElementChild;
+                                    carousel?.scrollBy({ left: card?.getBoundingClientRect().width + 20 || 320, behavior: 'smooth' });
                                   }}
                                   className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-blue-600 hover:text-blue-600 transition-colors"
                                 >
@@ -612,13 +608,15 @@ export default function LocationPage() {
                               </div>
                             </div>
 
-                            {/* Horizontal scrollable cards row */}
-                            <div id={`scroll-${cat.id}`} className="flex overflow-x-auto gap-5 pb-6 snap-x hide-scrollbar scroll-smooth">
-                              {tours.map(tour => (
-                                <div key={tour._id} className="min-w-[340px] w-[340px] snap-start flex-shrink-0">
-                                  <CategoryTourCard tour={tour} />
-                                </div>
-                              ))}
+                            {/* Three-card carousel on desktop; one card at a time on mobile */}
+                            <div className="overflow-hidden">
+                              <div id={`scroll-${cat.id}`} className="flex gap-5 overflow-x-auto pb-6 snap-x hide-scrollbar scroll-smooth">
+                                {tours.map(tour => (
+                                  <div key={tour._id} className="w-full min-w-full shrink-0 snap-start sm:min-w-[calc((100%-1.25rem)/2)] sm:w-[calc((100%-1.25rem)/2)] lg:min-w-[calc((100%-2.5rem)/3)] lg:w-[calc((100%-2.5rem)/3)]">
+                                    <CategoryTourCard tour={tour} />
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           </div>
                         );

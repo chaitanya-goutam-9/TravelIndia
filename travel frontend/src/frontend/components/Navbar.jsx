@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Menu, Search, User, ShoppingBag, X } from 'lucide-react';
+import { Menu, Search, User, ShoppingBag, X, ChevronDown } from 'lucide-react';
 import axios from 'axios';
 import GroupTour from '../pages/grouptour';
 import { INDIA_STATES } from '../data/indianStates';
 
 export default function Navbar() {
   const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileSection, setMobileSection] = useState(null);
   const [indiaDestinations, setIndiaDestinations] = useState({
     'North India': [],
     'South India': [],
@@ -15,6 +17,11 @@ export default function Navbar() {
     'Other': []
   });
   const [worldDestinations, setWorldDestinations] = useState([]);
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+    setMobileSection(null);
+  };
 
   useEffect(() => {
     const fetchDestinations = async () => {
@@ -63,39 +70,35 @@ export default function Navbar() {
       </div>
 
       {/* Main Nav */}
-      <div className="flex justify-between items-center px-5 lg:px-8">
-        <div className="flex items-center gap-4 py-2 lg:py-0">
-          <button className="lg:hidden text-gray-700">
-            <Menu size={28} />
-          </button>
+      <div className="flex min-h-19 justify-between items-center gap-4 px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-3 py-2 lg:py-0">
           <Link to="/" className="flex items-center">
             <img
               src="https://travelindiatourism.com/wp-content/uploads/2026/05/cropped-cropped-TIT-New-Logo.png.webp"
               alt="Travel India Tourism Logo"
-              className="max-w-[100px] md:max-w-[180px] h-auto object-contain"
+              className="w-27.5 sm:w-35 lg:w-40 h-auto object-contain"
             />
           </Link>
         </div>
 
-        <nav className="hidden lg:flex font-bold text-[16px] text-[#1a2b48] h-full">
-          <Link to="/" className="hover:text-blue-600 px-6 py-9 transition-colors">HOME</Link>
+        <nav className="hidden lg:flex flex-1 justify-center font-bold text-[15px] xl:text-[17px] text-[#1a2b48] h-full">
+          <Link to="/" className="hover:text-blue-600 px-3 xl:px-5 py-7 transition-colors">Home</Link>
           <div className="group relative">
-            <Link to="/location/india" className="hover:text-blue-600 flex items-center gap-1 px-6 py-9 transition-colors">INDIA <span className="text-gray-400 text-xs ml-1">▼</span></Link>
-            <div className="absolute hidden group-hover:block bg-white shadow-xl border border-gray-100 p-4 w-[600px] left-0 mt-0 z-50 rounded-xl">
-              {/* <p>▼</p> */}
-              <div className="flex gap-8">
+            <Link to="/location/india" className="hover:text-blue-600 flex items-center gap-1 px-3 xl:px-5 py-7 transition-colors">India <ChevronDown size={14} strokeWidth={1.75} className="text-gray-400 ml-1" /></Link>
+            <div className="absolute left-0 z-50 mt-0 hidden min-h-[185px] w-[min(620px,calc(100vw-2rem))] rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl group-hover:block">
+              <div className="flex gap-7">
                 {/* Left Side - Region Links */}
                 <div className="flex-1">
-                  <div className="grid grid-cols-4 gap-6">
+                  <div className="grid grid-cols-4 gap-x-6">
                     {['North India', 'South India', 'East India', 'West India'].map(zone => {
                       const dests = indiaDestinations[zone];
                       if (!dests || dests.length === 0) return null;
                       return (
                         <div key={zone}>
-                          <h4 className="font-extrabold text-gray-900 uppercase border-b pb-2 mb-4 text-sm">{zone}</h4>
-                          <ul className="text-[14px] space-y-2 font-medium text-gray-600">
+                          <h4 className="mb-4 border-b border-gray-300 pb-2 text-[15px] font-extrabold uppercase tracking-wide text-[#111827]">{zone}</h4>
+                          <ul className="space-y-2 text-[15px] font-medium text-gray-600">
                             {dests.map(d => (
-                              <li key={d._id}><Link to={`/location/${d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="hover:text-blue-600 transition-colors">{d.name}</Link></li>
+                              <li key={d._id}><Link to={`/location/${d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="block rounded-md px-1 py-1.5 transition-colors hover:bg-blue-50 hover:text-blue-600">{d.name}</Link></li>
                             ))}
                           </ul>
                         </div>
@@ -109,20 +112,20 @@ export default function Navbar() {
             </div>
           </div>
           <div className="group relative">
-            <Link to="/location/world" className="hover:text-blue-600 flex items-center gap-1 px-6 py-9 transition-colors">WORLD <span className="text-gray-400 text-xs ml-1">▼</span></Link>
-            <div className="absolute hidden group-hover:block bg-white shadow-xl border border-gray-100 p-6 w-[550px] left-0 mt-0 z-50 rounded-xl">
-              <div className="flex gap-8">
+            <Link to="/location/world" className="hover:text-blue-600 flex items-center gap-1 px-3 xl:px-5 py-7 transition-colors">World <ChevronDown size={14} strokeWidth={1.75} className="text-gray-400 ml-1" /></Link>
+            <div className="absolute left-0 z-50 mt-0 hidden min-h-[220px] w-[min(520px,calc(100vw-2rem))] rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl group-hover:block">
+              <div className="flex gap-7">
                 {/* Left Side - Destination Links */}
                 <div className="flex-1">
-                  <div className="grid grid-cols-2 gap-x-8 gap-y-2">
-                    <ul className="text-[14px] space-y-2 font-medium text-gray-600">
+                  <div className="grid grid-cols-2 gap-x-10 gap-y-3">
+                    <ul className="space-y-2 font-medium text-[15px] text-gray-600">
                       {worldDestinations.slice(0, Math.ceil(worldDestinations.length / 2)).map(d => (
-                         <li key={d._id}><Link to={`/location/${d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="hover:text-blue-600 transition-colors">{d.name}</Link></li>
+                         <li key={d._id}><Link to={`/location/${d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="block rounded-md px-1 py-1.5 transition-colors hover:bg-blue-50 hover:text-blue-600">{d.name}</Link></li>
                       ))}
                     </ul>
-                    <ul className="text-[14px] space-y-2 font-medium text-gray-600">
+                    <ul className="space-y-2 font-medium text-[15px] text-gray-600">
                       {worldDestinations.slice(Math.ceil(worldDestinations.length / 2)).map(d => (
-                         <li key={d._id}><Link to={`/location/${d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="hover:text-blue-600 transition-colors">{d.name}</Link></li>
+                         <li key={d._id}><Link to={`/location/${d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="block rounded-md px-1 py-1.5 transition-colors hover:bg-blue-50 hover:text-blue-600">{d.name}</Link></li>
                       ))}
                     </ul>
                   </div>
@@ -132,9 +135,10 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-          <Link to="/visa-services" className="hover:text-blue-600 px-6 py-9 transition-colors whitespace-nowrap">VISA SERVICES</Link>
+          <Link to="/visa-services" className="hover:text-blue-600 px-3 xl:px-5 py-7 transition-colors whitespace-nowrap">Visa Services</Link>
+          <Link to="/contact" className="hover:text-blue-600 px-3 xl:px-5 py-7 transition-colors">Contact</Link>
           <div className="group relative">
-            <Link to="/about-us" className="hover:text-blue-600 flex items-center gap-1 px-6 py-9 transition-colors">ABOUT US <span className="text-gray-400 text-xs ml-1">▼</span></Link>
+            <Link to="/about-us" className="text-black hover:text-blue-600 flex items-center gap-1 px-3 xl:px-5 py-7 transition-colors">About Us <ChevronDown size={14} strokeWidth={1.75} className="text-gray-400 ml-1" /></Link>
             <div className="absolute hidden group-hover:block bg-white shadow-xl border border-gray-100 py-4 w-56 left-0 mt-0 z-50 rounded-xl">
               <ul className="text-[15px] font-medium text-gray-700">
                 <li><Link to="/about-us" className="hover:bg-gray-50 hover:text-blue-600 block px-6 py-3 transition-colors">About Us</Link></li>
@@ -143,19 +147,71 @@ export default function Navbar() {
               </ul>
             </div>
           </div>
-          <Link to="/contact" className="hover:text-blue-600 px-6 py-9 transition-colors">CONTACT</Link>
         </nav>
 
         <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isMobileMenuOpen}
+            className="lg:hidden text-gray-700 p-2"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
           <button 
             onClick={() => setIsGroupModalOpen(true)}
-            className="hidden md:block bg-[#182040] text-white px-4 py-2  font-semibold hover:bg-red-700 transition"
+            className="enquiry-button hidden md:block rounded-md bg-[#182040] text-white px-3 py-1.5 text-sm font-semibold transition duration-200 hover:bg-red-700"
           >
             Group Enquiry?
           </button>
        
         </div>
       </div>
+
+      {isMobileMenuOpen && (
+        <div className="lg:hidden border-t border-gray-200 bg-white shadow-lg">
+          <nav className="max-h-[calc(100vh-76px)] overflow-y-auto px-4 py-3 text-[17px] text-[#1a2b48]">
+            <Link to="/" onClick={closeMobileMenu} className="block border-b border-gray-100 py-4 font-bold">Home</Link>
+
+            <div className="border-b border-gray-100">
+              <div className="flex items-center justify-between py-4">
+                <Link to="/location/india" onClick={closeMobileMenu} className="font-bold">India</Link>
+                <button type="button" onClick={() => setMobileSection(mobileSection === 'india' ? null : 'india')} aria-label="Toggle India destinations" className="p-2">
+                  <ChevronDown size={18} className={`transition-transform ${mobileSection === 'india' ? 'rotate-180' : ''}`} />
+                </button>
+              </div>
+              {mobileSection === 'india' && (
+                <div className="grid grid-cols-2 gap-4 pb-4 pl-3 text-sm text-gray-600">
+                  {['North India', 'South India', 'East India', 'West India'].map(zone => {
+                    const dests = indiaDestinations[zone];
+                    if (!dests || dests.length === 0) return null;
+                    return <div key={zone}><p className="mb-2 font-bold text-gray-900">{zone}</p>{dests.map(d => <Link key={d._id} to={`/location/${d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} onClick={closeMobileMenu} className="block py-1">{d.name}</Link>)}</div>;
+                  })}
+                </div>
+              )}
+            </div>
+
+            <div className="border-b border-gray-100">
+              <div className="flex items-center justify-between py-4">
+                <Link to="/location/world" onClick={closeMobileMenu} className="font-bold">World</Link>
+                <button type="button" onClick={() => setMobileSection(mobileSection === 'world' ? null : 'world')} aria-label="Toggle world destinations" className="p-2">
+                  <ChevronDown size={18} className={`transition-transform ${mobileSection === 'world' ? 'rotate-180' : ''}`} />
+                </button>
+              </div>
+              {mobileSection === 'world' && <div className="grid grid-cols-2 gap-2 pb-4 pl-3 text-sm text-gray-600">{worldDestinations.map(d => <Link key={d._id} to={`/location/${d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} onClick={closeMobileMenu} className="py-1">{d.name}</Link>)}</div>}
+            </div>
+
+            <Link to="/visa-services" onClick={closeMobileMenu} className="block border-b border-gray-100 py-4 font-bold">Visa Services</Link>
+            <Link to="/contact" onClick={closeMobileMenu} className="block border-b border-gray-100 py-4 font-bold">Contact</Link>
+            <details className="border-b border-gray-100 group">
+              <summary className="flex cursor-pointer list-none items-center justify-between py-4 font-bold text-black">About Us <ChevronDown size={18} className="transition-transform group-open:rotate-180" /></summary>
+              <div className="pb-3 pl-3 text-sm text-gray-600"><Link to="/about-us" onClick={closeMobileMenu} className="block py-2">About Us</Link><Link to="/csr-initiative" onClick={closeMobileMenu} className="block py-2">CSR Initiative</Link><Link to="/guest-photos" onClick={closeMobileMenu} className="block py-2">Guest Photos</Link></div>
+            </details>
+            <button type="button" onClick={() => { closeMobileMenu(); setIsGroupModalOpen(true); }} className="enquiry-button mt-4 w-full rounded-md bg-[#182040] px-3 py-2 text-center text-sm font-semibold text-white transition duration-200 hover:bg-red-700">Group Enquiry?</button>
+          </nav>
+        </div>
+      )}
 
       {isGroupModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
