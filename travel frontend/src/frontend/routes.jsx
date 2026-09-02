@@ -14,6 +14,7 @@ import BlogPage from './pages/BlogPage';
 
 import LocationPage from './pages/LocationPage';
 import WorldPage from './pages/WorldPage';
+import DestinationDetails from './pages/DestinationDetails';
 
 /**
  * Frontend public routes config.
@@ -26,8 +27,9 @@ const frontendRoutes = [
   { path: 'tour/:slug', element: <TourDetails /> },
   { path: 'location/world', element: <WorldPage /> },
   { path: 'location/world/:countrySlug', element: <WorldPage /> },
-  { path: 'location/:region', element: <LocationPage /> },
-  { path: 'location/:region/:stateSlug', element: <LocationPage /> },
+  { path: 'location/india', element: <LocationPage /> },
+  { path: 'location/india/:stateSlug', element: <LocationPage /> },
+  { path: 'location/:destId', element: <DestinationDetails /> },
   { path: 'about-us', element: <AboutUs /> },
   { path: 'csr-initiative', element: <AboutCsr /> },
   { path: 'guest-photos', element: <GuestPhotos /> },

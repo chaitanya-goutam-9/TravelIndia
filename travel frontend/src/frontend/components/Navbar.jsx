@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Menu, Search, User, ShoppingBag, X } from 'lucide-react';
 import axios from 'axios';
 import GroupTour from '../pages/grouptour';
+import { INDIA_STATES } from '../data/indianStates';
 
 export default function Navbar() {
   const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
@@ -80,7 +81,7 @@ export default function Navbar() {
           <Link to="/" className="hover:text-blue-600 px-6 py-9 transition-colors">HOME</Link>
           <div className="group relative">
             <Link to="/location/india" className="hover:text-blue-600 flex items-center gap-1 px-6 py-9 transition-colors">INDIA <span className="text-gray-400 text-xs ml-1">▼</span></Link>
-            <div className="absolute hidden group-hover:block bg-white shadow-xl border border-gray-100 p-7 w-[600px] left-0 mt-0 z-50 rounded-xl">
+            <div className="absolute hidden group-hover:block bg-white shadow-xl border border-gray-100 p-4 w-[600px] left-0 mt-0 z-50 rounded-xl">
               {/* <p>▼</p> */}
               <div className="flex gap-8">
                 {/* Left Side - Region Links */}
@@ -94,7 +95,7 @@ export default function Navbar() {
                           <h4 className="font-extrabold text-gray-900 uppercase border-b pb-2 mb-4 text-sm">{zone}</h4>
                           <ul className="text-[14px] space-y-2 font-medium text-gray-600">
                             {dests.map(d => (
-                              <li key={d._id}><Link to={`/location/${d._id}`} className="hover:text-blue-600 transition-colors">{d.name}</Link></li>
+                              <li key={d._id}><Link to={`/location/${d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="hover:text-blue-600 transition-colors">{d.name}</Link></li>
                             ))}
                           </ul>
                         </div>
@@ -116,12 +117,12 @@ export default function Navbar() {
                   <div className="grid grid-cols-2 gap-x-8 gap-y-2">
                     <ul className="text-[14px] space-y-2 font-medium text-gray-600">
                       {worldDestinations.slice(0, Math.ceil(worldDestinations.length / 2)).map(d => (
-                         <li key={d._id}><Link to={`/location/${d._id}`} className="hover:text-blue-600 transition-colors">{d.name}</Link></li>
+                         <li key={d._id}><Link to={`/location/${d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="hover:text-blue-600 transition-colors">{d.name}</Link></li>
                       ))}
                     </ul>
                     <ul className="text-[14px] space-y-2 font-medium text-gray-600">
                       {worldDestinations.slice(Math.ceil(worldDestinations.length / 2)).map(d => (
-                         <li key={d._id}><Link to={`/location/${d._id}`} className="hover:text-blue-600 transition-colors">{d.name}</Link></li>
+                         <li key={d._id}><Link to={`/location/${d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="hover:text-blue-600 transition-colors">{d.name}</Link></li>
                       ))}
                     </ul>
                   </div>

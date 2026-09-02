@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { Search, MapPin, Clock, Star, ChevronRight } from 'lucide-react';
 
@@ -172,7 +172,7 @@ const WORLD_TOUR_CATEGORIES = [
 function StateCard({ state }) {
   return (
     <Link
-      to={`/location/india/${state.slug}`}
+      to={`/location/${state.slug}`}
       className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300"
       style={{ aspectRatio: '16/9' }}
     >
@@ -263,26 +263,42 @@ function LocationTourCard({ tour }) {
 ───────────────────────────────────────────── */
 function CategoryTourCard({ tour }) {
   return (
-    <Link
+    <Link 
       to={`/tour/${tour._id || tour.slug}`}
-      className="group bg-white overflow-hidden transition-all duration-300 flex flex-col"
+      className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col border border-gray-100 h-full"
     >
-      {/* Large image */}
-      <div className="relative overflow-hidden rounded-lg" style={{ aspectRatio: '4/3' }}>
-        <img
-          src={tour.thumbnailImage || tour.image}
-          alt={tour.title}
+      <div className="relative overflow-hidden" style={{ aspectRatio: '4/3' }}>
+        <img 
+          src={tour.thumbnailImage || tour.image} 
+          alt={tour.title} 
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />
+        {/* Round badge/logo overlay */}
+        <div className="absolute bottom-2 right-2 w-10 h-10 bg-blue-500 rounded-full border-2 border-white shadow flex items-center justify-center overflow-hidden">
+          <div className="text-[7px] text-white font-bold leading-tight text-center bg-[#154c86] w-full h-full flex flex-col justify-center items-center">
+            <span>TRAVEL</span>
+            <span>INDIA</span>
+          </div>
+        </div>
       </div>
-      {/* Title + Duration */}
-      <div className="pt-4 pb-2">
-        <h4 className="font-bold text-[#1a2b48] text-[15px] leading-snug mb-1.5 group-hover:text-blue-600 transition-colors line-clamp-1">
+      
+      <div className="p-4 flex flex-col flex-1">
+        <h3 className="font-bold text-[#222] text-[17px] mb-2 leading-snug line-clamp-2">
           {tour.title}
-        </h4>
-        <div className="flex items-center gap-1.5 text-gray-400 text-sm">
+        </h3>
+        
+        <div className="flex items-center gap-1.5 text-gray-500 text-sm mb-4">
           <Clock size={14} className="flex-shrink-0" />
           <span>{tour.duration}</span>
+        </div>
+        
+        <div className="mt-auto pt-4 border-t border-gray-100">
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-gray-400 text-xs">From</span>
+            <span className="text-[#132c52] font-bold text-lg">
+              ₹{(tour.startingPrice || tour.price || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </span>
+          </div>
         </div>
       </div>
     </Link>
@@ -294,6 +310,7 @@ function CategoryTourCard({ tour }) {
 ───────────────────────────────────────────── */
 export default function LocationPage() {
   const { region, stateSlug } = useParams();
+  const location = useLocation();
   const [allTours, setAllTours] = useState([]);
   const [categoryTours, setCategoryTours] = useState({
     leisure: [],
@@ -311,7 +328,7 @@ export default function LocationPage() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const isIndia = region?.toLowerCase() === 'india';
+  const isIndia = region?.toLowerCase() === 'india' || location.pathname.includes('/location/india');
   const activeState = isIndia ? INDIA_STATES.find((s) => s.slug === stateSlug) : WORLD_COUNTRIES.find((s) => s.slug === stateSlug);
 
   // Fetch categories and tours, then group tours by category slug
@@ -319,7 +336,7 @@ export default function LocationPage() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const base = import.meta.env.VITE_API_URL || '';
+        const base = import.meta.env.VITE_API_BASE_URL || '';
         // 1️⃣ Get all categories (id + slug)
         const catRes = await axios.get(`${base}/api/categories`);
         const catMap = {}; // slug -> id
@@ -331,7 +348,7 @@ export default function LocationPage() {
         const tours = toursRes.data.data || [];
         setAllTours(tours);
         if (isIndia && !activeState) {
-          // Group tours by the known category slugs using the ids we obtained
+          // Group tours by the known category slugs
           const grouped = {
             leisure: [],
             beaches: [],
@@ -341,9 +358,17 @@ export default function LocationPage() {
             wellness: [],
           };
           tours.forEach(t => {
-            const tourCats = t.categories || [];
+            // t.categories can be populated objects [{_id, slug, name}] or raw IDs
+            const tourCatSlugs = (t.categories || []).map(c => 
+              typeof c === 'object' ? (c.slug || '') : ''
+            );
+            const tourCatIds = (t.categories || []).map(c => 
+              typeof c === 'object' ? (c._id || c) : c
+            ).map(String);
+
             Object.keys(grouped).forEach(slug => {
-              if (tourCats.includes(catMap[slug])) {
+              // Match by slug directly OR by category ID
+              if (tourCatSlugs.includes(slug) || tourCatIds.includes(String(catMap[slug]))) {
                 grouped[slug].push(t);
               }
             });
@@ -365,9 +390,15 @@ export default function LocationPage() {
             'european-countries': []
           };
           tours.forEach(t => {
-            const tourCats = t.categories || [];
+            const tourCatSlugs = (t.categories || []).map(c => 
+              typeof c === 'object' ? (c.slug || '') : ''
+            );
+            const tourCatIds = (t.categories || []).map(c => 
+              typeof c === 'object' ? (c._id || c) : c
+            ).map(String);
+
             Object.keys(worldGrouped).forEach(slug => {
-              if (tourCats.includes(catMap[slug])) {
+              if (tourCatSlugs.includes(slug) || tourCatIds.includes(String(catMap[slug]))) {
                 worldGrouped[slug].push(t);
               }
             });
