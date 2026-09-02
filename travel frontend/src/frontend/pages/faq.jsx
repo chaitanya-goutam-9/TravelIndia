@@ -7,24 +7,40 @@ const FAQSection = () => {
 
   const faqs = [
     {
-      q: "What are the best places to visit in India for first-timers?",
-      a: "For first-timers, the Golden Triangle (Delhi, Agra, Jaipur), Kerala's backwaters, Goa's beaches, and Varanasi's spiritual vibe are must-visits. We customize itineraries based on your interests!"
+      q: "Do you provide customized India tour packages?",
+      a: "Yes, we offer fully customized India tour packages based on your budget, travel duration, preferred destinations, and travel style."
     },
     {
-      q: "Do I need a visa to travel to India?",
-      a: "Yes, most foreign nationals need a visa. India offers e-Visa for tourism, business, and medical purposes. We can guide you through the application process."
+      q: "Do you provide visa assistance?",
+      a: "Yes, we provide complete visa assistance including documentation guidance, appointment support, and biometric assistance for various destinations."
     },
     {
-      q: "What is the best time to visit India?",
-      a: "The best time is October to March when the weather is pleasant across most regions. However, it depends on your destination - Himalayas are best in summer, while Rajasthan is great in winter."
+      q: "Can I customize my itinerary after booking?",
+      a: "Yes, itineraries can be customized after booking depending on availability and travel arrangements."
     },
     {
-      q: "Is India safe for solo female travelers?",
-      a: "Yes, India is welcoming to solo female travelers. We recommend staying in reputable accommodations, using trusted transport, and following local safety tips. Our team ensures your trip is secure and comfortable."
+      q: "What happens if my flight gets delayed or canceled?",
+      a: "Our team assists you with rescheduling, alternative arrangements, and travel support in case of flight delays or cancellations."
     },
     {
-      q: "How can I book a customized tour package?",
-      a: "Simply contact us via call, WhatsApp, or email. Our travel experts will understand your preferences and craft a personalized itinerary just for you!"
+      q: "How many years of experience does your company have?",
+      a: "We have 21 years of experience in the travel industry, providing trusted travel services, customized tour packages, and visa assistance to travelers across the world."
+    },
+    {
+      q: "Can I get a last-minute travel package?",
+      a: "Yes, we can arrange last-minute travel packages based on flight, hotel, and destination availability."
+    },
+    {
+      q: "Do you book flight tickets and hotels separately?",
+      a: "Yes. We also provide standalone flight bookings, hotel reservations, airport transfers, and other travel-related services even if you are not booking a complete tour package with us."
+    },
+    {
+      q: "Who can I contact if I want to book directly?",
+      a: "You can directly get in touch with our travel experts through phone: +91 9993717120, +91 9893574731, or Email: info@travelindiatourism.com for personalized assistance, itinerary planning, and booking support. Our team will guide you through every step of your travel planning process."
+    },
+    {
+      q: "Can you plan trips for families, honeymooners, groups, and corporate travelers?",
+      a: "Yes, we create customized travel experiences for families, honeymooners, groups, students, and corporate travelers based on their preferences and budget."
     }
   ];
 

@@ -25,6 +25,10 @@ const tourPackageSchema = new mongoose.Schema({
     trim: true,
     unique: true
   },
+  description: {
+    type: String,
+    default: ''
+  },
   startingPrice: {
     type: Number,
     required: [true, 'Starting price is required'],

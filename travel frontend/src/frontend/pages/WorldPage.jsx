@@ -1,0 +1,464 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import axios from 'axios';
+import { Search, MapPin, Clock, Star, ChevronRight, Globe } from 'lucide-react';
+
+/* ─────────────────────────────────────────────
+   STATIC DATA for World Locations
+───────────────────────────────────────────── */
+const WORLD_COUNTRIES = [
+  {
+    name: 'Dubai',
+    slug: 'dubai',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2023/09/Dubai-tour.jpg.webp',
+    keywords: ['dubai', 'uae', 'emirates'],
+    count: 1
+  },
+  {
+    name: 'Singapore',
+    slug: 'singapore',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2023/09/singapore-tour-1-900x600.jpg.webp',
+    keywords: ['singapore'],
+    count: 1
+  },
+  {
+    name: 'Thailand',
+    slug: 'thailand',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2023/09/Thailand-tour.jpg.webp',
+    keywords: ['thailand', 'bangkok', 'phuket', 'pattaya'],
+    count: 2
+  },
+  {
+    name: 'Malaysia',
+    slug: 'malaysia',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2023/09/Malaysia-tour.jpg.webp',
+    keywords: ['malaysia', 'kuala lumpur'],
+    count: 2
+  },
+  {
+    name: 'Indonesia',
+    slug: 'indonesia',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2023/10/Bali-indonesia-1-1-900x600.jpg.webp',
+    keywords: ['indonesia', 'bali'],
+    count: 2
+  },
+  {
+    name: 'Sri Lanka',
+    slug: 'sri-lanka',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2023/09/Srilanka-tour-7-900x600.jpg.webp',
+    keywords: ['sri lanka', 'colombo', 'kandy'],
+    count: 1
+  },
+  {
+    name: 'Bhutan',
+    slug: 'bhutan',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2026/05/Punakha-Bhutan-900x600.jpg.webp',
+    keywords: ['bhutan', 'paro', 'thimphu'],
+    count: 1
+  },
+  {
+    name: 'Vietnam',
+    slug: 'vietnam',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2026/05/Skyline-Ho-Chi-Minh-City-Saigon-Vietnam.jpg.webp',
+    keywords: ['vietnam', 'hanoi', 'ho chi minh', 'da nang'],
+    count: 1
+  },
+  {
+    name: 'Switzerland',
+    slug: 'switzerland',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2026/06/Switzerland_two-scaled.jpg.webp',
+    keywords: ['switzerland', 'zurich', 'geneva', 'lucerne'],
+    count: 1
+  },
+  {
+    name: 'Spain',
+    slug: 'spain',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2026/06/Park-Spain.jpg.webp',
+    keywords: ['spain', 'madrid', 'barcelona', 'ibiza'],
+    count: 1
+  },
+  {
+    name: 'Italy',
+    slug: 'italy',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2026/06/Italy_one.jpg.webp',
+    keywords: ['italy', 'rome', 'venice', 'florence'],
+    count: 1
+  },
+  {
+    name: 'London',
+    slug: 'london',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2026/06/Tower-Bridge-London-England-UK.jpg.webp',
+    keywords: ['london', 'uk', 'united kingdom', 'england'],
+    count: 1
+  }
+];
+
+const WORLD_CATEGORIES = [
+  { id: 'trending-now', title: 'Trending Now', desc: 'Check out the most popular travel destinations loved by travelers for unforgettable holidays and unique experiences.' },
+  { id: 'southeast-asian-countries', title: 'Southeast Asian Countries', desc: 'Explore tropical beaches, vibrant cities, rich traditions, and budget-friendly adventures in Southeast Asia.' },
+  { id: 'european-countries', title: 'European Countries', desc: 'Discover historic landmarks, breathtaking landscapes, and rich cultures across beautiful European nations.' }
+];
+
+/* ─────────────────────────────────────────────
+   HERO SLIDER COMPONENT
+───────────────────────────────────────────── */
+function WorldHeroSlider() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slides = [
+    { type: 'video', src: 'https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-city-with-tall-buildings-at-sunset-11440-large.mp4' },
+    { type: 'video', src: 'https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-and-buildings-at-night-11438-large.mp4' }
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
+  return (
+    <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden bg-black">
+      {slides.map((slide, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+        >
+          {slide.type === 'video' ? (
+            <video autoPlay loop muted playsInline className="w-full h-full object-cover">
+              <source src={slide.src} type="video/mp4" />
+            </video>
+          ) : (
+            <img src={slide.src} alt="Hero Slide" className="w-full h-full object-cover" />
+          )}
+        </div>
+      ))}
+
+      <div className="absolute inset-0 z-20 bg-gradient-to-r from-white via-white/80 to-transparent flex items-center p-10 md:p-20 w-3/4 md:w-1/2">
+        <div>
+          <h1 className="text-4xl md:text-7xl font-serif font-bold text-[#1a2b48] leading-none tracking-tighter mb-2">
+            PARIS<br />
+            <span className="text-[#2b7294] font-signature italic font-normal text-6xl md:text-9xl -ml-2">France</span>
+          </h1>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   COUNTRY CARD
+───────────────────────────────────────────── */
+function CountryCard({ country }) {
+  return (
+    <Link
+      to={`/location/world/${country.slug}`}
+      className="group relative rounded-xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 block"
+      style={{ aspectRatio: '4/3' }}
+    >
+      <img
+        src={country.image}
+        alt={country.name}
+        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+      />
+      <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500" />
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
+        <h3 className="text-white font-bold text-xl md:text-2xl tracking-wide drop-shadow-md">
+          {country.name}
+        </h3>
+        <p className="text-white/90 text-sm font-medium mt-1 drop-shadow-sm">
+          {country.count} {country.count === 1 ? 'Tour' : 'Tours'}
+        </p>
+      </div>
+    </Link>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   CATEGORY TOUR CARD
+───────────────────────────────────────────── */
+function CategoryTourCard({ tour }) {
+  return (
+    <Link
+      to={`/tour/${tour._id || tour.slug}`}
+      className="group bg-white rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col h-full"
+    >
+      <div className="relative overflow-hidden" style={{ aspectRatio: '16/10' }}>
+        <img
+          src={tour.thumbnailImage || tour.image}
+          alt={tour.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+        />
+        <div className="absolute bottom-2 right-2 bg-[#1a2b48] rounded-full p-1.5 shadow-md border-2 border-white">
+          <Globe size={18} className="text-white" />
+        </div>
+      </div>
+      <div className="p-5 flex flex-col flex-1">
+        <h3 className="font-bold text-[#1a2b48] text-lg leading-snug mb-2 group-hover:text-blue-600 transition-colors line-clamp-1">
+          {tour.title || tour.destination?.name || tour.location || 'Destination'}
+        </h3>
+        <div className="flex items-center gap-1.5 text-gray-500 text-sm mb-4">
+          <Clock size={14} className="flex-shrink-0" />
+          <span>{tour.duration}</span>
+        </div>
+        <div className="mt-auto pt-4 border-t border-gray-100">
+          <p className="text-xs text-gray-500 mb-1">From <span className="text-[#1a2b48] font-bold text-base">₹{(tour.startingPrice || tour.price || 0).toLocaleString()}</span></p>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   MAIN PAGE COMPONENT
+───────────────────────────────────────────── */
+export default function WorldPage() {
+  const { countrySlug } = useParams();
+  const [allTours, setAllTours] = useState([]);
+  const [categoryTours, setCategoryTours] = useState({
+    'trending-now': [],
+    'southeast-asian-countries': [],
+    'european-countries': []
+  });
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredCountries, setFilteredCountries] = useState(WORLD_COUNTRIES);
+
+  const activeCountry = WORLD_COUNTRIES.find((c) => c.slug === countrySlug);
+
+  // Filter countries based on search
+  useEffect(() => {
+    if (searchTerm.trim() === '') {
+      setFilteredCountries(WORLD_COUNTRIES);
+    } else {
+      const term = searchTerm.toLowerCase();
+      const filtered = WORLD_COUNTRIES.filter(country =>
+        country.name.toLowerCase().includes(term) ||
+        country.keywords.some(kw => kw.toLowerCase().includes(term))
+      );
+      setFilteredCountries(filtered);
+    }
+  }, [searchTerm]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const base = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '';
+
+        const catRes = await axios.get(`${base}/api/categories`);
+        const catMap = {};
+        (catRes.data.data || []).forEach(c => {
+          catMap[c.slug] = c._id;
+        });
+
+        const toursRes = await axios.get(`${base}/api/tours`);
+        const tours = toursRes.data.data || [];
+        setAllTours(tours);
+
+        if (!activeCountry) {
+          const grouped = {
+            'trending-now': [],
+            'southeast-asian-countries': [],
+            'european-countries': []
+          };
+
+          tours.forEach(t => {
+            const tourCats = t.categories || [];
+            Object.keys(grouped).forEach(slug => {
+              if (catMap[slug] && tourCats.some(c => c === catMap[slug] || (c && c._id === catMap[slug]))) {
+                grouped[slug].push(t);
+              }
+            });
+          });
+
+          setCategoryTours(grouped);
+        }
+      } catch (err) {
+        console.error('Failed to load tours or categories:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [activeCountry]);
+
+  const countryTours = activeCountry
+    ? allTours.filter((t) => {
+      const haystack = [
+        t.title,
+        t.destination?.name,
+        t.location,
+        t.description,
+        t.subtitle,
+      ]
+        .join(' ')
+        .toLowerCase();
+      return activeCountry.keywords.some((kw) => haystack.includes(kw));
+    })
+    : [];
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
+
+      {/* ══════════ HERO SECTION ══════════ */}
+      {!countrySlug ? (
+        <WorldHeroSlider />
+      ) : (
+        <div className="relative w-full h-[300px] md:h-[420px] overflow-hidden">
+          <img src={activeCountry?.image} alt={activeCountry?.name} className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <h1 className="text-white text-4xl md:text-5xl font-serif font-bold drop-shadow-lg">
+              {activeCountry?.name} Tour Packages
+            </h1>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════ BREADCRUMB ══════════ */}
+      {activeCountry && (
+        <div className="max-w-[1200px] mx-auto w-full px-5 pt-6 flex items-center gap-2 text-sm text-gray-500">
+          <Link to="/" className="hover:text-blue-600 transition-colors">Home</Link>
+          <ChevronRight size={14} />
+          <Link to="/location/world" className="hover:text-blue-600 transition-colors">World</Link>
+          <ChevronRight size={14} />
+          <span className="text-[#1a2b48] font-semibold">{activeCountry.name}</span>
+        </div>
+      )}
+
+      {/* ══════════ MAIN CONTENT ══════════ */}
+      <div className="max-w-[1200px] mx-auto w-full px-5 py-12 md:py-16">
+
+        {/* VIEW 1: WORLD MAIN PAGE */}
+        {!countrySlug && (
+          <>
+            {/* Header Title */}
+            <div className="text-center mb-6">
+              <div className="flex items-center justify-center gap-4 mb-2">
+                <div className="h-[2px] w-12 bg-orange-400"></div>
+                <span className="text-orange-500 font-bold tracking-widest text-sm uppercase">INTERNATIONAL</span>
+                <div className="h-[2px] w-12 bg-orange-400"></div>
+              </div>
+              <h2 className="text-3xl md:text-4xl text-[#1a2b48] font-serif font-bold italic">
+                EXPLORE WORLD
+              </h2>
+            </div>
+
+            {/* Search Bar */}
+            <div className="max-w-2xl mx-auto mb-8">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search here..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full px-5 py-3 pl-12 rounded-full border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all bg-white shadow-sm"
+                />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                <button className="absolute right-1.5 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-6 py-1.5 rounded-full hover:bg-blue-700 transition-colors text-sm font-medium">
+                  Search
+                </button>
+              </div>
+            </div>
+
+            {/* Description text */}
+            <p className="text-center text-gray-600 text-sm max-w-2xl mx-auto mb-8">
+              Discover International enchanting destinations, from the tranquil seas to majestic mountains.
+              <br />
+              With Travel India Tourism Pvt.Ltd
+            </p>
+
+            {/* Country Grid - Exactly 4 cards per row */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6 mb-12">
+              {filteredCountries.map((country) => (
+                <CountryCard key={country.slug} country={country} />
+              ))}
+            </div>
+
+            {/* Dynamic Category Carousels */}
+            <div className="flex flex-col gap-20">
+              {WORLD_CATEGORIES.map(cat => {
+                const tours = categoryTours[cat.id] || [];
+
+                return (
+                  <div key={cat.id} className="relative">
+                    <div className="text-center mb-8 px-12 relative">
+                      <h3 className="text-3xl md:text-4xl font-serif italic text-[#1a2b48] mb-3">
+                        {cat.title}
+                      </h3>
+                      <p className="text-gray-500 text-sm max-w-3xl mx-auto">
+                        {cat.desc}
+                      </p>
+
+                      {/* Navigation Arrows */}
+                      <div className="absolute right-0 top-1/2 -translate-y-1/2 flex gap-3 hidden md:flex">
+                        <button
+                          onClick={() => document.getElementById(`scroll-${cat.id}`)?.scrollBy({ left: -320, behavior: 'smooth' })}
+                          className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-blue-600 hover:text-blue-600 transition-colors bg-white shadow-sm"
+                        >
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
+                        </button>
+                        <button
+                          onClick={() => document.getElementById(`scroll-${cat.id}`)?.scrollBy({ left: 320, behavior: 'smooth' })}
+                          className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-blue-600 hover:text-blue-600 transition-colors bg-white shadow-sm"
+                        >
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Carousel Container */}
+                    <div id={`scroll-${cat.id}`} className="flex overflow-x-auto gap-6 pb-8 pt-2 px-2 -mx-2 snap-x hide-scrollbar scroll-smooth">
+                      {tours.length === 0 ? (
+                        <div className="w-full flex items-center justify-center bg-white/50 backdrop-blur-[2px] z-10 text-[#1a2b48] font-semibold text-sm py-8">
+                          No tours available for "{cat.title}" yet. Add tours in admin.
+                        </div>
+                      ) : (
+                        tours.map((tour, idx) => (
+                          <div key={tour._id || idx} className="min-w-[280px] w-[280px] md:min-w-[320px] md:w-[320px] snap-start flex-shrink-0">
+                            <CategoryTourCard tour={tour} />
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
+
+        {/* VIEW 2: COUNTRY SPECIFIC PAGE */}
+        {countrySlug && (
+          <>
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="text-2xl font-bold text-[#1a2b48]">
+                {activeCountry?.name || countrySlug} Tour Packages
+              </h3>
+              {!loading && (
+                <span className="text-sm text-gray-500 font-medium">{countryTours.length} packages found</span>
+              )}
+            </div>
+
+            {loading ? (
+              <div className="py-20 flex justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" />
+              </div>
+            ) : countryTours.length === 0 ? (
+              <div className="text-center py-20 text-gray-400 text-lg">
+                No tours found for <strong>{activeCountry?.name || countrySlug}</strong>.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {countryTours.map((tour) => (
+                  <CategoryTourCard key={tour._id} tour={tour} />
+                ))}
+              </div>
+            )}
+          </>
+        )}
+
+      </div>
+    </div>
+  );
+}

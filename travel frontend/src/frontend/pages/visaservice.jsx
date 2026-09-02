@@ -4,6 +4,71 @@ import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
+/* ── Visa Card Component ── */
+function VisaCard({ visa }) {
+  const [expanded, setExpanded] = useState(true);
+  return (
+    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border-2 border-gray-200 hover:shadow-md hover:border-blue-100 transition-all duration-300 min-w-0">
+      {/* Image with flag in top-right corner */}
+      <div className="relative h-[220px] overflow-hidden">
+        <img
+          src={visa.bannerUrl}
+          alt={visa.country}
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100%25" height="100%25"%3E%3Crect width="100%25" height="100%25" fill="%23e2e8f0"/%3E%3C/svg%3E';
+          }}
+        />
+        {visa.flagUrl && (
+          <div className="absolute top-2 right-2">
+            <img
+              src={visa.flagUrl}
+              alt={`${visa.country} flag`}
+              className="w-10 h-7 object-cover rounded shadow-md border border-white/50"
+              onError={(e) => { e.target.style.display = 'none'; }}
+            />
+          </div>
+        )}
+      </div>
+
+      <div className="px-5 pt-4 pb-5">
+        {/* Country name */}
+        <h3 className="font-bold text-blue-600 text-[1.2rem] mb-4 leading-snug">{visa.country}</h3>
+
+        {/* + DATE expandable row */}
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="w-full flex items-center justify-between bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold uppercase tracking-widest px-5 py-3 rounded-lg transition-colors"
+        >
+          <span className="flex items-center gap-1.5">
+            <span className="text-base font-bold leading-none">+</span> Date
+          </span>
+          <span className="text-base">{expanded ? '▲' : '▾'}</span>
+        </button>
+
+        {/* Dates table */}
+        {expanded && visa.appointmentDates?.length > 0 && (
+          <div className="border border-t-0 border-gray-200 rounded-b-lg overflow-hidden">
+            <div className="grid grid-cols-3 bg-gray-50 px-5 py-3">
+              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Month</span>
+              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Date</span>
+              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Year</span>
+            </div>
+            {visa.appointmentDates.map((date, j) => (
+              <div key={j} className={`grid grid-cols-3 px-5 py-3 ${j % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                <span className="text-blue-500 text-sm font-semibold">{date.month}</span>
+                <span className="text-gray-700 text-sm font-semibold">{date.day}</span>
+                <span className="text-gray-700 text-sm font-semibold">{date.year}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function VisaServices() {
   const [formData, setFormData] = useState({
     email: "",
@@ -75,68 +140,8 @@ export default function VisaServices() {
         </div>
       ));
 
-  // Shared card renderer so Upcoming + Biometric always look identical
-  const renderVisaCard = (visa, i) => (
-    <div
-      key={i}
-      className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300"
-    >
-      <div className="relative h-[180px] overflow-hidden">
-        <img
-          src={visa.bannerUrl}
-          alt={visa.country}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src =
-              'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100%25" height="100%25"%3E%3Crect width="100%25" height="100%25" fill="%23f1f5f9"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%2394a3b8" font-family="sans-serif" font-size="16"%3ENo Image%3C/text%3E%3C/svg%3E';
-          }}
-        />
-      </div>
-      <div className="p-5">
-        <div className="flex items-center gap-3 mb-4">
-          <img
-            src={visa.flagUrl}
-            alt={`${visa.country} flag`}
-            className="w-10 h-10 object-cover rounded-full"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src =
-                'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="40" height="40"%3E%3Crect width="40" height="40" fill="%23f1f5f9"/%3E%3C/svg%3E';
-            }}
-          />
-          <h3 className="font-bold text-[#1a2b48] text-lg">{visa.country}</h3>
-        </div>
-        <div className="space-y-3">
-          {visa.appointmentDates?.map((date, j) => (
-            <div
-              key={j}
-              className="flex items-center justify-between bg-[#f7f8fa] rounded-xl p-3"
-            >
-              <div>
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-0.5">
-                  Month
-                </p>
-                <p className="font-bold text-[#1a2b48] text-sm">{date.month}</p>
-              </div>
-              <div>
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-0.5">
-                  Date
-                </p>
-                <p className="font-bold text-[#1a2b48] text-sm">{date.day}</p>
-              </div>
-              <div>
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-0.5">
-                  Year
-                </p>
-                <p className="font-bold text-[#1a2b48] text-sm">{date.year}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+  // Shared card renderer — now uses the VisaCard component above
+  const renderVisaCard = (visa, i) => <VisaCard key={i} visa={visa} />;
 
   return (
     <div className="w-full font-sans">
@@ -146,12 +151,14 @@ export default function VisaServices() {
       <section className="py-16 bg-white">
         <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-[2rem] font-bold text-[#1a2b48] mb-4">
-              Upcoming Visa Appointment Date
+            <h2 className="text-[2.4rem] font-bold text-[#1a2b48] mb-4 leading-tight">
+              <span className="italic font-serif font-semibold">Upcoming</span>{" "}
+              Visa Appointment Date
             </h2>
             <p className="text-gray-600 text-sm max-w-3xl mx-auto leading-relaxed">
-              We are delighted to inform you of the upcoming visa appointment dates for this
-              (-) month, specifically for the United Kingdom, France, and Switzerland.
+              We are delighted to inform you of the upcoming visa appointment dates for this{" "}
+              <span className="text-red-500 font-bold">(-)</span>{" "}
+              month, specifically for the United Kingdom, France, and Switzerland.
             </p>
           </div>
 

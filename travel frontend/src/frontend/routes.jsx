@@ -12,6 +12,9 @@ import FAQSection from './pages/faq';
 import CareersPage from './pages/CareersPage';
 import BlogPage from './pages/BlogPage';
 
+import LocationPage from './pages/LocationPage';
+import WorldPage from './pages/WorldPage';
+
 /**
  * Frontend public routes config.
  * Add new pages here — App.jsx ko touch karne ki zarurat nahi.
@@ -21,7 +24,10 @@ import BlogPage from './pages/BlogPage';
 const frontendRoutes = [
   { index: true, element: <Home /> },
   { path: 'tour/:slug', element: <TourDetails /> },
-  { path: 'location/:region', element: <div className="p-20 text-center text-2xl font-bold">Location Page Coming Soon</div> },
+  { path: 'location/world', element: <WorldPage /> },
+  { path: 'location/world/:countrySlug', element: <WorldPage /> },
+  { path: 'location/:region', element: <LocationPage /> },
+  { path: 'location/:region/:stateSlug', element: <LocationPage /> },
   { path: 'about-us', element: <AboutUs /> },
   { path: 'csr-initiative', element: <AboutCsr /> },
   { path: 'guest-photos', element: <GuestPhotos /> },

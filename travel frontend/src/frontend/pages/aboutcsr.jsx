@@ -1,59 +1,45 @@
-import { useState } from "react";
-import { Send } from "lucide-react";
-
+import { useState, useEffect } from "react";
+import { MessageCircle } from "lucide-react";
+ 
 export default function AboutCsr() {
-  const [formData, setFormData] = useState({
-    email: "",
-  });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Thank you for subscribing!");
-    setFormData({ email: "" });
-  };
-
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+ 
   const csrImages = [
     "https://travelindiatourism.com/wp-content/uploads/2026/06/CSR-Initiative.jpeg",
     "https://travelindiatourism.com/wp-content/uploads/2026/06/CSR-Initiative_two-scaled.jpeg",
+    "https://travelindiatourism.com/wp-content/uploads/2026/06/CSR-Initiative_four-scaled.jpeg",
     "https://travelindiatourism.com/wp-content/uploads/2026/06/CSR-Initiative_five-scaled.jpeg",
     "https://travelindiatourism.com/wp-content/uploads/2026/06/CSR-Initiative_tree-scaled.jpeg",
-    "https://travelindiatourism.com/wp-content/uploads/2026/06/CSR-Initiative_four-scaled.jpeg",
   ];
-
+ 
+  // Auto-slide images every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === csrImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 3000);
+ 
+    return () => clearInterval(interval);
+  }, []);
+ 
   return (
-    <div className="w-full font-sans">
-      {/* Hero / Banner */}
-      <section className="relative h-[200px] flex items-center justify-center bg-[#0a1b33]">
-        <div className="absolute inset-0 bg-[#0a1b33]">
-          <img
-            src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600&auto=format&fit=crop"
-            alt="CSR background"
-            className="w-full h-full object-cover opacity-40"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/70" />
-        </div>
-        <div className="relative z-10 text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            CSR <span className="text-blue-400">Initiative</span>
-          </h1>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Empowering communities through compassion, education, and social responsibility.
-          </p>
-        </div>
-      </section>
-
-      {/* CSR Content Section */}
-      <section className="py-16 bg-white">
+    <div className="w-full bg-[#f8fcfd] min-h-screen">
+      {/* Main Content Section */}
+      <section className="pt-16 md:pt-24 pb-12 md:pb-16 bg-gradient-to-b from-[#eef6fa] to-[#ffffff]">
         <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-[2rem] font-bold text-[#1a2b48] mb-6 leading-tight">
+         
+          {/* Centered Heading */}
+          <div className="w-full max-w-[1140px] mx-auto text-center mb-[30px] px-5">
+            <h1 className="text-[#0A1B33] text-3xl md:text-[48px] font-bold leading-[1.25]" style={{ fontFamily: "'Playfair Display', Georgia, serif", wordWrap: "break-word" }}>
               Travel India Tourism Pvt. Ltd. CSR Initiative: Empowering Communities Through Compassion and Education
-            </h2>
-            <div className="space-y-4 text-gray-600 text-sm leading-relaxed">
+            </h1>
+          </div>
+ 
+          {/* 2-Column Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left Side Text */}
+            <div className="space-y-6 text-[#5e6d77] text-[15px] leading-[1.8]" style={{ fontFamily: "'Poppins', sans-serif" }}>
               <p>
                 As part of its ongoing commitment to social responsibility, Travel India Tourism Pvt. Ltd., under the leadership of its Founder, Mr. Mahendra Pratap Singh, organized a meaningful Corporate Social Responsibility (CSR) initiative in his native village.
               </p>
@@ -67,36 +53,48 @@ export default function AboutCsr() {
                 Through such initiatives, Travel India Tourism Pvt. Ltd. continues to demonstrate that business success and social responsibility go hand in hand. The organization remains dedicated to supporting rural development, promoting education, and contributing to the vision of a healthier, educated, and drug-free India.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CSR Gallery */}
-      <section className="py-16 bg-[#f7f8fa]">
-        <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-[2rem] font-bold text-[#1a2b48] mb-3">
-              Our <span className="italic font-serif text-blue-600">CSR Gallery</span>
-            </h2>
-            <p className="text-gray-500 max-w-xl mx-auto text-sm">
-              Glimpses of our social initiatives and community outreach programs
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {csrImages.map((img, i) => (
-              <div key={i} className="rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
-                <img
-                  src={img}
-                  alt={`CSR Initiative ${i + 1}`}
-                  className="w-full h-[300px] object-cover hover:scale-105 transition-transform duration-500"
-                />
+ 
+            {/* Right Side Image Slider */}
+            <div className="rounded-2xl overflow-hidden shadow-2xl relative">
+              <img
+                src={csrImages[currentImageIndex]}
+                alt={`CSR Initiative ${currentImageIndex + 1}`}
+                className="w-full h-[500px] md:h-[600px] object-cover transition-opacity duration-700 ease-in-out"
+              />
+              {/* Image Counter/Dots */}
+              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+                {csrImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                      index === currentImageIndex
+                        ? "bg-white w-8"
+                        : "bg-white/60 hover:bg-white"
+                    }`}
+                    aria-label={`Go to image ${index + 1}`}
+                  />
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
-
+ 
+      {/* Special Offers Section */}
      
+ 
+      {/* Floating WhatsApp Button */}
+      <a
+        href="https://wa.me/919893539555"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp"
+        className="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#1ebe5b] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110"
+      >
+        <MessageCircle size={28} fill="white" strokeWidth={0} />
+      </a>
     </div>
   );
 }
+ 

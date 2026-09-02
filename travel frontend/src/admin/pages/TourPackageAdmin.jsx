@@ -17,6 +17,7 @@ const TourPackageAdmin = () => {
 
   const [formData, setFormData] = useState({
     title: '',
+    description: '',
     startingPrice: '',
     destination: null,
     categories: [],
@@ -376,6 +377,17 @@ const TourPackageAdmin = () => {
                       required
                       className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm sm:text-base"
                     />
+                    {/* New Description field */}
+                    <div className="mt-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                      <textarea
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        placeholder="valley and waterfall"
+                        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm sm:text-base"
+                      />
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Starting Price (₹) *</label>

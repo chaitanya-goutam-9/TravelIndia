@@ -298,13 +298,12 @@ function StarRating({ rating }) {
   );
 }
 
-// The big overlay-style card used for monsoon destinations (image + text overlay)
 function OverlayCard({ tour }) {
   return (
     <Link
       to={`/tour/${tour._id || tour.slug}`}
       className="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500"
-      style={{ aspectRatio: "4/3" }}
+      style={{ aspectRatio: "4/4" }}
     >
       <img
         src={tour.thumbnailImage || tour.image}
@@ -312,49 +311,64 @@ function OverlayCard({ tour }) {
         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
       />
       {/* dark gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-black/75" />
-      {/* top-left: title + subtitle */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80" />
+      
+      {/* top-left: title + description/subtitle */}
       <div className="absolute top-5 left-5 right-5">
-        <h3 className="text-white font-extrabold text-[1.6rem] leading-tight mb-0.5">{tour.title}</h3>
-        {tour.subtitle && <p className="text-white/90 text-sm font-semibold tracking-wide">{tour.subtitle}</p>}
+        <h3 className="text-white font-extrabold text-[1.8rem] leading-tight mb-1" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
+          {tour.destination?.name || tour.location || tour.title}
+        </h3>
+        {(tour.description || tour.subtitle) && (
+          <p className="text-white/95 text-[15px] font-bold tracking-wide line-clamp-2" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
+            {tour.description || tour.subtitle}
+          </p>
+        )}
       </div>
+      
       {/* bottom-left: price */}
       <div className="absolute bottom-5 left-5">
-        <p className="text-white/70 text-[10px] font-bold uppercase tracking-widest mb-0.5">Starting From</p>
-        <p className="text-white font-extrabold text-xl">₹ {(tour.startingPrice || tour.price || 0).toLocaleString()}</p>
+        <p className="text-white/90 text-[11px] font-bold uppercase tracking-widest mb-1" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
+          Starting From
+        </p>
+        <p className="text-white font-extrabold text-[1.4rem]" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+          ₹ {(tour.startingPrice || tour.price || 0).toLocaleString()}
+        </p>
       </div>
+      
       {/* bottom-right: arrow button */}
-      <div className="absolute bottom-5 right-5 border-2 border-white/70 rounded-full p-1.5 text-white group-hover:bg-white group-hover:text-blue-700 transition-colors duration-300">
-        <ChevronRight size={16} strokeWidth={3} />
+      <div className="absolute bottom-5 right-5 border-[2px] border-white/80 rounded-full p-2 text-white group-hover:bg-white group-hover:text-[#1a2b48] transition-colors duration-300 backdrop-blur-sm">
+        <ChevronRight size={18} strokeWidth={2.5} />
       </div>
     </Link>
   );
 }
 
-// World destination card — same overlay style
+// World destination card — matching the new dark theme UI
 function WorldCard({ tour }) {
   return (
     <Link
-      to={`/tour/${tour.slug}`}
-      className="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500"
-      style={{ aspectRatio: "4/3" }}
+      to={`/tour/${tour._id || tour.slug}`}
+      className="group relative flex flex-col rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-white/5 bg-[#162235]"
     >
-      <img
-        src={tour.image}
-        alt={tour.title}
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-black/75" />
-      <div className="absolute top-5 left-5 right-5">
-        <h3 className="text-white font-extrabold text-[1.6rem] leading-tight mb-0.5">{tour.title}</h3>
-        <p className="text-white/90 text-sm font-semibold">{tour.subtitle}</p>
+      <div className="relative aspect-[4/3] w-full overflow-hidden">
+        <img
+          src={tour.thumbnailImage || tour.image}
+          alt={tour.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#162235] via-[#162235]/40 to-transparent" />
+        <div className="absolute bottom-2 left-6 right-6">
+          <h3 className="text-white font-extrabold text-[1.7rem] leading-tight mb-1">{tour.destination?.name || tour.location || tour.title}</h3>
+          <p className="text-white/80 text-[13px] font-bold tracking-wide">{tour.subtitle}</p>
+        </div>
       </div>
-      <div className="absolute bottom-5 left-5">
-        <p className="text-white/70 text-[10px] font-bold uppercase tracking-widest mb-0.5">Starting From</p>
-        <p className="text-white font-extrabold text-xl">₹ {(tour.startingPrice || tour.price || 0).toLocaleString()}</p>
-      </div>
-      <div className="absolute bottom-5 right-5 border-2 border-white/70 rounded-full p-1.5 text-white group-hover:bg-white group-hover:text-blue-700 transition-colors duration-300">
-        <ChevronRight size={16} strokeWidth={3} />
+      <div className="px-6 py-5 flex items-center justify-between bg-[#162235]">
+        <p className="text-[#e2ad63] font-extrabold text-[1.4rem]">
+          ₹ {(tour.startingPrice || tour.price || 0).toLocaleString()}
+        </p>
+        <div className="bg-[#e2ad63] hover:bg-[#d6a86c] text-[#0a1b33] font-bold px-5 py-2 rounded-full text-[13px] transition-colors flex items-center gap-1.5">
+          Explore Now <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </div>
       </div>
     </Link>
   );
@@ -402,37 +416,118 @@ function TourCard({ tour }) {
   );
 }
 
-// Spiritual — horizontal card
+// Spiritual — overlay card
 function SpiritualCard({ tour }) {
   return (
     <Link
       to={`/tour/${tour._id || tour.slug}`}
-      className="group flex gap-4 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 p-3 items-start"
+      className="group relative block overflow-hidden rounded-xl shadow-sm hover:shadow-md transition-all duration-300 bg-gray-300"
+      style={{ aspectRatio: "4/3" }}
     >
-      <div className="w-28 h-28 flex-shrink-0 rounded-xl overflow-hidden">
-        <img
-          src={tour.thumbnailImage || tour.image}
-          alt={tour.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-        />
+      <img
+        src={tour.thumbnailImage || tour.image}
+        alt={tour.title}
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
+      
+      {/* top-left: title */}
+      <div className="absolute top-4 left-4 right-4">
+        <h3 className="text-white font-bold text-[1.4rem] leading-tight mb-1" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
+          {tour.destination?.name || tour.location || tour.title}
+        </h3>
       </div>
-      <div className="flex-1 min-w-0 py-1">
-        <div className="flex items-center gap-1 text-gray-400 text-xs mb-1">
-          <MapPin size={10} className="text-orange-500 flex-shrink-0" />
-          <span>{tour.destination?.name || tour.location}</span>
-        </div>
-        <h3 className="font-bold text-[#1a2b48] text-sm leading-snug mb-1.5 group-hover:text-orange-500 transition-colors line-clamp-2">{tour.title}</h3>
-        <div className="flex items-center gap-1.5 mb-1.5">
-          <StarRating rating={tour.rating} />
-          <span className="text-gray-400 text-xs">({tour.reviews})</span>
-        </div>
-        <div className="flex items-center gap-1 text-gray-400 text-xs mb-2">
-          <Clock size={10} />
-          <span>{tour.duration}</span>
-        </div>
-        <p className="text-blue-600 font-extrabold text-base">₹{(tour.startingPrice || tour.price || 0).toLocaleString()}</p>
+
+      {/* bottom-left: price */}
+      <div className="absolute bottom-4 left-4">
+        <p className="text-white/90 text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
+          Starting From
+        </p>
+        <p className="text-white font-extrabold text-[1.2rem]" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+          ₹ {(tour.startingPrice || tour.price || 0).toLocaleString()}
+        </p>
+      </div>
+
+      {/* bottom-right: arrow button */}
+      <div className="absolute bottom-4 right-4 border-[1.5px] border-white/80 rounded-full p-1.5 text-white group-hover:bg-white group-hover:text-[#1a2b48] transition-colors duration-300 backdrop-blur-sm">
+        <ChevronRight size={16} strokeWidth={2.5} />
       </div>
     </Link>
+  );
+}
+
+// Top Selling Destinations - Sharp Square Card
+function TopSellingCard({ tour }) {
+  return (
+    <Link
+      to={`/tour/${tour._id || tour.slug}`}
+      className="group relative block overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
+      style={{ aspectRatio: "1/1" }}
+    >
+      <img
+        src={tour.thumbnailImage || tour.image}
+        alt={tour.title}
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+      <div className="absolute bottom-5 left-5 right-5">
+        <h3 className="text-white font-bold text-[1.6rem] leading-tight mb-1" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+          {tour.destination?.name || tour.location || tour.title}
+        </h3>
+        {(tour.description || tour.subtitle) && (
+          <p className="text-white/90 text-[13px] font-semibold tracking-wide line-clamp-1" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
+            {tour.description || tour.subtitle}
+          </p>
+        )}
+      </div>
+    </Link>
+  );
+}
+
+function TopSellingSlider({ tours }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (!tours || tours.length === 0) return;
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => prev + 1);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [tours]);
+
+  if (!tours || tours.length === 0) return null;
+
+  const extendedTours = Array.from({ length: 50 }).flatMap(() => tours);
+
+  return (
+    <>
+      <style>{`
+        .slider-container {
+          --card-width: calc(100% + 10px);
+        }
+        @media (min-width: 640px) {
+          .slider-container { --card-width: calc(50% + 10px); }
+        }
+        @media (min-width: 768px) {
+          .slider-container { --card-width: calc(33.333333% + 10px); }
+        }
+        @media (min-width: 1024px) {
+          .slider-container { --card-width: calc(25% + 10px); }
+        }
+      `}</style>
+      <div className="overflow-hidden w-full slider-container px-2">
+        <div 
+          className="flex transition-transform duration-1000 ease-in-out"
+          style={{ transform: `translateX(calc(-${currentIndex} * var(--card-width)))` }}
+        >
+          {extendedTours.map((tour, idx) => (
+            <div key={idx} className="flex-shrink-0 px-2" style={{ width: 'var(--card-width)' }}>
+              <TopSellingCard tour={tour} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -464,11 +559,11 @@ export default function Home() {
           axios.get(`${API_URL}/api/tours?category=explore-the-world`)
         ]);
         
-        setMonsoonTours(monsoonRes.data.data || []);
-        setTopSelling(topSellingRes.data.data || []);
-        setExploreIndia(indiaRes.data.data || []);
-        setSpiritualDestinations(spiritualRes.data.data || []);
-        setWorldDestinations(worldRes.data.data || []);
+        setMonsoonTours((monsoonRes.data.data || []).slice(0, 6));
+        setTopSelling((topSellingRes.data.data || []).slice(0, 6));
+        setExploreIndia((indiaRes.data.data || []).slice(0, 6));
+        setSpiritualDestinations((spiritualRes.data.data || []).slice(0, 6));
+        setWorldDestinations((worldRes.data.data || []).slice(0, 6));
       } catch (error) {
         console.error("Error fetching homepage data:", error);
       }
@@ -506,8 +601,8 @@ export default function Home() {
           </div>
         </div>
       {/* ══════════ INDIAN DESTINATION FOR MONSOON ══════════ */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
+      <section className="py-20 bg-white">
+        <div className="max-w-[1300px] mx-auto px-5 lg:px-8 ">
           {/* heading */}
           <div className="text-center mb-10">
             <h2 className="text-[2.1rem] font-bold text-[#1a2b48] mb-3 leading-tight">
@@ -528,161 +623,99 @@ export default function Home() {
       </section>
 
       {/* ══════════ TOP SELLING DESTINATIONS ══════════ */}
-      <section className="py-16 bg-[#f7f8fa]">
-        <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
-          {/* heading row */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-            <div>
-              <p className="text-blue-500 font-semibold text-xs uppercase tracking-[0.15em] mb-1">Our Packages</p>
-              <h2 className="text-[2rem] font-bold text-[#1a2b48] leading-tight">
-                Top Selling{" "}
-                <span className="italic font-serif text-blue-600">Destinations</span>
-              </h2>
-            </div>
-            <p className="text-gray-400 text-sm max-w-xs leading-relaxed md:text-right">
-              Handpicked packages loved by thousands of travellers across India.
+      <section className="py-20 bg-white">
+        <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
+          {/* heading */}
+          <div className="text-center mb-10">
+            <h2 className="text-[2.6rem] text-[#1a2b48] mb-2 leading-tight">
+              <span className="italic font-serif font-bold">Top Selling</span>{" "}
+              <span className="font-bold">Destinations</span>
+            </h2>
+            <p className="text-gray-700 max-w-2xl mx-auto text-[15px] leading-relaxed font-medium">
+              Discover India's enchanting destinations, from the tranquil seas to majestic mountains.<br />
+              With Travel India Tourism Pvt.Ltd
             </p>
           </div>
-          {/* 3-column card grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topSelling.map((tour) => (
-              <TourCard key={tour._id || tour.id} tour={tour} />
-            ))}
-          </div>
-          <div className="text-center mt-10">
-            <Link
-              to="/location/india"
-              className="inline-flex items-center gap-2 border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-bold px-8 py-3 rounded-full transition-all duration-300 text-sm"
-            >
-              View All Packages <ChevronRight size={17} />
-            </Link>
+          
+          {/* Auto Slider */}
+          <div className="-mx-2">
+            <TopSellingSlider tours={topSelling} />
           </div>
         </div>
       </section>
 
       {/* ══════════ EXPLORE INDIA ══════════ */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
+      <section className="py-20 bg-white">
+        <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
           <div className="text-center mb-10">
-            <p className="text-blue-500 font-semibold text-xs uppercase tracking-[0.15em] mb-1">Discover</p>
-            <h2 className="text-[2rem] font-bold text-[#1a2b48] mb-3 leading-tight">
-              Explore{" "}
-              <span className="italic font-serif text-blue-600">India</span>
+            <h2 className="text-[2.6rem] text-[#1a2b48] mb-2 leading-tight">
+              <span className="italic font-serif font-bold">Explore</span>{" "}
+              <span className="font-bold">India</span>
             </h2>
-            <p className="text-gray-400 text-sm max-w-xl mx-auto leading-relaxed">
-              From the snowy peaks of the Himalayas to the sunny beaches of Goa — explore every corner of Incredible India.
+            <p className="text-gray-700 max-w-2xl mx-auto text-[15px] leading-relaxed font-medium">
+              Discover breathtaking hill stations, cool mountain escapes, and unforgettable summer vacation destinations across India.
             </p>
           </div>
-          {/* 6-column portrait grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {/* 3-column overlay grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {exploreIndia.map((tour) => (
-              <Link
-                to={`/tour/${tour._id || tour.slug}`}
-                key={tour._id || tour.slug}
-                className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
-                style={{ aspectRatio: "2/3" }}
-              >
-                <img
-                  src={tour.thumbnailImage || tour.image}
-                  alt={tour.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
-                  <h3 className="text-white font-bold text-[13px] leading-tight">{tour.title}</h3>
-                </div>
-              </Link>
+              <OverlayCard key={tour._id || tour.slug} tour={tour} />
             ))}
           </div>
         </div>
       </section>
 
       {/* ══════════ SPIRITUAL DESTINATIONS ══════════ */}
-      <section className="py-16 bg-[#fdf9f5]">
-        <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-            <div>
-              <p className="text-orange-500 font-semibold text-xs uppercase tracking-[0.15em] mb-1">Sacred Journeys</p>
-              <h2 className="text-[2rem] font-bold text-[#1a2b48] leading-tight">
-                Spiritual{" "}
-                <span className="italic font-serif text-orange-500">Destinations</span>
-              </h2>
-            </div>
-            <p className="text-gray-400 text-sm max-w-xs leading-relaxed md:text-right">
-              Find peace and connect with the divine through our curated spiritual tours.
+      <section className="py-20 bg-white">
+        <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-[2.6rem] text-[#1a2b48] mb-2 leading-tight">
+              <span className="italic font-serif font-bold">Spiritual</span>{" "}
+              <span className="font-bold">Destinations</span>
+            </h2>
+            <p className="text-gray-700 max-w-3xl mx-auto text-[15px] leading-relaxed font-medium">
+              Discover India's most sacred temples, peaceful pilgrimage sites, and spiritual journeys that bring peace to your soul.
             </p>
           </div>
-          {/* 2-column horizontal cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* 3-column overlay grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {spiritualDestinations.map((tour) => (
               <SpiritualCard key={tour._id || tour.id} tour={tour} />
             ))}
-          </div>
-          <div className="text-center mt-10">
-            <Link
-              to="/location/india"
-              className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-3 rounded-full transition-all duration-300 text-sm"
-            >
-              Explore Spiritual Tours <ChevronRight size={17} />
-            </Link>
           </div>
         </div>
       </section>
 
       {/* ══════════ EXPLORE THE WORLD ══════════ */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
-          <div className="text-center mb-10">
-            <p className="text-blue-500 font-semibold text-xs uppercase tracking-[0.15em] mb-1">International</p>
-            <h2 className="text-[2rem] font-bold text-[#1a2b48] mb-3 leading-tight">
-              Explore the{" "}
-              <span className="italic font-serif text-blue-600">World</span>
+      <section className="py-20 bg-[#0b1727]">
+        <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
+          <div className="text-center mb-12">
+            <h3 className="text-[#e2ad63] font-semibold text-[1.3rem] mb-2 tracking-wide">Explore The World</h3>
+            <h2 className="text-[2.6rem] text-white mb-3 leading-tight">
+              <span className="italic font-serif font-bold">International</span>{" "}
+              <span className="font-bold">Destinations</span>
             </h2>
-            <p className="text-gray-400 text-sm max-w-xl mx-auto leading-relaxed">
-              Beyond borders — experience the best of international travel with our curated world packages.
+            <p className="text-gray-300 text-[15px] max-w-3xl mx-auto leading-relaxed">
+              Explore premium international destinations with unforgettable luxury, adventure, and breathtaking experiences.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {worldDestinations.map((tour) => (
-              <Link
-                to={`/tour/${tour._id || tour.slug}`}
-                key={tour._id || tour.slug}
-                className="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500"
-                style={{ aspectRatio: "4/3" }}
-              >
-                <img
-                  src={tour.thumbnailImage || tour.image}
-                  alt={tour.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-black/75" />
-                <div className="absolute top-5 left-5 right-5">
-                  <h3 className="text-white font-extrabold text-[1.6rem] leading-tight mb-0.5">{tour.title}</h3>
-                  {tour.subtitle && <p className="text-white/90 text-sm font-semibold">{tour.subtitle}</p>}
-                </div>
-                <div className="absolute bottom-5 right-5 border-2 border-white/70 rounded-full p-1.5 text-white group-hover:bg-white group-hover:text-blue-700 transition-colors duration-300">
-                  <ChevronRight size={16} strokeWidth={3} />
-                </div>
-              </Link>
+              <WorldCard key={tour._id || tour.slug} tour={tour} />
             ))}
           </div>
-          <div className="text-center mt-10">
-            <Link
-              to="/location/world"
-              className="inline-flex items-center gap-2 border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-bold px-8 py-3 rounded-full transition-all duration-300 text-sm"
-            >
-              View All World Packages <ChevronRight size={17} />
-            </Link>
-          </div>
+          
         </div>
       </section>
+     
+
 
       {/* ══════════ PLAN YOUR TRAVEL WITH PERSONAL TOUR MANAGER ══════════ */}
-      <section className="py-0 bg-[#0a1b33] ">
+      <section className="py-0 bg-[#0a1b33] mt-10 ">
         <div className="max-w-[1200px] mx-auto px-2 lg:px-8">
           <div className="flex flex-col md:flex-row items-center gap-20 ">
             {/* left: image slider */}
-            <div className="md:w-1/2 w-full overflow-hidden h-[500px] flex-shrink-0 relative">
+            <div className="md:w-1/2 w-full overflow-hidden h-[600px] flex-shrink-0 relative">
               {(() => {
                 const sliderImages = [
                   "https://travelindiatourism.com/wp-content/uploads/2026/05/Andman-Island-1.jpeg.webp",
