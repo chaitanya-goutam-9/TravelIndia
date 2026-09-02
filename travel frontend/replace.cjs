@@ -1,63 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { MapPin, Clock, Star, Calendar, Users, FileText, CheckCircle2, XCircle, ChevronLeft, ChevronRight, Share2, Grid, Globe } from 'lucide-react';
-import axios from 'axios';
+const fs = require('fs');
 
-const API_URL = import.meta.env.VITE_API_BASE_URL;
+const content = fs.readFileSync('c:/Users/HP/Desktop/TIT/travel frontend/src/frontend/pages/TourDetails.jsx', 'utf8');
+const startIdx = content.indexOf('  return (');
+const endIdx = content.lastIndexOf('}');
 
-export default function TourDetails() {
-  const { slug } = useParams();
-  const [tour, setTour] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const carouselRef = useRef(null);
-
-  // Normalize banner images
-  const images = Array.isArray(tour?.bannerImages)
-    ? tour.bannerImages
-    : typeof tour?.bannerImages === 'string'
-    ? tour.bannerImages.split(',').map((s) => s.trim()).filter(Boolean)
-    : [];
-
-  useEffect(() => {
-    const fetchTour = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/tours/${slug}`);
-        if (response.data.success) {
-          setTour(response.data.data);
-        } else {
-          setTour(null);
-        }
-      } catch (error) {
-        console.error("Error fetching tour details:", error);
-        setTour(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchTour();
-  }, [slug]);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#0044ff]"></div>
-      </div>
-    );
-  }
-
-  if (!tour) {
-    return (
-      <div className="container mx-auto px-6 py-16 text-center">
-        <h2 className="text-2xl font-bold text-[#1a2b49]">Tour not found</h2>
-        <p className="text-gray-600 mt-4">The tour you are looking for does not exist or has been removed.</p>
-        <Link to="/tours" className="inline-block mt-6 px-6 py-3 bg-[#0044ff] text-white rounded-xl hover:bg-blue-700 transition-colors font-medium">
-          Browse All Tours
-        </Link>
-      </div>
-    );
-  }
-
-  return (
+const replacement = `  return (
     <div className="bg-white min-h-screen pb-20 font-sans">
       
       {/* Header Image Gallery */}
@@ -72,7 +19,7 @@ export default function TourDetails() {
               <img
                 key={idx}
                 src={typeof img === 'string' ? img.replace(/[<>]/g, '') : img}
-                alt={`Banner ${idx + 1}`}
+                alt={\`Banner \${idx + 1}\`}
                 className="w-full md:w-[60%] lg:w-[45%] h-full object-cover snap-start flex-shrink-0 border-r-[3px] border-white"
               />
             ))
@@ -120,7 +67,7 @@ export default function TourDetails() {
         <div className="flex flex-col md:flex-row justify-between items-start mb-8 border-b pb-8 gap-4">
           <div className="w-full">
             <h1 className="text-3xl md:text-[40px] font-bold text-[#1a2b49] mb-8">{tour.title}</h1>
-            <div className="flex flex-wrap items-center gap-x-35 gap-y-6 text-gray-700">
+            <div className="flex flex-wrap items-center gap-x-12 gap-y-6 text-gray-700">
               <div className="flex items-center gap-4">
                 <div className="p-2.5 border rounded-xl shadow-sm bg-white"><Clock size={20} className="text-gray-600" /></div>
                 <div>
@@ -155,7 +102,9 @@ export default function TourDetails() {
               </div>
             </div>
           </div>
-        
+          <button className="hidden sm:flex items-center justify-center p-3 border rounded-full text-gray-500 hover:bg-gray-50 shadow-sm transition-colors flex-shrink-0 ml-4 mt-2">
+            <Share2 size={20} />
+          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -227,7 +176,7 @@ export default function TourDetails() {
                 <h2 className="text-2xl font-bold text-[#1a2b49] mb-6">Itinerary</h2>
                 <div className="space-y-4">
                   {tour.itinerary.map((day, idx) => (
-                    <div key={idx} className="border rounded-xl overflow-hidden bg-white border-gray-200">
+                    <div key={idx} className="border rounded-xl overflow-hidden bg-white">
                       <details className="group" open={idx === 0}>
                         <summary className="p-5 flex items-center justify-between cursor-pointer list-none">
                           <div className="flex items-center gap-5">
@@ -249,72 +198,72 @@ export default function TourDetails() {
             )}
           </div>
 
-          {/* Sidebar - Fixed Positioning */}
-          <div className="lg:col-span-1">
-            {/* Sticky Container - Only the booking card will stick */}
-            <div className="space-y-8 sticky top-24">
+          {/* Sidebar */}
+          <div className="lg:col-span-1 space-y-8">
+            
+            {/* Booking Form Card */}
+            <div className="bg-white border rounded-[20px] shadow-sm p-7 sticky top-24">
+              <div className="flex items-center gap-2 mb-8 text-gray-500">
+                <span className="text-[15px]">From:</span>
+                <span className="text-[22px] font-bold text-[#1a2b49]">₹{(tour.startingPrice || tour.price || 0).toLocaleString()}</span>
+              </div>
               
-              {/* Booking Form Card */}
-              <div className="bg-white border rounded-[20px] shadow-sm p-7 border-gray-200">
-                <div className="flex items-center gap-2 mb-8 text-gray-500">
-                  <span className="text-[15px]">From:</span>
-                  <span className="text-[22px] font-bold text-[#1a2b49]">₹{(tour.startingPrice || tour.price || 0).toLocaleString()}</span>
-                </div>
+              <form className="space-y-4">
+                <input type="text" placeholder="Name *" className="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#0044ff] focus:ring-1 focus:ring-[#0044ff] text-[15px] placeholder-gray-400" required />
+                <input type="email" placeholder="Email *" className="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#0044ff] focus:ring-1 focus:ring-[#0044ff] text-[15px] placeholder-gray-400" required />
+                <input type="tel" placeholder="Phone *" className="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#0044ff] focus:ring-1 focus:ring-[#0044ff] text-[15px] placeholder-gray-400" required />
+                <textarea placeholder="Note *" rows="3" className="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#0044ff] focus:ring-1 focus:ring-[#0044ff] text-[15px] placeholder-gray-400 resize-none" required></textarea>
                 
-                <form className="space-y-4">
-                  <input type="text" placeholder="Name *" className="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#0044ff] focus:ring-1 focus:ring-[#0044ff] text-[15px] placeholder-gray-400" required />
-                  <input type="email" placeholder="Email *" className="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#0044ff] focus:ring-1 focus:ring-[#0044ff] text-[15px] placeholder-gray-400" required />
-                  <input type="tel" placeholder="Phone *" className="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#0044ff] focus:ring-1 focus:ring-[#0044ff] text-[15px] placeholder-gray-400" required />
-                  <textarea placeholder="Note *" rows="3" className="w-full px-4 py-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#0044ff] focus:ring-1 focus:ring-[#0044ff] text-[15px] placeholder-gray-400 resize-none" required></textarea>
-                  
-                  <div className="relative mt-4">
-                    <button type="submit" className="w-full bg-[#0044ff] hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-colors text-[15px]">
-                      Send
-                    </button>
-                    <div className="absolute -right-3 -bottom-3 bg-[#25D366] text-white p-3 rounded-full cursor-pointer shadow-lg hover:scale-110 transition-transform">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                    </div>
-                  </div>
-                </form>
-              </div>
-
-              {/* Agent Profile Card */}
-              <div className="bg-white border rounded-[20px] shadow-sm p-8 text-center border-gray-200">
-                <div className="w-24 h-24 mx-auto rounded-full overflow-hidden mb-5 border-4 border-gray-50 p-1">
-                  <div className="w-full h-full rounded-full overflow-hidden bg-[#1a2b49] flex items-center justify-center">
-                    <span className="text-white font-bold text-[10px] text-center leading-tight">TRAVEL<br/>INDIA<br/>TOURISM</span>
+                <div className="relative mt-4">
+                  <button type="submit" className="w-full bg-[#0044ff] hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-colors text-[15px]">
+                    Send
+                  </button>
+                  <div className="absolute -right-3 -bottom-3 bg-[#25D366] text-white p-3 rounded-full cursor-pointer shadow-lg hover:scale-110 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                   </div>
                 </div>
-                <h3 className="font-bold text-[#1a2b49] text-[17px] mb-1">Mahendra Pratap Singh</h3>
-                <p className="text-[14px] text-gray-500 mb-6">Member Since 2023</p>
-                <button className="w-full bg-[#0044ff] hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-colors text-[15px]">
-                  Ask a Question
-                </button>
-              </div>
-
-              {/* Information Contact Card */}
-              <div className="bg-white border rounded-[20px] shadow-sm p-8 border-gray-200">
-                <h3 className="font-bold text-[#1a2b49] text-xl mb-6">Information Contact</h3>
-                <div className="space-y-5 text-[15px]">
-                  <div>
-                    <p className="font-medium text-[#1a2b49] mb-1">Email</p>
-                    <a href="mailto:info@travelindiatourism.com" className="text-gray-500 hover:text-[#0044ff] transition-colors">info@travelindiatourism.com</a>
-                  </div>
-                  <div>
-                    <p className="font-medium text-[#1a2b49] mb-1">Website</p>
-                    <a href="https://www.travelindiatourism.com" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-[#0044ff] transition-colors">www.travelindiatourism.com</a>
-                  </div>
-                  <div>
-                    <p className="font-medium text-[#1a2b49] mb-1">Phone</p>
-                    <a href="tel:+917552421243" className="text-gray-500 hover:text-[#0044ff] transition-colors">+91 7552421243</a>
-                  </div>
-                </div>
-              </div>
-
+              </form>
             </div>
+
+            {/* Agent Profile Card */}
+            <div className="bg-white border rounded-[20px] shadow-sm p-8 text-center">
+              <div className="w-24 h-24 mx-auto rounded-full overflow-hidden mb-5 border-4 border-gray-50 p-1">
+                <div className="w-full h-full rounded-full overflow-hidden bg-[#1a2b49] flex items-center justify-center">
+                  <span className="text-white font-bold text-[10px] text-center leading-tight">TRAVEL<br/>INDIA<br/>TOURISM</span>
+                </div>
+              </div>
+              <h3 className="font-bold text-[#1a2b49] text-[17px] mb-1">Mahendra Pratap Singh</h3>
+              <p className="text-[14px] text-gray-500 mb-6">Member Since 2023</p>
+              <button className="w-full bg-[#0044ff] hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-colors text-[15px]">
+                Ask a Question
+              </button>
+            </div>
+
+            {/* Information Contact Card */}
+            <div className="bg-white border rounded-[20px] shadow-sm p-8">
+              <h3 className="font-bold text-[#1a2b49] text-xl mb-6">Information Contact</h3>
+              <div className="space-y-5 text-[15px]">
+                <div>
+                  <p className="font-medium text-[#1a2b49] mb-1">Email</p>
+                  <a href="mailto:info@travelindiatourism.com" className="text-gray-500 hover:text-[#0044ff] transition-colors">info@travelindiatourism.com</a>
+                </div>
+                <div>
+                  <p className="font-medium text-[#1a2b49] mb-1">Website</p>
+                  <a href="https://www.travelindiatourism.com" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-[#0044ff] transition-colors">www.travelindiatourism.com</a>
+                </div>
+                <div>
+                  <p className="font-medium text-[#1a2b49] mb-1">Phone</p>
+                  <a href="tel:+917552421243" className="text-gray-500 hover:text-[#0044ff] transition-colors">+91 7552421243</a>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
   );
 }
+`;
+
+fs.writeFileSync('c:/Users/HP/Desktop/TIT/travel frontend/src/frontend/pages/TourDetails.jsx', content.slice(0, startIdx) + replacement);

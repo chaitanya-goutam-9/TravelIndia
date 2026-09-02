@@ -1,8 +1,10 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Search, Star, Clock, MapPin, ChevronRight, Plus, Minus } from "lucide-react";
-import { tours } from "../data/tours";
+import axios from "axios";
 import FAQSection from '../pages/faq';
+
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 // ─── REAL DATA FROM travelindiatourism.com ───────────────────────────────────
 
@@ -300,12 +302,12 @@ function StarRating({ rating }) {
 function OverlayCard({ tour }) {
   return (
     <Link
-      to={`/tour/${tour.slug}`}
+      to={`/tour/${tour._id || tour.slug}`}
       className="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500"
       style={{ aspectRatio: "4/3" }}
     >
       <img
-        src={tour.image}
+        src={tour.thumbnailImage || tour.image}
         alt={tour.title}
         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
       />
@@ -319,7 +321,7 @@ function OverlayCard({ tour }) {
       {/* bottom-left: price */}
       <div className="absolute bottom-5 left-5">
         <p className="text-white/70 text-[10px] font-bold uppercase tracking-widest mb-0.5">Starting From</p>
-        <p className="text-white font-extrabold text-xl">₹ {tour.price.toLocaleString()}</p>
+        <p className="text-white font-extrabold text-xl">₹ {(tour.startingPrice || tour.price || 0).toLocaleString()}</p>
       </div>
       {/* bottom-right: arrow button */}
       <div className="absolute bottom-5 right-5 border-2 border-white/70 rounded-full p-1.5 text-white group-hover:bg-white group-hover:text-blue-700 transition-colors duration-300">
@@ -349,7 +351,7 @@ function WorldCard({ tour }) {
       </div>
       <div className="absolute bottom-5 left-5">
         <p className="text-white/70 text-[10px] font-bold uppercase tracking-widest mb-0.5">Starting From</p>
-        <p className="text-white font-extrabold text-xl">₹ {tour.price.toLocaleString()}</p>
+        <p className="text-white font-extrabold text-xl">₹ {(tour.startingPrice || tour.price || 0).toLocaleString()}</p>
       </div>
       <div className="absolute bottom-5 right-5 border-2 border-white/70 rounded-full p-1.5 text-white group-hover:bg-white group-hover:text-blue-700 transition-colors duration-300">
         <ChevronRight size={16} strokeWidth={3} />
@@ -362,12 +364,12 @@ function WorldCard({ tour }) {
 function TourCard({ tour }) {
   return (
     <Link
-      to={`/tour/${tour.slug}`}
+      to={`/tour/${tour._id || tour.slug}`}
       className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col"
     >
       <div className="relative overflow-hidden" style={{ aspectRatio: "4/3" }}>
         <img
-          src={tour.image}
+          src={tour.thumbnailImage || tour.image}
           alt={tour.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />
@@ -375,7 +377,7 @@ function TourCard({ tour }) {
       <div className="p-5 flex flex-col flex-1">
         <div className="flex items-center gap-1.5 text-gray-400 text-xs mb-2">
           <MapPin size={12} className="text-blue-500 flex-shrink-0" />
-          <span>{tour.location}</span>
+          <span>{tour.destination?.name || tour.location}</span>
         </div>
         <h3 className="font-bold text-[#1a2b48] text-base leading-snug mb-2 group-hover:text-blue-600 transition-colors">{tour.title}</h3>
         <div className="flex items-center gap-2 mb-2">
@@ -389,7 +391,7 @@ function TourCard({ tour }) {
         <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
           <div>
             <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Starting from</p>
-            <p className="text-blue-600 font-extrabold text-lg">₹{tour.price.toLocaleString()}</p>
+            <p className="text-blue-600 font-extrabold text-lg">₹{(tour.startingPrice || tour.price || 0).toLocaleString()}</p>
           </div>
           <span className="bg-blue-600 group-hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-full transition-colors">
             View Details
@@ -404,12 +406,12 @@ function TourCard({ tour }) {
 function SpiritualCard({ tour }) {
   return (
     <Link
-      to={`/tour/${tour.slug}`}
+      to={`/tour/${tour._id || tour.slug}`}
       className="group flex gap-4 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 p-3 items-start"
     >
       <div className="w-28 h-28 flex-shrink-0 rounded-xl overflow-hidden">
         <img
-          src={tour.image}
+          src={tour.thumbnailImage || tour.image}
           alt={tour.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />
@@ -417,7 +419,7 @@ function SpiritualCard({ tour }) {
       <div className="flex-1 min-w-0 py-1">
         <div className="flex items-center gap-1 text-gray-400 text-xs mb-1">
           <MapPin size={10} className="text-orange-500 flex-shrink-0" />
-          <span>{tour.location}</span>
+          <span>{tour.destination?.name || tour.location}</span>
         </div>
         <h3 className="font-bold text-[#1a2b48] text-sm leading-snug mb-1.5 group-hover:text-orange-500 transition-colors line-clamp-2">{tour.title}</h3>
         <div className="flex items-center gap-1.5 mb-1.5">
@@ -428,7 +430,7 @@ function SpiritualCard({ tour }) {
           <Clock size={10} />
           <span>{tour.duration}</span>
         </div>
-        <p className="text-blue-600 font-extrabold text-base">₹{tour.price.toLocaleString()}</p>
+        <p className="text-blue-600 font-extrabold text-base">₹{(tour.startingPrice || tour.price || 0).toLocaleString()}</p>
       </div>
     </Link>
   );
@@ -438,7 +440,41 @@ function SpiritualCard({ tour }) {
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState(0);
-  const monsoonTours = tours.filter((t) => t.slug !== "ancient-temples-to-tiger-trails");
+
+  const [monsoonTours, setMonsoonTours] = useState([]);
+  const [topSelling, setTopSelling] = useState([]);
+  const [exploreIndia, setExploreIndia] = useState([]);
+  const [spiritualDestinations, setSpiritualDestinations] = useState([]);
+  const [worldDestinations, setWorldDestinations] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [
+          monsoonRes, 
+          topSellingRes, 
+          indiaRes, 
+          spiritualRes, 
+          worldRes
+        ] = await Promise.all([
+          axios.get(`${API_URL}/api/tours?category=chaitanya-goutam`),
+          axios.get(`${API_URL}/api/tours?category=top-selling-destinations`),
+          axios.get(`${API_URL}/api/tours?category=explore-india`),
+          axios.get(`${API_URL}/api/tours?category=spiritual-destinations`),
+          axios.get(`${API_URL}/api/tours?category=explore-the-world`)
+        ]);
+        
+        setMonsoonTours(monsoonRes.data.data || []);
+        setTopSelling(topSellingRes.data.data || []);
+        setExploreIndia(indiaRes.data.data || []);
+        setSpiritualDestinations(spiritualRes.data.data || []);
+        setWorldDestinations(worldRes.data.data || []);
+      } catch (error) {
+        console.error("Error fetching homepage data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="w-full font-sans">
@@ -485,7 +521,7 @@ export default function Home() {
           {/* 3-column overlay grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {monsoonTours.map((tour) => (
-              <OverlayCard key={tour.id} tour={tour} />
+              <OverlayCard key={tour._id || tour.id} tour={tour} />
             ))}
           </div>
         </div>
@@ -510,7 +546,7 @@ export default function Home() {
           {/* 3-column card grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {topSelling.map((tour) => (
-              <TourCard key={tour.id} tour={tour} />
+              <TourCard key={tour._id || tour.id} tour={tour} />
             ))}
           </div>
           <div className="text-center mt-10">
@@ -539,21 +575,21 @@ export default function Home() {
           </div>
           {/* 6-column portrait grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {exploreIndia.map((region) => (
+            {exploreIndia.map((tour) => (
               <Link
-                to={`/location/${region.slug}`}
-                key={region.slug}
+                to={`/tour/${tour._id || tour.slug}`}
+                key={tour._id || tour.slug}
                 className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
                 style={{ aspectRatio: "2/3" }}
               >
                 <img
-                  src={region.image}
-                  alt={region.name}
+                  src={tour.thumbnailImage || tour.image}
+                  alt={tour.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
-                  <h3 className="text-white font-bold text-[13px] leading-tight">{region.name}</h3>
+                  <h3 className="text-white font-bold text-[13px] leading-tight">{tour.title}</h3>
                 </div>
               </Link>
             ))}
@@ -579,7 +615,7 @@ export default function Home() {
           {/* 2-column horizontal cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {spiritualDestinations.map((tour) => (
-              <SpiritualCard key={tour.id} tour={tour} />
+              <SpiritualCard key={tour._id || tour.id} tour={tour} />
             ))}
           </div>
           <div className="text-center mt-10">
@@ -608,7 +644,26 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {worldDestinations.map((tour) => (
-              <WorldCard key={tour.id} tour={tour} />
+              <Link
+                to={`/tour/${tour._id || tour.slug}`}
+                key={tour._id || tour.slug}
+                className="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500"
+                style={{ aspectRatio: "4/3" }}
+              >
+                <img
+                  src={tour.thumbnailImage || tour.image}
+                  alt={tour.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-black/75" />
+                <div className="absolute top-5 left-5 right-5">
+                  <h3 className="text-white font-extrabold text-[1.6rem] leading-tight mb-0.5">{tour.title}</h3>
+                  {tour.subtitle && <p className="text-white/90 text-sm font-semibold">{tour.subtitle}</p>}
+                </div>
+                <div className="absolute bottom-5 right-5 border-2 border-white/70 rounded-full p-1.5 text-white group-hover:bg-white group-hover:text-blue-700 transition-colors duration-300">
+                  <ChevronRight size={16} strokeWidth={3} />
+                </div>
+              </Link>
             ))}
           </div>
           <div className="text-center mt-10">

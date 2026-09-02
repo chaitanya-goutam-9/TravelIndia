@@ -1,10 +1,50 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, Search, User, ShoppingBag, X } from 'lucide-react';
+import axios from 'axios';
 import GroupTour from '../pages/grouptour';
 
 export default function Navbar() {
   const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
+  const [indiaDestinations, setIndiaDestinations] = useState({
+    'North India': [],
+    'South India': [],
+    'East India': [],
+    'West India': [],
+    'Other': []
+  });
+  const [worldDestinations, setWorldDestinations] = useState([]);
+
+  useEffect(() => {
+    const fetchDestinations = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/destinations`);
+        const allDests = res.data.data || [];
+        
+        const groupedIndia = { 'North India': [], 'South India': [], 'East India': [], 'West India': [], 'Other': [] };
+        const world = [];
+
+        allDests.forEach(d => {
+          if (d.region === 'India') {
+            const z = d.zone || 'Other';
+            if (groupedIndia[z]) {
+              groupedIndia[z].push(d);
+            } else {
+              if(!groupedIndia['Other']) groupedIndia['Other'] = [];
+              groupedIndia['Other'].push(d);
+            }
+          } else {
+            world.push(d);
+          }
+        });
+        setIndiaDestinations(groupedIndia);
+        setWorldDestinations(world);
+      } catch (e) {
+        console.error("Failed to load nav destinations", e);
+      }
+    };
+    fetchDestinations();
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
@@ -46,46 +86,20 @@ export default function Navbar() {
                 {/* Left Side - Region Links */}
                 <div className="flex-1">
                   <div className="grid grid-cols-4 gap-6">
-                    <div>
-                      <h4 className="font-extrabold text-gray-900 border-b pb-2 mb-4 text-sm">NORTH INDIA</h4>
-                      <ul className="text-[15px] space-y-2 font-medium text-gray-600">
-                        <li><Link to="/location/kashmir" className="hover:text-blue-600 transition-colors">Kashmir</Link></li>
-                        <li><Link to="/location/rajasthan" className="hover:text-blue-600 transition-colors">Rajasthan</Link></li>
-                        <li><Link to="/location/leh-ladakh" className="hover:text-blue-600 transition-colors">Leh Ladakh</Link></li>
-                        <li><Link to="/location/uttarakhand" className="hover:text-blue-600 transition-colors">Uttarakhand</Link></li>
-                        <li><Link to="/location/himachal-pradesh" className="hover:text-blue-600 transition-colors">Himachal Pradesh</Link></li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-extrabold text-gray-900 border-b pb-2 mb-4 text-sm">SOUTH INDIA</h4>
-                      <ul className="text-[14px] space-y-2 font-medium text-gray-600">
-                        <li><Link to="/location/kerala" className="hover:text-blue-600 transition-colors">Kerala</Link></li>
-                        <li><Link to="/location/andaman" className="hover:text-blue-600 transition-colors">Andaman</Link></li>
-                        <li><Link to="/location/karnataka" className="hover:text-blue-600 transition-colors">Karnataka</Link></li>
-                        <li><Link to="/location/tamil-nadu" className="hover:text-blue-600 transition-colors">Tamil Nadu</Link></li>
-                        <li><Link to="/location/andhra-pradesh" className="hover:text-blue-600 transition-colors">Andhra Pradesh</Link></li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-extrabold text-gray-900 border-b pb-2 mb-4 text-sm">EAST INDIA</h4>
-                      <ul className="text-[14px] space-y-2 font-medium text-gray-600">
-                        <li><Link to="/location/assam" className="hover:text-blue-600 transition-colors">Assam</Link></li>
-                        <li><Link to="/location/sikkim" className="hover:text-blue-600 transition-colors">Sikkim</Link></li>
-                        <li><Link to="/location/meghalaya" className="hover:text-blue-600 transition-colors">Meghalaya</Link></li>
-                        <li><Link to="/location/west-bengal" className="hover:text-blue-600 transition-colors">West Bengal</Link></li>
-                        <li><Link to="/location/arunachal-pradesh" className="hover:text-blue-600 transition-colors">Arunachal Pradesh</Link></li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-extrabold text-gray-900 border-b pb-2 mb-4 text-sm">WEST INDIA</h4>
-                      <ul className="text-[14px] space-y-2 font-medium text-gray-600">
-                        <li><Link to="/location/goa" className="hover:text-blue-600 transition-colors">Goa</Link></li>
-                        <li><Link to="/location/gujarat" className="hover:text-blue-600 transition-colors">Gujarat</Link></li>
-                        <li><Link to="/location/maharashtra" className="hover:text-blue-600 transition-colors">Maharastra</Link></li>
-                        <li><Link to="/location/chhattisgarh" className="hover:text-blue-600 transition-colors">Chhattisgarh</Link></li>
-                        <li><Link to="/location/madhya-pradesh" className="hover:text-blue-600 transition-colors">Madhya Pradesh</Link></li>
-                      </ul>
-                    </div>
+                    {['North India', 'South India', 'East India', 'West India'].map(zone => {
+                      const dests = indiaDestinations[zone];
+                      if (!dests || dests.length === 0) return null;
+                      return (
+                        <div key={zone}>
+                          <h4 className="font-extrabold text-gray-900 uppercase border-b pb-2 mb-4 text-sm">{zone}</h4>
+                          <ul className="text-[14px] space-y-2 font-medium text-gray-600">
+                            {dests.map(d => (
+                              <li key={d._id}><Link to={`/location/${d._id}`} className="hover:text-blue-600 transition-colors">{d.name}</Link></li>
+                            ))}
+                          </ul>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -100,21 +114,15 @@ export default function Navbar() {
                 {/* Left Side - Destination Links */}
                 <div className="flex-1">
                   <div className="grid grid-cols-2 gap-x-8 gap-y-2">
-                    <ul className="text-[14px] space-y-2 font-large text-gray-600">
-                      <li><Link to="/location/spain" className="hover:text-blue-600 transition-colors">Spain</Link></li>
-                      <li><Link to="/location/london" className="hover:text-blue-600 transition-colors">London (UK)</Link></li>
-                      <li><Link to="/location/italy" className="hover:text-blue-600 transition-colors">Italy</Link></li>
-                      <li><Link to="/location/switzerland" className="hover:text-blue-600 transition-colors">Switzerland</Link></li>
-                      <li><Link to="/location/dubai" className="hover:text-blue-600 transition-colors">Dubai (UAE)</Link></li>
-                      <li><Link to="/location/singapore" className="hover:text-blue-600 transition-colors">Singapore</Link></li>
+                    <ul className="text-[14px] space-y-2 font-medium text-gray-600">
+                      {worldDestinations.slice(0, Math.ceil(worldDestinations.length / 2)).map(d => (
+                         <li key={d._id}><Link to={`/location/${d._id}`} className="hover:text-blue-600 transition-colors">{d.name}</Link></li>
+                      ))}
                     </ul>
                     <ul className="text-[14px] space-y-2 font-medium text-gray-600">
-                      <li><Link to="/location/thailand" className="hover:text-blue-600 transition-colors">Thailand</Link></li>
-                      <li><Link to="/location/malaysia" className="hover:text-blue-600 transition-colors">Malaysia</Link></li>
-                      <li><Link to="/location/vietnam" className="hover:text-blue-600 transition-colors">Vietnam</Link></li>
-                      <li><Link to="/location/bhutan" className="hover:text-blue-600 transition-colors">Bhutan</Link></li>
-                      <li><Link to="/location/indonesia" className="hover:text-blue-600 transition-colors">Indonesia (Bali)</Link></li>
-                      <li><Link to="/location/srilanka" className="hover:text-blue-600 transition-colors">Sri Lanka</Link></li>
+                      {worldDestinations.slice(Math.ceil(worldDestinations.length / 2)).map(d => (
+                         <li key={d._id}><Link to={`/location/${d._id}`} className="hover:text-blue-600 transition-colors">{d.name}</Link></li>
+                      ))}
                     </ul>
                   </div>
                 </div>

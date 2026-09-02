@@ -124,7 +124,6 @@ export default function CustomizeTrip({ onClose }) {
               <option value="3-star">3 Star</option>
               <option value="4-star">4 Star</option>
               <option value="5-star">5 Star</option>
-              <option value="luxury">Luxury</option>
             </select>
           </div>
 

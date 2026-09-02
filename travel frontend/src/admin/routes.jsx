@@ -1,7 +1,10 @@
-import { LayoutDashboard, CalendarCheck } from 'lucide-react';
+import { LayoutDashboard, CalendarCheck, FolderOpen, MapPin, Map } from 'lucide-react';
 import Dashboard from './pages/Dashboard.jsx';
 import GuestPhoto from './pages/GuestPhotopage.jsx';
 import VisaServices from "./pages/VisaServiceAdmin.jsx"
+import CategoryAdmin from './pages/CategoryAdmin.jsx';
+import DestinationAdmin from './pages/DestinationAdmin.jsx';
+import TourPackageAdmin from './pages/TourPackageAdmin.jsx';
 
 /**
  * ╔══════════════════════════════════════════════════════════╗
@@ -30,8 +33,8 @@ export const adminRoutes = [
     showInNav: true,
   },
   {
-    path: 'bookings',
-    label: 'Bookings',
+    path: 'Guest Photos',
+    label: 'Guest Photos',
     icon: CalendarCheck,
     element: <GuestPhoto />,
     showInNav: true,
@@ -41,6 +44,27 @@ export const adminRoutes = [
     label: 'VisaServices',
     icon: CalendarCheck,
     element: <VisaServices />,
+    showInNav: true,
+  },
+  {
+    path: 'categories',
+    label: 'Categories',
+    icon: FolderOpen,
+    element: <CategoryAdmin />,
+    showInNav: true,
+  },
+  {
+    path: 'destinations',
+    label: 'Destinations',
+    icon: MapPin,
+    element: <DestinationAdmin />,
+    showInNav: true,
+  },
+  {
+    path: 'tours',
+    label: 'Tour Packages',
+    icon: Map,
+    element: <TourPackageAdmin />,
     showInNav: true,
   },
 
