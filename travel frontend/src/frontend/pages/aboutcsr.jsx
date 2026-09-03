@@ -26,17 +26,19 @@ export default function AboutCsr() {
     <div className="w-full bg-[#f8fcfd] min-h-screen">
       {/* Main Content Section */}
       <section className="pt-16 md:pt-24 pb-12 md:pb-16 bg-gradient-to-b from-[#eef6fa] to-[#ffffff]">
-        <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
+        <div className="mx-auto max-w-[1800px] px-5 lg:px-8">
          
           {/* Centered Heading */}
-          <div className="w-full max-w-[1140px] mx-auto text-center mb-[30px] px-5">
-            <h1 className="text-[#0A1B33] text-3xl md:text-[48px] font-bold leading-[1.25]" style={{ fontFamily: "'Playfair Display', Georgia, serif", wordWrap: "break-word" }}>
-              Travel India Tourism Pvt. Ltd. CSR Initiative: Empowering Communities Through Compassion and Education
+          <div className="mx-auto mb-8 w-full max-w-[1700px] px-5 text-center">
+            <h1 className="text-3xl font-bold leading-[1.08] text-[#0A1B33] md:text-[44px]" style={{ fontFamily: "'Playfair Display', Georgia, serif", wordWrap: "break-word" }}>
+              Travel India Tourism Pvt. Ltd. CSR Initiative:
+              <br />
+              Empowering Communities Through Compassion and Education
             </h1>
           </div>
  
           {/* 2-Column Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-[1250px] mx-auto">
             {/* Left Side Text */}
             <div className="space-y-6 text-[#5e6d77] text-[15px] leading-[1.8]" style={{ fontFamily: "'Poppins', sans-serif" }}>
               <p>
@@ -83,16 +85,6 @@ export default function AboutCsr() {
       {/* Special Offers Section */}
      
  
-      {/* Floating WhatsApp Button */}
-      <a
-        href="https://wa.me/919893539555"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Chat on WhatsApp"
-        className="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#1ebe5b] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110"
-      >
-        <WhatsAppIcon size={28} />
-      </a>
     </div>
   );
 }

@@ -300,34 +300,34 @@ export default function VisaServices() {
                 <div className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
                   <a
                     href="tel:+919893574731"
-                    className="flex items-center gap-3 text-base hover:text-red-500"
+                    className="flex items-center gap-3 text-base "
                   >
                     <Phone className="text-red-500" size={22} />
                     +91 98935 74731
                   </a>
                   <a
                     href="tel:+919893225370"
-                    className="flex items-center gap-3 text-base hover:text-red-500"
+                    className="flex items-center gap-3 text-base "
                   >
                     <Phone className="text-red-500" size={22} />
                     +91 98932 25370
                   </a>
                   <a
                     href="tel:+919893121733"
-                    className="flex items-center gap-3 text-base hover:text-red-500"
+                    className="flex items-center gap-3 text-base "
                   >
                     <Phone className="text-red-500" size={22} />
                     +91 98931 21733
                   </a>
                   <a
                     href="mailto:visa@travelindiatourism.com"
-                    className="flex items-center gap-3 text-base hover:text-red-500"
+                    className="flex items-center gap-3 text-base "
                   >
                     <Mail className="text-red-500" size={22} />
                     visa@travelindiatourism.com
                   </a>
                 </div>
-                <a href="https://wa.me/919893539555" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-base hover:text-green-600">
+                <a href="https://wa.me/919893539555" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-base ">
                   <WhatsAppIcon size={24} />
                   Message on WhatsApp &gt;&gt;
                 </a>
@@ -339,12 +339,12 @@ export default function VisaServices() {
 
       {/* Visa Biometric Services With VFS */}
       <section className="py-16 bg-white">
-        <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
+        <div className="max-w-[1400px] mx-auto px-5 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 lg:gap-12 items-center mb-12">
             {/* Left Side - Text */}
             <div>
-              <h2 className="text-[2rem] font-extrabold text-[#1a2b48] mb-4">
-                Visa Biometric Services With <span className="text-blue-600">VFS</span>
+              <h2 className="text-[2rem] font-extrabold text-[#1a2b48] mb-4 italic font-serif">
+                Visa Biometric Services With VFS
               </h2>
               <p className="max-w-3xl text-[18px] text-gray-600 leading-6">
                 At Travel India Tourism's office in Bhopal, our collaborative partnership with{" "}
@@ -362,10 +362,11 @@ export default function VisaServices() {
             {/* Right Side - VFS Logo */}
             <div className="flex justify-center lg:justify-end">
               <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+                <p className="text-2xl font-bold text-[#1a2b48] mb-4">Partnership With</p>
                 <img
                   src="https://travelindiatourism.com/wp-content/uploads/2024/04/VFS.png.webp"
                   alt="VFS Global"
-                  className="h-50 object-contain rounded-lg"
+                  className="h-45 object-contain rounded-lg"
                 />
               </div>
             </div>

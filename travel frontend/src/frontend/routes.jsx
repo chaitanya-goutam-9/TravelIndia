@@ -15,6 +15,7 @@ import BlogPage from './pages/BlogPage';
 import LocationPage from './pages/LocationPage';
 import WorldPage from './pages/WorldPage';
 import DestinationDetails from './pages/DestinationDetails';
+import review from './components/GoogleReviews';
 
 /**
  * Frontend public routes config.
@@ -41,6 +42,7 @@ const frontendRoutes = [
   { path: 'faq', element: <FAQSection /> },
   { path: 'carrers', element: <CareersPage /> },
   { path: 'blog', element: <BlogPage /> },
+  { path: 'google-reviews', element: <review /> }
 ];
 
 export default frontendRoutes;

@@ -27,3 +27,47 @@
 .enquiry-button:hover {
 	animation: enquiry-button-shake 0.35s ease-in-out;
 }
+
+@keyframes about-testimonial-fade {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.about-testimonial-card {
+	animation: about-testimonial-fade 0.4s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.about-testimonial-card {
+		animation: none;
+	}
+}
+
+@keyframes about-services-rise {
+	from {
+		opacity: 0;
+		transform: translateY(48px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.about-services-card {
+	opacity: 0;
+	animation: about-services-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.about-services-card {
+		opacity: 1;
+		animation: none;
+	}
+}

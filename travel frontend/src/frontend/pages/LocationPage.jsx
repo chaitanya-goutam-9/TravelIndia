@@ -689,7 +689,7 @@ export default function LocationPage() {
           <>
             {/* Back link + count */}
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-[#1a2b48]">
+              <h3 className="text-xl font-bold text-[#1a2b48] ">
                 {activeState?.name || stateSlug} — Tour Packages
               </h3>
               {!loading && (

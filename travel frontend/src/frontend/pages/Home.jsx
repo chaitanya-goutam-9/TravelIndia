@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Search, Star, Clock, MapPin, ChevronRight, Plus, Minus } from "lucide-react";
 import axios from "axios";
 import FAQSection from '../pages/faq';
+import { ArrowUpRight } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -336,9 +337,15 @@ function OverlayCard({ tour }) {
       </div>
       
       {/* bottom-right: arrow button */}
-      <div className="absolute bottom-5 right-5 border-[2px] border-white/80 rounded-full p-2 text-white group-hover:bg-white group-hover:text-[#1a2b48] transition-colors duration-300 backdrop-blur-sm">
-        <ChevronRight size={18} strokeWidth={2.5} />
-      </div>
+   {/* bottom-right: arrow button */}
+<div
+  className="absolute bottom-5 right-5 w-10 h-10 rounded-full border-2 border-white 
+             flex items-center justify-center text-white 
+             group-hover:bg-white group-hover:text-[#1a2b48] 
+             transition-colors duration-300 backdrop-blur-sm"
+>
+  <ArrowUpRight size={22} strokeWidth={2} />
+</div>
     </Link>
   );
 }
@@ -346,31 +353,64 @@ function OverlayCard({ tour }) {
 // World destination card — matching the new dark theme UI
 function WorldCard({ tour }) {
   return (
-    <Link
-      to={`/tour/${tour._id || tour.slug}`}
-      className="group relative flex flex-col rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-white/5 bg-[#162235]"
+   <Link
+  to={`/tour/${tour._id || tour.slug}`}
+  className="group relative flex flex-col overflow-hidden rounded-[30px] bg-[#172f55] p-3 shadow-lg transition-all duration-300 hover:shadow-2xl"
+>
+  {/* Image Section */}
+  <div className="relative aspect-[4/4] w-full overflow-hidden rounded-[30px]">
+    <img
+      src={tour.thumbnailImage || tour.image}
+      alt={tour.title}
+      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+    />
+
+    {/* Dark Gradient */}
+    <div className="absolute inset-0 bg-gradient-to-t from-[#0b1d36]/90 via-[#0b1d36]/20 to-transparent" />
+
+    {/* Destination Content */}
+    <div className="absolute bottom-8 left-6 right-6">
+      <h3 className="mb-2 text-[1.8rem] font-extrabold leading-tight text-white drop-shadow-lg">
+        {tour.destination?.name || tour.location || tour.title}
+      </h3>
+
+      <p className="text-[15px] font-bold tracking-wide text-white/90">
+        {tour.subtitle}
+      </p>
+    </div>
+  </div>
+
+  {/* Bottom Section */}
+  <div className="flex items-center justify-between px-5 py-5">
+    
+    {/* Price */}
+    <p className="text-[1.5rem] font-extrabold text-[#e2ad63]">
+      ₹ {(tour.startingPrice || tour.price || 0).toLocaleString()}
+    </p>
+
+    {/* Explore Button */}
+    <div
+      className="flex items-center gap-2 rounded-full bg-[#e2ad63] px-6 py-3 text-[15px] font-medium text-[#0a1b33] transition-all duration-300 group-hover:bg-[#d6a86c]"
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden">
-        <img
-          src={tour.thumbnailImage || tour.image}
-          alt={tour.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#162235] via-[#162235]/40 to-transparent" />
-        <div className="absolute bottom-2 left-6 right-6">
-          <h3 className="text-white font-extrabold text-[1.7rem] leading-tight mb-1">{tour.destination?.name || tour.location || tour.title}</h3>
-          <p className="text-white/80 text-[13px] font-bold tracking-wide">{tour.subtitle}</p>
-        </div>
-      </div>
-      <div className="px-6 py-5 flex items-center justify-between bg-[#162235]">
-        <p className="text-[#e2ad63] font-extrabold text-[1.4rem]">
-          ₹ {(tour.startingPrice || tour.price || 0).toLocaleString()}
-        </p>
-        <div className="bg-[#e2ad63] hover:bg-[#d6a86c] text-[#0a1b33] font-bold px-5 py-2 rounded-full text-[13px] transition-colors flex items-center gap-1.5">
-          Explore Now <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </div>
-      </div>
-    </Link>
+      Explore Now
+
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M5 12h14" />
+        <path d="m12 5 7 7-7 7" />
+      </svg>
+    </div>
+
+  </div>
+</Link>
   );
 }
 
@@ -585,10 +625,10 @@ export default function Home() {
       
       </section>
   {/* search bar pinned to bottom of hero */}
-        <div className="relative z-10 w-full px-4 pt-10 mt-5">
-          <div className="bg-white rounded-full max-w-xl mx-auto flex items-center shadow-2xl overflow-hidden py-1 px-1">
+        <div className="relative z-10 w-full px-4  mt-5">
+          <div className="bg-white rounded-full max-w-xl mx-auto flex items-center shadow-2xl overflow-hidden py-1 px-1 border border-gray-200">
             <div className="flex-1 flex items-center px-4">
-              <Search className="text-gray-400 mr-2 flex-shrink-0" size={17} />
+              <Search className="text-gray-600 mr-2 flex-shrink-0 p-5 " size={25} />
               <input
                 type="text"
                 placeholder="Search here..."
@@ -601,15 +641,14 @@ export default function Home() {
           </div>
         </div>
       {/* ══════════ INDIAN DESTINATION FOR MONSOON ══════════ */}
-      <section className="py-20 bg-white">
+      <section className="py-10 bg-white">
         <div className="max-w-[1300px] mx-auto px-5 lg:px-8 ">
           {/* heading */}
           <div className="text-center mb-10">
-            <h2 className="text-[2.1rem] font-bold text-[#1a2b48] mb-3 leading-tight">
-              <span className="italic font-serif font-semibold">Indian Destination</span>{" "}
-              <span>For Monsoon</span>
+            <h2 className="text-2.5xl md:text-5xl  italic font-serif text-black mb-3 leading-tight">
+              Indian Destination For Monsoon
             </h2>
-            <p className="text-gray-500 max-w-2xl mx-auto text-sm leading-relaxed">
+            <p className="text-black-500 max-w-2xl mx-auto text-md leading-relaxed max-w-none text-center ">
               Discover lush green landscapes, misty hills, cascading waterfalls, and unforgettable monsoon getaways across India.
             </p>
           </div>
@@ -623,39 +662,49 @@ export default function Home() {
       </section>
 
       {/* ══════════ TOP SELLING DESTINATIONS ══════════ */}
-      <section className="py-20 bg-white">
-        <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
-          {/* heading */}
-          <div className="text-center mb-10">
-            <h2 className="text-[2.6rem] text-[#1a2b48] mb-2 leading-tight">
-              <span className="italic font-serif font-bold">Top Selling</span>{" "}
-              <span className="font-bold">Destinations</span>
-            </h2>
-            <p className="text-gray-700 max-w-2xl mx-auto text-[15px] leading-relaxed font-medium">
-              Discover India's enchanting destinations, from the tranquil seas to majestic mountains.<br />
-              With Travel India Tourism Pvt.Ltd
-            </p>
-          </div>
-          
-          {/* Auto Slider */}
-          <div className="-mx-2">
-            <TopSellingSlider tours={topSelling} />
-          </div>
-        </div>
-      </section>
+     {/* ══════════ TOP SELLING DESTINATIONS ══════════ */}
+<section className="py-20 bg-white">
+  <div className="max-w-[1350px] mx-auto px-5 lg:px-8">
+
+    {/* Heading */}
+    <div className="text-center mb-10">
+      <h2 className="text-[2.6rem] text-[#1a2b48] mb-2 leading-tight">
+        <span className="italic font-serif ">
+          Top Selling
+        </span>{" "}
+        <span className="">
+          Destinations
+        </span>
+      </h2>
+
+      <p className="text-gray-700 text-[17px] leading-relaxed font-medium max-w-none text-center">
+        Discover India's enchanting destinations, from the tranquil seas to majestic mountains.
+        <br />
+        With Travel India Tourism Pvt.Ltd
+      </p>
+    </div>
+
+    {/* Auto Slider */}
+    <div className="-mx-2">
+      <TopSellingSlider tours={topSelling} />
+    </div>
+
+  </div>
+</section>
 
       {/* ══════════ EXPLORE INDIA ══════════ */}
       <section className="py-20 bg-white">
         <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-[2.6rem] text-[#1a2b48] mb-2 leading-tight">
-              <span className="italic font-serif font-bold">Explore</span>{" "}
-              <span className="font-bold">India</span>
-            </h2>
-            <p className="text-gray-700 max-w-2xl mx-auto text-[15px] leading-relaxed font-medium">
-              Discover breathtaking hill stations, cool mountain escapes, and unforgettable summer vacation destinations across India.
-            </p>
-          </div>
+  <h2 className="text-[2.6rem] text-[#1a2b48] mb-2 leading-tight">
+    <span className="italic font-serif ">Explore</span>{" "}
+    <span className="">India</span>
+  </h2>
+
+  <p className="text-gray-700 text-[17px] leading-relaxed font-medium">
+    Discover breathtaking hill stations, cool mountain escapes, and unforgettable summer vacation destinations across India.
+  </p>
+</div>
           {/* 3-column overlay grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {exploreIndia.map((tour) => (
@@ -668,15 +717,16 @@ export default function Home() {
       {/* ══════════ SPIRITUAL DESTINATIONS ══════════ */}
       <section className="py-20 bg-white">
         <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="text-[2.6rem] text-[#1a2b48] mb-2 leading-tight">
-              <span className="italic font-serif font-bold">Spiritual</span>{" "}
-              <span className="font-bold">Destinations</span>
-            </h2>
-            <p className="text-gray-700 max-w-3xl mx-auto text-[15px] leading-relaxed font-medium">
-              Discover India's most sacred temples, peaceful pilgrimage sites, and spiritual journeys that bring peace to your soul.
-            </p>
-          </div>
+         <div className="text-center mb-10">
+  <h2 className="text-[2.6rem] text-[#1a2b48] mb-2 leading-tight">
+    <span className="italic font-serif ">Spiritual</span>{" "}
+    <span className="">Destinations</span>
+  </h2>
+
+  <p className="text-gray-700 text-[17px] leading-relaxed font-medium">
+    Discover India's most sacred temples, peaceful pilgrimage sites, and spiritual journeys that bring peace to your soul.
+  </p>
+</div>
           {/* 3-column overlay grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {spiritualDestinations.map((tour) => (
@@ -690,12 +740,12 @@ export default function Home() {
       <section className="py-20 bg-[#0b1727]">
         <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
           <div className="text-center mb-12">
-            <h3 className="text-[#e2ad63] font-semibold text-[1.3rem] mb-2 tracking-wide">Explore The World</h3>
+            <h3 className="text-[#e2ad63] font-semibold text-[2rem] mb-2 tracking-wide">Explore The World</h3>
             <h2 className="text-[2.6rem] text-white mb-3 leading-tight">
-              <span className="italic font-serif font-bold">International</span>{" "}
-              <span className="font-bold">Destinations</span>
+              <span className="italic font-serif ">International</span>{" "}
+              <span className="">Destinations</span>
             </h2>
-            <p className="text-gray-300 text-[15px] max-w-3xl mx-auto leading-relaxed">
+            <p className="text-[#e2ad63] text-[18px] max-w-3xl mx-auto leading-relaxed max-w-none text-center">
               Explore premium international destinations with unforgettable luxury, adventure, and breathtaking experiences.
             </p>
           </div>
@@ -710,68 +760,156 @@ export default function Home() {
      
 
 
-      {/* ══════════ PLAN YOUR TRAVEL WITH PERSONAL TOUR MANAGER ══════════ */}
-      <section className="py-0 bg-[#0a1b33] mt-10 ">
-        <div className="max-w-[1200px] mx-auto px-2 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center gap-20 ">
-            {/* left: image slider */}
-            <div className="md:w-1/2 w-full overflow-hidden h-[600px] flex-shrink-0 relative">
-              {(() => {
-                const sliderImages = [
-                  "https://travelindiatourism.com/wp-content/uploads/2026/05/Andman-Island-1.jpeg.webp",
-                  "https://travelindiatourism.com/wp-content/uploads/2022/04/Srinagar-Kasmir-Tour-4.jpg.webp",
-                  "https://travelindiatourism.com/wp-content/uploads/2022/04/Kolkata-Tour-2.jpg.webp",
-                  "https://travelindiatourism.com/wp-content/uploads/2022/04/Jaipur-ranthmabhore-tour-Rajasthan-1.jpg.webp",
-                  "https://travelindiatourism.com/wp-content/uploads/2026/05/Shimla-Manali-1.jpeg.webp",
-                  "https://travelindiatourism.com/wp-content/uploads/2026/05/Leh-ladhakh.jpeg.webp",
-                  "https://travelindiatourism.com/wp-content/uploads/2023/09/Thailand-tour.jpg.webp",
-                  "https://travelindiatourism.com/wp-content/uploads/2023/09/Thailand-tour-1.jpg.webp",
-                  "https://travelindiatourism.com/wp-content/uploads/2023/09/singapore-tour.jpg.webp",
-                  "https://travelindiatourism.com/wp-content/uploads/2022/04/Srinagar-Kasmir-Tour-3.jpg.webp",
-                  "https://travelindiatourism.com/wp-content/uploads/2023/09/Dubai-tour-4.jpg.webp",
-                ];
-                const [current, setCurrent] = useState(0);
-                const prev = () => setCurrent((c) => (c === 0 ? sliderImages.length - 1 : c - 1));
-                const next = () => setCurrent((c) => (c === sliderImages.length - 1 ? 0 : c + 1));
-                return (
-                  <div className="relative w-full h-full group">
-                    <img src={sliderImages[current]} alt="Travel" className="w-full h-full object-cover transition-opacity duration-500" />
-                    <button onClick={prev} className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                    </button>
-                    <button onClick={next} className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                    </button>
-                  </div>
+      <section className="py-16 bg-[#071735] mt-10">
+  {/* Outer blue frame */}
+  <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
+    <div className="bg-[#16345f] rounded-[22px] p-3 md:p-4">
+
+      {/* Main White Card */}
+     <div className="bg-white rounded-[18px] overflow-hidden flex flex-col lg:flex-row min-h-[420px] max-w-[1400px] mx-auto">
+
+        {/* LEFT - Image Slider */}
+        <div className="lg:w-[52%] w-full p-3">
+          <div className="relative w-full h-[350px] lg:h-[400px] overflow-hidden rounded-[4px] group">
+
+            {(() => {
+              const sliderImages = [
+                "https://travelindiatourism.com/wp-content/uploads/2026/05/Andman-Island-1.jpeg.webp",
+                "https://travelindiatourism.com/wp-content/uploads/2022/04/Srinagar-Kasmir-Tour-4.jpg.webp",
+                "https://travelindiatourism.com/wp-content/uploads/2022/04/Kolkata-Tour-2.jpg.webp",
+                "https://travelindiatourism.com/wp-content/uploads/2022/04/Jaipur-ranthmabhore-tour-Rajasthan-1.jpg.webp",
+                "https://travelindiatourism.com/wp-content/uploads/2026/05/Shimla-Manali-1.jpeg.webp",
+                "https://travelindiatourism.com/wp-content/uploads/2026/05/Leh-ladhakh.jpeg.webp",
+                "https://travelindiatourism.com/wp-content/uploads/2023/09/Thailand-tour.jpg.webp",
+                "https://travelindiatourism.com/wp-content/uploads/2023/09/Thailand-tour-1.jpg.webp",
+                "https://travelindiatourism.com/wp-content/uploads/2023/09/singapore-tour.jpg.webp",
+                "https://travelindiatourism.com/wp-content/uploads/2022/04/Srinagar-Kasmir-Tour-3.jpg.webp",
+                "https://travelindiatourism.com/wp-content/uploads/2023/09/Dubai-tour-4.jpg.webp",
+              ];
+
+              const [current, setCurrent] = useState(0);
+
+              const prev = () =>
+                setCurrent((c) =>
+                  c === 0 ? sliderImages.length - 1 : c - 1
                 );
-              })()}
-            </div>
-            {/* right: text + manager image */}
-            <div className="md:w-1/2 w-full px-8 py-12 flex flex-col items-start gap-6">
-              <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
-                Plan Your Travel With Personal Tour Manager
-              </h2>
-              <p className="text-gray-300 text-sm leading-relaxed">
-                Unable to figure out where to go? Contact your personal tour manager and let us plan the perfect trip for you with customized destinations, hotels, transportation, and unforgettable travel experiences.
-              </p>
-              <div className="flex items-center gap-6">
-                <img
-                  src="https://travelindiatourism.com/wp-content/uploads/2026/05/your_manager-removebg-preview-300x300.png.webp"
-                  alt="Tour Manager"
-                  className="h-28 w-auto object-contain drop-shadow-xl"
-                  onError={(e) => { e.target.style.display = "none"; }}
-                />
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-7 py-3 rounded-full transition-colors text-sm whitespace-nowrap"
-                >
-                  Enquiry Now <ChevronRight size={16} />
-                </Link>
-              </div>
-            </div>
+
+              const next = () =>
+                setCurrent((c) =>
+                  c === sliderImages.length - 1 ? 0 : c + 1
+                );
+
+              return (
+                <>
+                  <img
+                    src={sliderImages[current]}
+                    alt="Travel"
+                    className="w-full h-full object-cover transition-opacity duration-500"
+                  />
+
+                  {/* Previous */}
+                  <button
+                    onClick={prev}
+                    className="absolute left-4 top-1/2 -translate-y-1/2
+                               bg-black/30 hover:bg-black/50
+                               text-white rounded-md p-3
+                               opacity-0 group-hover:opacity-100
+                               transition-all duration-300"
+                  >
+                    <svg
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m15 18-6-6 6-6" />
+                    </svg>
+                  </button>
+
+                  {/* Next */}
+                  <button
+                    onClick={next}
+                    className="absolute right-4 top-1/2 -translate-y-1/2
+                               bg-black/30 hover:bg-black/50
+                               text-white rounded-md p-3
+                               opacity-0 group-hover:opacity-100
+                               transition-all duration-300"
+                  >
+                    <svg
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </button>
+                </>
+              );
+            })()}
+
           </div>
         </div>
-      </section>
+
+      {/* RIGHT - Content */}
+<div className="lg:w-[48%] w-full flex flex-col justify-center px-8 md:px-12 lg:px-10 py-6">
+
+  {/* Heading */}
+  <div className="border-l-[5px] border-[#f28c00] pl-4 mb-6">
+    <h2 className="text-[#050505] text-2xl md:text-3xl font-extrabold leading-tight">
+      Plan Your Travel With Personal Tour Manager
+    </h2>
+  </div>
+
+  {/* Description */}
+  <p className="text-gray-500 text-base md:text-[17px] leading-relaxed mb-6 max-w-[650px]">
+    Unable to figure out where to go? Contact your personal tour manager
+    and let us plan the perfect trip for you with customized destinations,
+    hotels, transportation, and unforgettable travel experiences.
+  </p>
+
+  {/* Manager */}
+  <div className="flex flex-col items-center">
+
+    <img
+      src="https://travelindiatourism.com/wp-content/uploads/2026/05/your_manager-removebg-preview-300x300.png.webp"
+      alt="Tour Manager"
+      className="h-24 w-auto object-contain mb-6"
+      onError={(e) => {
+        e.target.style.display = "none";
+      }}
+    />
+
+    {/* Enquiry Button */}
+    <Link
+      to="/contact"
+      className="inline-flex items-center justify-center gap-3
+                 bg-[#3566cc] hover:bg-[#2855b5]
+                 text-white font-bold
+                 w-[170px] h-[56px]
+                 text-[17px]
+                 transition-colors rounded-2xl"
+    >
+      Enquiry Now
+      <ChevronRight size={20} strokeWidth={2.5} />
+    </Link>
+
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* ══════════ WHY CHOOSE US ══════════ */}
       {/* ══════════ WHY CHOOSE US ══════════ */}
@@ -781,18 +919,18 @@ export default function Home() {
       <h2 className="text-[2rem] font-bold text-[#1a2b48] leading-tight">
         <span className="italic font-serif">Why</span> Choose Us
       </h2>
-      <p className="text-[#7a7a7a] text-sm max-w-xl mx-auto mt-3 leading-relaxed">
-        Trusted travel experts offering customized domestic &amp; international tours with 24/7 support, visa assistance, and unforgettable travel experiences.
-      </p>
+     <p className="text-[#C8A26B] text-md mt-3 leading-relaxed text-center whitespace-nowrap w-full">
+  Trusted travel experts offering customized domestic &amp; international tours with 24/7 support, visa assistance, and unforgettable travel experiences.
+</p>
     </div>
 
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {whyChooseUs.map((item, i) => (
         <div
           key={i}
-          className="bg-white rounded-2xl p-7 shadow-sm border border-[#e8e8e8] hover:shadow-lg transition-all duration-300"
+          className="bg-white rounded-2xl p-10 shadow-sm border border-white hover:shadow-lg transition-all duration-300"
         >
-          <div className="flex items-start gap-4">
+          <div className="flex items-start gap-7">
             <div className="flex-shrink-0 mt-1">{item.icon}</div>
             <div>
               <h3 className="font-bold text-[#1a2b48] text-base mb-2 leading-tight">{item.title}</h3>

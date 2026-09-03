@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Menu, Search, User, ShoppingBag, X, ChevronDown } from 'lucide-react';
+import { Menu, Search, User, ShoppingBag, ChevronDown } from 'lucide-react';
 import axios from 'axios';
-import GroupTour from '../pages/grouptour';
 import { INDIA_STATES } from '../data/indianStates';
 
-export default function Navbar() {
-  const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
+export default function Navbar({ onGroupEnquiry }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileSection, setMobileSection] = useState(null);
   const [indiaDestinations, setIndiaDestinations] = useState({
@@ -160,7 +158,7 @@ export default function Navbar() {
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
           <button 
-            onClick={() => setIsGroupModalOpen(true)}
+            onClick={onGroupEnquiry}
             className="enquiry-button hidden md:block rounded-md bg-[#182040] text-white px-3 py-1.5 text-sm font-semibold transition duration-200 hover:bg-red-700"
           >
             Group Enquiry?
@@ -208,25 +206,11 @@ export default function Navbar() {
               <summary className="flex cursor-pointer list-none items-center justify-between py-4 font-bold text-black">About Us <ChevronDown size={18} className="transition-transform group-open:rotate-180" /></summary>
               <div className="pb-3 pl-3 text-sm text-gray-600"><Link to="/about-us" onClick={closeMobileMenu} className="block py-2">About Us</Link><Link to="/csr-initiative" onClick={closeMobileMenu} className="block py-2">CSR Initiative</Link><Link to="/guest-photos" onClick={closeMobileMenu} className="block py-2">Guest Photos</Link></div>
             </details>
-            <button type="button" onClick={() => { closeMobileMenu(); setIsGroupModalOpen(true); }} className="enquiry-button mt-4 w-full rounded-md bg-[#182040] px-3 py-2 text-center text-sm font-semibold text-white transition duration-200 hover:bg-red-700">Group Enquiry?</button>
+            <button type="button" onClick={() => { closeMobileMenu(); onGroupEnquiry(); }} className="enquiry-button mt-4 w-full rounded-md bg-[#182040] px-3 py-2 text-center text-sm font-semibold text-white transition duration-200 hover:bg-red-700">Group Enquiry?</button>
           </nav>
         </div>
       )}
 
-      {isGroupModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div className="absolute inset-0" onClick={() => setIsGroupModalOpen(false)} />
-          <div className="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => setIsGroupModalOpen(false)}
-              className="absolute top-4 right-4 z-10 bg-white/90 hover:bg-white rounded-full p-1 shadow-md transition"
-            >
-              <X size={20} />
-            </button>
-            <GroupTour />
-          </div>
-        </div>
-      )}
     </header>
   );
 }

@@ -94,7 +94,7 @@ export default function GuestPhotos() {
           <img
             src="https://travelindiatourism.com/wp-content/uploads/2026/06/Guest-Photos1.png"
             alt="Guest Photos background"
-            className="w-full h-full object-cover opacity-40"
+            className="w-full h-full object-cover opacity-80"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/70" />
         </div>
@@ -109,7 +109,7 @@ export default function GuestPhotos() {
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Guest <span className="text-white">Photos</span>
           </h1>
-          <p className="text-yellow-300 text-xl max-w-4xl mx-auto font-bold text-8xl">
+          <p className="text-yellow-300 text-4xl max-w-4xl mx-auto font-bold text-2xl">
             Real journeys, real memories, and unforgettable experiences shared by our happy travelers.
           </p>
           {/* Stats */}
@@ -121,10 +121,10 @@ export default function GuestPhotos() {
       <section className="py-16 bg-white">
         <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
           <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-[3rem] font-extrabold text-[#1a2b48] mb-6 leading-tight whitespace-nowrap">
+            <h2 className="text-[3rem] font-semibold text-[#1a2b48] mb-6 leading-tight whitespace-nowrap  italic font-serif ">
               Memories Created With Travel India Tourism
             </h2>
-            <p className="text-gray-600 text-md leading-relaxed">
+            <p className="text-gray-600 text-2md leading-relaxed">
               <span className="block md:whitespace-nowrap">
                 Every journey tells a story. Explore the beautiful moments captured by our guests during their holidays, family vacations, honeymoon trips,
               </span>
@@ -205,12 +205,8 @@ export default function GuestPhotos() {
             </div>
           )}
 
-          {/* Showing count */}
-          {!loading && photos.length > 0 && (
-            <p className="text-center text-gray-400 text-sm mt-4">
-              Showing {photos.length} of {pagination.total} photos
-            </p>
-          )}
+
+        
         </div>
       </section>
 

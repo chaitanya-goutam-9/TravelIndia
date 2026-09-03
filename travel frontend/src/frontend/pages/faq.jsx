@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Minus } from 'lucide-react';
+import { Minus, Plus } from 'lucide-react';
 
 // 📦 FAQ Component
 const FAQSection = () => {
@@ -45,58 +45,63 @@ const FAQSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-10">
-          <h2 className="text-[2rem] font-bold text-[#1a2b48]">
-            Frequently Asked <span className="text-[#1EDAC6]">Questions</span>
-          </h2>
-          <p className="text-[#555555] text-base max-w-xl mx-auto mt-3 leading-relaxed">
-            Your questions matter — and we're here to make your India trip smooth, comfortable, and memorable.
-          </p>
-        </div>
-
-        {/* Content */}
-        <div className="flex flex-col lg:flex-row items-center gap-10">
-          {/* Image */}
-          <div className="w-full lg:w-1/2">
+    <section className="bg-white py-16 lg:py-20">
+      <div className="mx-auto max-w-[1400px] px-5 lg:px-8">
+        <div className="flex flex-col items-start gap-10 lg:flex-row lg:gap-14">
+          {/* Left: heading, description, and illustration */}
+          <div className="w-full lg:w-[46%]">
+            <div className="mb-10 lg:mb-12">
+              <h2 className="text-4xl font-extrabold leading-[0.98] text-[#111111] sm:text-5xl">
+                Frequently Asked
+                <span className="block text-[#1EDAC6]">Questions</span>
+              </h2>
+              <p className="mt-12 max-w-xl text-base leading-relaxed text-[#555555] sm:text-lg">
+                Your questions matter — and we're here to make your India trip
+                smooth, comfortable, and memorable.
+              </p>
+            </div>
             <img
               src="https://travelindiatourism.com/wp-content/uploads/2026/05/faq.png.webp"
               alt="FAQ Illustration"
-              className="w-full h-auto rounded-2xl shadow-lg"
+              className="h-auto w-[95%] object-contain"
               loading="lazy"
             />
           </div>
 
-          {/* FAQ Accordion */}
-          <div className="w-full lg:w-1/2">
-            <div className="border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
+          {/* Right: FAQ accordion */}
+          <div className="w-full lg:w-[54%] lg:pt-8">
+            <div className="overflow-hidden">
               {faqs.map((faq, i) => (
                 <div 
                   key={i} 
-                  className={`px-6 ${i < faqs.length - 1 ? "border-b border-gray-100" : ""}`}
+                  className={`${i < faqs.length - 1 ? "border-b border-gray-200" : ""}`}
                 >
                   <button
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="flex items-center justify-between w-full py-5 text-left gap-4 hover:bg-gray-50 transition-colors duration-200"
+                    className="flex w-full items-center gap-4 py-6 text-left transition-colors duration-200 hover:bg-gray-50"
                     aria-expanded={openFaq === i}
                   >
-                    <span className="font-bold text-[#1a2b48] text-[15px] leading-snug flex-1">
+                    {openFaq === i ? (
+                      <Minus size={22} className="flex-shrink-0 text-[#111111]" />
+                    ) : (
+                      <Plus size={22} className="flex-shrink-0 text-[#111111]" />
+                    )}
+                    <span className="flex-1 text-base font-semibold leading-snug text-[#1a2b48] sm:text-lg">
                       {faq.q}
                     </span>
-                    {openFaq === i ? (
-                      <Minus size={18} className="text-blue-500 flex-shrink-0" />
-                    ) : (
-                      <Plus size={18} className="text-blue-500 flex-shrink-0" />
-                    )}
                   </button>
-                  
-                  {openFaq === i && (
-                    <p className="text-gray-500 text-sm pb-5 leading-relaxed animate-fadeIn">
-                      {faq.a}
-                    </p>
-                  )}
+
+                  <div
+                    className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                      openFaq === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="pb-6 text-sm leading-relaxed text-gray-500">
+                        {faq.a}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
