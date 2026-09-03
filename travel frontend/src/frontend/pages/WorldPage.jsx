@@ -20,7 +20,7 @@ const WORLD_COUNTRIES = [
     slug: "singapore",
     image:
       "https://travelindiatourism.com/wp-content/uploads/2023/09/singapore-tour-1-900x600.jpg.webp",
-    keywords: ["singapore"],
+    keywords: ["singapore" ,"Singapore"],
     count: 1,
   },
   {
@@ -36,7 +36,7 @@ const WORLD_COUNTRIES = [
     slug: "malaysia",
     image:
       "https://travelindiatourism.com/wp-content/uploads/2023/09/Malaysia-tour.jpg.webp",
-    keywords: ["malaysia", "kuala lumpur"],
+    keywords: ["malaysia", "kuala lumpur","malayasia"],
     count: 2,
   },
   {
@@ -44,7 +44,7 @@ const WORLD_COUNTRIES = [
     slug: "indonesia",
     image:
       "https://travelindiatourism.com/wp-content/uploads/2023/10/Bali-indonesia-1-1-900x600.jpg.webp",
-    keywords: ["indonesia", "bali"],
+    keywords: ["indonesia", "bali" ,"indonesia (Bali)"],
     count: 2,
   },
   {
@@ -52,7 +52,7 @@ const WORLD_COUNTRIES = [
     slug: "sri-lanka",
     image:
       "https://travelindiatourism.com/wp-content/uploads/2023/09/Srilanka-tour-7-900x600.jpg.webp",
-    keywords: ["sri lanka", "colombo", "kandy"],
+    keywords: ["sri lanka", "colombo", "kandy","shri lanka"],
     count: 1,
   },
   {
@@ -68,7 +68,7 @@ const WORLD_COUNTRIES = [
     slug: "vietnam",
     image:
       "https://travelindiatourism.com/wp-content/uploads/2026/05/Skyline-Ho-Chi-Minh-City-Saigon-Vietnam.jpg.webp",
-    keywords: ["vietnam", "hanoi", "ho chi minh", "da nang"],
+    keywords: ["vietnam", "hanoi", "ho chi minh", "da nang", "Vietnam"],
     count: 1,
   },
   {
@@ -92,7 +92,7 @@ const WORLD_COUNTRIES = [
     slug: "italy",
     image:
       "https://travelindiatourism.com/wp-content/uploads/2026/06/Italy_one.jpg.webp",
-    keywords: ["italy", "rome", "venice", "florence"],
+    keywords: ["italy", "rome", "venice", "florence","itlay"],
     count: 1,
   },
   {
@@ -100,7 +100,7 @@ const WORLD_COUNTRIES = [
     slug: "london",
     image:
       "https://travelindiatourism.com/wp-content/uploads/2026/06/Tower-Bridge-London-England-UK.jpg.webp",
-    keywords: ["london", "uk", "united kingdom", "england"],
+    keywords: ["london", "uk", "united kingdom", "england" ,"landon (UK)","london Uk"],
     count: 1,
   },
 ];
@@ -123,6 +123,11 @@ const WORLD_CATEGORIES = [
   },
 ];
 
+const toSlug = (value = "") =>
+  value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+const compactKey = (value = "") => value.toLowerCase().replace(/[^a-z0-9]/g, "");
+
 /* ─────────────────────────────────────────────
    HERO SLIDER COMPONENT
 ───────────────────────────────────────────── */
@@ -132,7 +137,15 @@ function WorldHeroSlider() {
     {
       type: "video",
       src: "https://travelindiatourism.com/wp-content/uploads/2026/06/TIT-Paris-France.mp4",
+      title: "PARIS",
+      subtitle: "France",
     },
+    ...WORLD_COUNTRIES.map((country) => ({
+      type: "image",
+      src: country.image,
+      title: country.name.toUpperCase(),
+      subtitle: "Explore the world",
+    })),
   ];
 
   useEffect(() => {
@@ -162,7 +175,7 @@ function WorldHeroSlider() {
           ) : (
             <img
               src={slide.src}
-              alt="Hero Slide"
+              alt={`${slide.title} destination`}
               className="w-full h-full object-cover"
             />
           )}
@@ -172,10 +185,10 @@ function WorldHeroSlider() {
       <div className="absolute inset-0 z-20 bg-gradient-to-r from-white via-white/80 to-transparent flex items-center p-10 md:p-20 w-3/4 md:w-1/2">
         <div>
           <h1 className="text-4xl md:text-7xl font-serif font-bold text-[#1a2b48] leading-none tracking-tighter mb-2">
-            PARIS
+            {slides[currentSlide].title}
             <br />
             <span className="text-[#2b7294] font-signature italic font-normal text-6xl md:text-9xl -ml-2">
-              France
+              {slides[currentSlide].subtitle}
             </span>
           </h1>
         </div>
@@ -276,8 +289,62 @@ export default function WorldPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredCountries, setFilteredCountries] = useState(WORLD_COUNTRIES);
+  const [dynamicCountry, setDynamicCountry] = useState(null);
 
-  const activeCountry = WORLD_COUNTRIES.find((c) => c.slug === countrySlug);
+  const staticCountry = WORLD_COUNTRIES.find(
+    (country) =>
+      toSlug(country.slug) === toSlug(countrySlug) ||
+      country.keywords.some((keyword) =>
+        compactKey(countrySlug).includes(compactKey(keyword)),
+      ),
+  );
+  const activeCountry = staticCountry || dynamicCountry;
+
+  useEffect(() => {
+    if (!countrySlug || staticCountry) {
+      setDynamicCountry(null);
+      return;
+    }
+
+    const fetchWorldDestination = async () => {
+      try {
+        const base =
+          import.meta.env.VITE_API_BASE_URL ||
+          import.meta.env.VITE_API_URL ||
+          "";
+        const response = await axios.get(`${base}/api/destinations?region=World`);
+        const destination = (response.data.data || []).find(
+          (item) => toSlug(item.name) === countrySlug,
+        );
+        const hardcodedCountry = WORLD_COUNTRIES.find((country) =>
+          country.keywords.some((keyword) =>
+            compactKey(destination?.name).includes(compactKey(keyword)) ||
+            compactKey(countrySlug).includes(compactKey(keyword)),
+          ),
+        );
+
+        setDynamicCountry(
+          destination
+            ? {
+                name: destination.name,
+                slug: countrySlug,
+                image: hardcodedCountry?.image || destination.image,
+                keywords: [
+                  destination.name.toLowerCase(),
+                  ...(hardcodedCountry?.keywords || []),
+                ],
+                count: 1,
+              }
+            : null,
+        );
+      } catch (error) {
+        console.error("Failed to load world destination:", error);
+        setDynamicCountry(null);
+      }
+    };
+
+    fetchWorldDestination();
+  }, [countrySlug]);
 
   // Filter countries based on search
   useEffect(() => {
