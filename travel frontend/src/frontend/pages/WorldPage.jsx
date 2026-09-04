@@ -20,7 +20,7 @@ const WORLD_COUNTRIES = [
     slug: "singapore",
     image:
       "https://travelindiatourism.com/wp-content/uploads/2023/09/singapore-tour-1-900x600.jpg.webp",
-    keywords: ["singapore" ,"Singapore"],
+    keywords: ["singapore", "Singapore"],
     count: 1,
   },
   {
@@ -36,7 +36,7 @@ const WORLD_COUNTRIES = [
     slug: "malaysia",
     image:
       "https://travelindiatourism.com/wp-content/uploads/2023/09/Malaysia-tour.jpg.webp",
-    keywords: ["malaysia", "kuala lumpur","malayasia"],
+    keywords: ["malaysia", "kuala lumpur", "malayasia"],
     count: 2,
   },
   {
@@ -44,7 +44,7 @@ const WORLD_COUNTRIES = [
     slug: "indonesia",
     image:
       "https://travelindiatourism.com/wp-content/uploads/2023/10/Bali-indonesia-1-1-900x600.jpg.webp",
-    keywords: ["indonesia", "bali" ,"indonesia (Bali)"],
+    keywords: ["indonesia", "bali", "indonesia (Bali)"],
     count: 2,
   },
   {
@@ -52,7 +52,7 @@ const WORLD_COUNTRIES = [
     slug: "sri-lanka",
     image:
       "https://travelindiatourism.com/wp-content/uploads/2023/09/Srilanka-tour-7-900x600.jpg.webp",
-    keywords: ["sri lanka", "colombo", "kandy","shri lanka"],
+    keywords: ["sri lanka", "colombo", "kandy", "shri lanka"],
     count: 1,
   },
   {
@@ -92,7 +92,7 @@ const WORLD_COUNTRIES = [
     slug: "italy",
     image:
       "https://travelindiatourism.com/wp-content/uploads/2026/06/Italy_one.jpg.webp",
-    keywords: ["italy", "rome", "venice", "florence","itlay"],
+    keywords: ["italy", "rome", "venice", "florence", "itlay"],
     count: 1,
   },
   {
@@ -100,7 +100,14 @@ const WORLD_COUNTRIES = [
     slug: "london",
     image:
       "https://travelindiatourism.com/wp-content/uploads/2026/06/Tower-Bridge-London-England-UK.jpg.webp",
-    keywords: ["london", "uk", "united kingdom", "england" ,"landon (UK)","london Uk"],
+    keywords: [
+      "london",
+      "uk",
+      "united kingdom",
+      "england",
+      "landon (UK)",
+      "london Uk",
+    ],
     count: 1,
   },
 ];
@@ -124,9 +131,13 @@ const WORLD_CATEGORIES = [
 ];
 
 const toSlug = (value = "") =>
-  value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 
-const compactKey = (value = "") => value.toLowerCase().replace(/[^a-z0-9]/g, "");
+const compactKey = (value = "") =>
+  value.toLowerCase().replace(/[^a-z0-9]/g, "");
 
 /* ─────────────────────────────────────────────
    HERO SLIDER COMPONENT
@@ -299,6 +310,11 @@ export default function WorldPage() {
       ),
   );
   const activeCountry = staticCountry || dynamicCountry;
+  const selectedCountryImage =
+    activeCountry?.image ||
+    WORLD_COUNTRIES.find((country) =>
+      compactKey(countrySlug).includes(compactKey(country.slug)),
+    )?.image;
 
   useEffect(() => {
     if (!countrySlug || staticCountry) {
@@ -312,14 +328,17 @@ export default function WorldPage() {
           import.meta.env.VITE_API_BASE_URL ||
           import.meta.env.VITE_API_URL ||
           "";
-        const response = await axios.get(`${base}/api/destinations?region=World`);
+        const response = await axios.get(
+          `${base}/api/destinations?region=World`,
+        );
         const destination = (response.data.data || []).find(
           (item) => toSlug(item.name) === countrySlug,
         );
         const hardcodedCountry = WORLD_COUNTRIES.find((country) =>
-          country.keywords.some((keyword) =>
-            compactKey(destination?.name).includes(compactKey(keyword)) ||
-            compactKey(countrySlug).includes(compactKey(keyword)),
+          country.keywords.some(
+            (keyword) =>
+              compactKey(destination?.name).includes(compactKey(keyword)) ||
+              compactKey(countrySlug).includes(compactKey(keyword)),
           ),
         );
 
@@ -435,8 +454,8 @@ export default function WorldPage() {
       ) : (
         <div className="relative w-full h-[300px] md:h-[420px] overflow-hidden">
           <img
-            src={activeCountry?.image}
-            alt={activeCountry?.name}
+            src={selectedCountryImage}
+            alt={`${activeCountry?.name || countrySlug} destination`}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/40" />
@@ -486,30 +505,29 @@ export default function WorldPage() {
               </h2>
             </div>
 
-           {/* Search Bar */}
-<div className="max-w-[700px] mx-auto mb-8">
-  <div className="relative flex items-center h-[62px] rounded-full border border-[#5b82ff] bg-white shadow-[0_10px_30px_rgba(37,99,235,0.12)]">
+            {/* Search Bar */}
+            <div className="max-w-[700px] mx-auto mb-8">
+              <div className="relative flex items-center h-[62px] rounded-full border border-[#5b82ff] bg-white shadow-[0_10px_30px_rgba(37,99,235,0.12)]">
+                {/* Search Icon */}
+                <Search
+                  className="absolute left-7 text-gray-500"
+                  size={25}
+                  strokeWidth={2}
+                />
 
-    {/* Search Icon */}
-    <Search
-      className="absolute left-7 text-gray-500"
-      size={25}
-      strokeWidth={2}
-    />
+                {/* Input */}
+                <input
+                  type="text"
+                  placeholder="Search here..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full h-full pl-16 pr-[160px] rounded-full border-none outline-none text-[17px] text-gray-700 placeholder:text-gray-400 focus:ring-0"
+                />
 
-    {/* Input */}
-    <input
-      type="text"
-      placeholder="Search here..."
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      className="w-full h-full pl-16 pr-[160px] rounded-full border-none outline-none text-[17px] text-gray-700 placeholder:text-gray-400 focus:ring-0"
-    />
-
-    {/* Search Button */}
-    <button
-      type="button"
-      className="absolute right-2 top-1/2 -translate-y-1/2
+                {/* Search Button */}
+                <button
+                  type="button"
+                  className="absolute right-2 top-1/2 -translate-y-1/2
                  h-[50px] w-[140px]
                  rounded-full
                  bg-[#064BFF]
@@ -519,12 +537,11 @@ export default function WorldPage() {
                  font-bold
                  transition-all duration-300
                  shadow-md"
-    >
-      Search
-    </button>
-
-  </div>
-</div>
+                >
+                  Search
+                </button>
+              </div>
+            </div>
 
             {/* Description text */}
             <p className="text-center text-gray-600 text-md max-w-2xl mx-auto mb-8">
@@ -630,15 +647,15 @@ export default function WorldPage() {
         {/* VIEW 2: COUNTRY SPECIFIC PAGE */}
         {countrySlug && (
           <>
-         <div className="relative mb-8 flex items-center justify-center">
-  <h3 className="text-4xl font-semibold text-[#1a2b48] text-center italic font-serif ">
-    {activeCountry?.name || countrySlug} Tour Packages
-  </h3>
+            <div className="relative mb-8 flex items-center justify-center">
+              <h3 className="text-4xl font-semibold text-[#1a2b48] text-center italic font-serif ">
+                {activeCountry?.name || countrySlug} Tour Packages
+              </h3>
 
-  <span className="absolute right-0 text-sm text-gray-500 font-medium">
-    {countryTours.length} packages found chaitanya
-  </span>
-</div>
+              <span className="absolute right-0 text-sm text-gray-500 font-medium">
+                {countryTours.length} packages found 
+              </span>
+            </div>
 
             {loading ? (
               <div className="py-20 flex justify-center">

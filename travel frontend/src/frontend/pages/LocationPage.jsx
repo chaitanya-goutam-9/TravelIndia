@@ -105,14 +105,14 @@ const INDIA_STATES = [
     name: 'Madhya Pradesh',
     slug: 'madhya-pradesh',
     count: 10,
-    image: 'https://travelindiatourism.com/wp-content/uploads/2022/04/Kolkata-Tour-2.jpg.webp',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2026/06/Sas-Bahu-Temple.jpg',
     keywords: ['madhya pradesh', 'khajuraho', 'bhopal', 'gwalior', 'indore'],
   },
   {
     name: 'Kerala',
     slug: 'kerala',
     count: 5,
-    image: 'https://travelindiatourism.com/wp-content/uploads/2022/04/Kerala-Honeymoon-tour.jpg.webp',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2023/11/Cochin-Alleppey-Varkala-Kovalam-Tour-2.jpg.webp',
     keywords: ['kerala', 'munnar', 'alleppey', 'kochi', 'wayanad', 'thekkady'],
   },
   {
@@ -126,7 +126,7 @@ const INDIA_STATES = [
     name: 'Tamil Nadu',
     slug: 'tamil-nadu',
     count: 5,
-    image: 'https://travelindiatourism.com/wp-content/uploads/2022/04/Kerala-Honeymoon-tour.jpg.webp',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2022/04/Madurai-Tamilnadu-Tour.jpg.webp',
     keywords: ['tamil nadu', 'chennai', 'ooty', 'kodaikanal', 'madurai'],
   },
   {
@@ -169,12 +169,11 @@ const WORLD_TOUR_CATEGORIES = [
 /* ─────────────────────────────────────────────
    STATE CARD — shown on /location/india
 ───────────────────────────────────────────── */
-function StateCard({ state }) {
+function StateCard({ state, className = '' }) {
   return (
     <Link
       to={`/location/${state.slug}`}
-      className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300"
-      style={{ aspectRatio: '16/9' }}
+      className={`group relative min-h-[220px] overflow-hidden rounded-2xl shadow-md transition-all duration-300 hover:shadow-2xl ${className}`}
     >
       <img
         src={state.image}
@@ -554,9 +553,15 @@ export default function LocationPage() {
             ) : (
               <>
                 {/* State Cards Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-                  {filteredStates.map((state) => (
-                    <StateCard key={state.slug} state={state} />
+                <div className="mb-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:auto-rows-[135px]">
+                  {filteredStates.map((state, index) => (
+                    <StateCard
+                      key={state.slug}
+                      state={state}
+                      className={`lg:row-span-2 ${
+                        index === 0 || index === 5 ? 'lg:col-span-2' : ''
+                      }`}
+                    />
                   ))}
                 </div>
 

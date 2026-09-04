@@ -173,9 +173,7 @@ export default function DestinationDetails() {
             <h1 className="text-5xl md:text-7xl font-bold mb-4 leading-tight drop-shadow-lg">
               {dest.name} Tour <br className="hidden md:block" /> Package
             </h1>
-            <p className="text-yellow-400 text-xl md:text-2xl font-bold drop-shadow-md">
-              Up To 20% Off Best Tour Deal For 2026
-            </p>
+          
           </div>
 
           {/* Right Form Card */}
