@@ -43,42 +43,45 @@ export default function ContactUs() {
     <div className="w-full min-h-screen bg-white font-sans mb-18">
       <div className="max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-2">
         {/* LEFT: Map */}
-        <div className="relative h-[420px] lg:h-auto lg:min-h-[820px]">
-          <iframe
-            title="Travel India Tourism Pvt Location"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7331.819773274148!2d77.4123!3d23.2599!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDEzJzQ5LjQiTiA3N8KwMjMnMzkuNCJF!5e0!3m2!1sen!2sin!4v1690000000000"
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
-            allowFullScreen=""
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="w-full h-full absolute inset-0"
-          />
+       <div className="relative h-[420px] lg:h-auto lg:min-h-[820px]">
+  <iframe
+    title="Travel India Tourism Pvt Location"
+    src="https://www.google.com/maps?q=1sr+Floor,+Guru+Bakshish+Arced,+Danapani+Rd,+opposite+Priyadarshini+Adhishthan,+Bawadiya+Kalan,+Pallavi+Nagar,+Bhopal,+Madhya+Pradesh+462039,+India&output=embed"
+    width="100%"
+    height="100%"
+    style={{ border: 0 }}
+    allowFullScreen
+    loading="lazy"
+    referrerPolicy="no-referrer-when-downgrade"
+    className="w-full h-full absolute inset-0"
+  />
 
-          {/* Location info overlay card */}
-          <div className="absolute top-4 left-4 right-4 md:right-auto md:w-[320px] bg-white rounded-lg shadow-xl p-4 z-10">
-            <p className="text-gray-700 text-sm leading-relaxed">
-              1sr Floor, Guru Bakshish Arced, Danapani Rd, opposite Priyadarshini Adhishthan,
-              Bawadiya Kalan, Pallavi Nagar, Bhopal, Madhya Pradesh 462039, India
-            </p>
-            <div className="flex items-center gap-1.5 mt-3">
-              <span className="text-orange-500 font-bold text-sm">4.7</span>
-              <span className="text-orange-500 text-sm">★</span>
-              <a href="#" className="text-blue-600 text-sm hover:underline">(112)</a>
-              <span className="text-gray-400 text-xs ml-1">ⓘ</span>
-            </div>
-          </div>
+  {/* Location info overlay card */}
+  <div className="absolute top-4 left-4 right-4 md:right-auto md:w-[320px] bg-white rounded-lg shadow-xl p-4 z-10">
+    <p className="text-gray-700 text-sm leading-relaxed">
+      1sr Floor, Guru Bakshish Arced, Danapani Rd, opposite Priyadarshini
+      Adhishthan, Bawadiya Kalan, Pallavi Nagar, Bhopal, Madhya Pradesh
+      462039, India
+    </p>
 
-        </div>
+    <div className="flex items-center gap-1.5 mt-3">
+      <span className="text-orange-500 font-bold text-sm">4.7</span>
+      <span className="text-orange-500 text-sm">★</span>
+      <a href="#" className="text-blue-600 text-sm hover:underline">
+        (112)
+      </a>
+      <span className="text-gray-400 text-xs ml-1">ⓘ</span>
+    </div>
+  </div>
+</div>
 
         {/* RIGHT: Info + Form */}
         <div className="px-6 py-10 md:px-14 md:py-14">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#1a2b48] text-center mb-8">
+          <h1 className="text-3xl md:text-3xl font-serif font-semibold text-[#1a2b48] text-center mb-8">
             Contact Information
           </h1>
 
-          <div className="space-y-0 mb-10">
+          <div className="space-y-0 mb-10 ">
             <InfoRow icon={<MapPin size={18} />}>
               <span className="font-bold text-[#1a2b48]">Branch Office</span>: 1sr Floor, Guru
               Bakshish Arced, Danapani Rd, opposite Priyadarshini Adhishthan, Bawadiya Kalan,

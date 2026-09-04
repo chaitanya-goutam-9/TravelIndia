@@ -5,6 +5,7 @@ import Footer from './Footer';
 import GroupTour from '../pages/grouptour';
 import FloatingWhatsApp from './FloatingWhatsApp';
 import GoogleReviews from './GoogleReviews';
+import NewsletterSection from '../pages/NewsletterSection';
 
 export default function Layout() {
   const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
@@ -15,6 +16,7 @@ export default function Layout() {
       <main className="flex-grow">
         <Outlet />
       </main>
+      <NewsletterSection />
       <GoogleReviews />
       <Footer />
       <FloatingWhatsApp />

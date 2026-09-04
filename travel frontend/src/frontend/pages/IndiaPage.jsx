@@ -15,11 +15,13 @@ function FlipWords() {
   useEffect(() => {
     const interval = setInterval(() => {
       setAnimate(true);
+
       setTimeout(() => {
         setIndex((prev) => (prev + 1) % FLIP_WORDS.length);
         setAnimate(false);
-      }, 400);
-    }, 2000);
+      }, 800);
+    }, 5000);
+
     return () => clearInterval(interval);
   }, []);
 
@@ -27,31 +29,57 @@ function FlipWords() {
     <>
       <style>{`
         @keyframes slideUp {
-          0%   { transform: translateY(100%); opacity: 0; }
-          100% { transform: translateY(0);    opacity: 1; }
+          0% {
+            transform: translateY(100%);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
         }
+
         @keyframes slideOut {
-          0%   { transform: translateY(0);     opacity: 1; }
-          100% { transform: translateY(-100%); opacity: 0; }
+          0% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(-100%);
+            opacity: 0;
+          }
         }
-        .flip-in  { animation: slideUp  0.4s ease forwards; }
-        .flip-out { animation: slideOut 0.4s ease forwards; }
-        
+
+        .flip-in {
+          animation: slideUp 0.8s ease-in-out forwards;
+        }
+
+        .flip-out {
+          animation: slideOut 0.8s ease-in-out forwards;
+        }
+
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
         }
+
         .hide-scrollbar {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
+
       <span
         className="inline-block overflow-hidden align-bottom"
-        style={{ minWidth: '6rem', verticalAlign: 'bottom' }}
+        style={{
+          minWidth: "6rem",
+          verticalAlign: "bottom",
+        }}
       >
         <span
           key={index}
-          className={`inline-block text-[#d32f2f] font-serif font-bold ${animate ? 'flip-out' : 'flip-in'}`}
+          className={`inline-block text-[#d32f2f] font-serif font-bold ${
+            animate ? "flip-out" : "flip-in"
+          }`}
         >
           {FLIP_WORDS[index]}
         </span>
@@ -59,7 +87,6 @@ function FlipWords() {
     </>
   );
 }
-
 const TOUR_CATEGORIES = [
   { id: 'leisure', title: 'Leisure', desc: 'Relax, unwind, and enjoy unforgettable holiday experiences with handpicked leisure destinations perfect for families, couples, and friends.' },
   { id: 'beaches', title: 'Beaches', desc: 'Discover serene beaches, crystal-clear waters, and tropical vibes for the perfect seaside escape and relaxing coastal vacation.' },
@@ -140,7 +167,7 @@ export const INDIA_STATES = [
     name: 'Maharashtra',
     slug: 'maharashtra',
     count: 1,
-    image: 'https://travelindiatourism.com/wp-content/uploads/2022/04/Jaipur-ranthmabhore-tour-Rajasthan-1.jpg.webp',
+    image: 'https://travelindiatourism.com/wp-content/uploads/2022/04/nashik-shirdi-tour-maharashtra-2.jpg.webp',
     keywords: ['maharashtra', 'mumbai', 'pune', 'nashik', 'aurangabad'],
   },
 ];
@@ -273,12 +300,13 @@ function CategoryTourCard({ tour }) {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
         />
         {/* Round badge/logo overlay */}
-        <div className="absolute bottom-2 right-2 w-10 h-10 bg-blue-500 rounded-full border-2 border-white shadow flex items-center justify-center overflow-hidden">
-          <div className="text-[7px] text-white font-bold leading-tight text-center bg-[#154c86] w-full h-full flex flex-col justify-center items-center">
-            <span>TRAVEL</span>
-            <span>INDIA</span>
-          </div>
-        </div>
+       <div className="absolute bottom-2 right-2 w-10 h-10 rounded-full border-2 border-white shadow overflow-hidden bg-white">
+  <img
+    src="https://travelindiatourism.com/wp-content/uploads/2023/08/LOGO-TRAVEL-IN.png.webp"
+    alt="Travel India Tourism"
+    className="w-full h-full object-contain"
+  />
+</div>
       </div>
       
       <div className="p-4 flex flex-col flex-1">
@@ -421,6 +449,48 @@ export default function LocationPage() {
     fetchData();
   }, [isIndia, activeState]);
 
+  // Auto-scroll carousels
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // India categories
+      TOUR_CATEGORIES.forEach(cat => {
+        const carousel = document.getElementById(`scroll-${cat.id}`);
+        if (carousel) {
+          const card = carousel.firstElementChild;
+          if (card) {
+            const cardWidth = card.getBoundingClientRect().width;
+            const gap = 20;
+            const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+            if (carousel.scrollLeft >= maxScrollLeft - 10) {
+              carousel.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+              carousel.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+            }
+          }
+        }
+      });
+      // World categories
+      WORLD_TOUR_CATEGORIES.forEach(cat => {
+        const carousel = document.getElementById(`scroll-world-${cat.id}`);
+        if (carousel) {
+          const card = carousel.firstElementChild;
+          if (card) {
+            const cardWidth = card.getBoundingClientRect().width;
+            const gap = 24;
+            const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+            if (carousel.scrollLeft >= maxScrollLeft - 10) {
+              carousel.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+              carousel.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+            }
+          }
+        }
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   // When a stateSlug is present → filter tours by keywords
   const stateTours = activeState
     ? allTours.filter((t) => {
@@ -480,7 +550,7 @@ export default function LocationPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#7a3520]/85 via-black/25 to-transparent" />
           <div className="absolute bottom-6 md:bottom-10 left-0 right-0 text-center px-4">
             <h1 className="text-white text-2xl md:text-5xl drop-shadow-md font-serif">
-              <span className="italic font-semibold">{heroTitle}</span>
+              <span className="italic font-medium">{heroTitle}</span>
               {' — '}
               <span>{heroSub}</span>
             </h1>
@@ -507,7 +577,7 @@ export default function LocationPage() {
         {/* Heading + Search */}
         <div className="text-center mb-10">
           {isIndia ? (
-            <h2 className="text-3xl md:text-[2.6rem] mb-6 flex items-end justify-center gap-2 flex-wrap">
+            <h2 className="text-3xl md:text-[2.6rem] mb-6 flex items-end justify-center gap-4 flex-wrap">
               <span className="text-[#1a2b48] font-serif font-bold">Dekho Apna </span>
               <FlipWords />
             </h2>
@@ -581,10 +651,10 @@ export default function LocationPage() {
                           <div key={cat.id} id={`cat-${cat.id}`} className="scroll-mt-32 relative">
                             {/* Header Section matching screenshot */}
                             <div className="text-center mb-6 relative px-12">
-                              <h3 className="text-[2.5rem] font-serif italic text-[#1a2b48] mb-2 leading-tight">
+                              <h3 className="text-[2.8rem] font-serif italic text-[#0C175E] mb-2 leading-tightr font-[530]">
                                 {cat.title}
                               </h3>
-                              <p className="text-gray-500 text-sm max-w-4xl mx-auto leading-relaxed">
+                              <p className="text-gray-600 text-3sm max-w-4xl mx-auto leading-relaxed">
                                 {cat.desc}
                               </p>
 

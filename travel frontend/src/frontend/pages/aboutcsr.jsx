@@ -23,14 +23,14 @@ export default function AboutCsr() {
   }, []);
  
   return (
-    <div className="w-full bg-[#f8fcfd] min-h-screen">
+    <div className="w-full bg-white min-h-screen">
       {/* Main Content Section */}
-      <section className="pt-16 md:pt-24 pb-12 md:pb-16 bg-gradient-to-b from-[#eef6fa] to-[#ffffff]">
+      <section className="pt-12 md:pt-15 pb-12 md:pb-16 bg-white">
         <div className="mx-auto max-w-[1800px] px-5 lg:px-8">
          
           {/* Centered Heading */}
           <div className="mx-auto mb-8 w-full max-w-[1700px] px-5 text-center">
-            <h1 className="text-3xl font-bold leading-[1.08] text-[#0A1B33] md:text-[44px]" style={{ fontFamily: "'Playfair Display', Georgia, serif", wordWrap: "break-word" }}>
+            <h1 className="text-2.5xl font-semibold leading-[1.08] text-[#00083A] md:text-[44px]" style={{ fontFamily: "'Playfair Display', Georgia, serif", wordWrap: "break-word" }}>
               Travel India Tourism Pvt. Ltd. CSR Initiative:
               <br />
               Empowering Communities Through Compassion and Education
@@ -39,8 +39,10 @@ export default function AboutCsr() {
  
           {/* 2-Column Content */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-[1250px] mx-auto">
+            
             {/* Left Side Text */}
             <div className="space-y-6 text-[#5e6d77] text-[15px] leading-[1.8]" style={{ fontFamily: "'Poppins', sans-serif" }}>
+              
               <p>
                 As part of its ongoing commitment to social responsibility, Travel India Tourism Pvt. Ltd., under the leadership of its Founder, Mr. Mahendra Pratap Singh, organized a meaningful Corporate Social Responsibility (CSR) initiative in his native village.
               </p>

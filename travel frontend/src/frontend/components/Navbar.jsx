@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Menu, Search, User, ShoppingBag, ChevronDown } from 'lucide-react';
+import { Menu, Search, User, ShoppingBag, ChevronDown, X } from 'lucide-react';
 import axios from 'axios';
 import { INDIA_STATES } from '../data/indianStates';
 
@@ -97,7 +97,7 @@ export default function Navbar({ onGroupEnquiry }) {
                       return (
                         <div key={zone}>
                           <h4 className="mb-4 border-b border-gray-300 pb-2 text-[15px] font-extrabold uppercase tracking-wide text-[#111827]">{zone}</h4>
-                          <ul className="space-y-2 text-[17px] font-medium text-gray-600">
+                          <ul className="space-y-2 text-[17px] font-medium text-gray-650">
                             {dests.map(d => (
                               <li key={d._id}><Link to={`/location/${d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="block rounded-md px-1 py-1.5 transition-colors hover:bg-blue-50 hover:text-blue-600">{d.name}</Link></li>
                             ))}
@@ -125,12 +125,12 @@ export default function Navbar({ onGroupEnquiry }) {
                 {/* Left Side - Destination Links */}
                 <div className="flex-1">
                   <div className="grid grid-cols-2 gap-x-10 gap-y-3">
-                    <ul className="space-y-2 font-medium text-[17px] text-gray-600">
+                    <ul className="space-y-2 font-medium text-[17px] text-gray-650">
                       {worldDestinations.slice(0, Math.ceil(worldDestinations.length / 2)).map(d => (
                          <li key={d._id}><Link to={`/location/world/${destinationSlug(d.name)}`} className="block rounded-md px-1 py-1.5 transition-colors hover:bg-blue-50 hover:text-blue-600">{d.name}</Link></li>
                       ))}
                     </ul>
-                    <ul className="space-y-2 font-medium text-[17px] text-gray-600">
+                    <ul className="space-y-2 font-medium text-[17px] text-gray-650">
                       {worldDestinations.slice(Math.ceil(worldDestinations.length / 2)).map(d => (
                          <li key={d._id}><Link to={`/location/world/${destinationSlug(d.name)}`} className="block rounded-md px-1 py-1.5 transition-colors hover:bg-blue-50 hover:text-blue-600">{d.name}</Link></li>
                       ))}
@@ -145,9 +145,9 @@ export default function Navbar({ onGroupEnquiry }) {
           <Link to="/visa-services" className="hover:text-blue-600 px-3 xl:px-5 py-7 transition-colors whitespace-nowrap">Visa Services</Link>
           <Link to="/contact" className="hover:text-blue-600 px-3 xl:px-5 py-7 transition-colors">Contact</Link>
           <div className="group relative">
-            <Link to="/about-us" className="text-black hover:text-blue-600 flex items-center gap-1 px-3 xl:px-5 py-7 transition-colors">About Us <ChevronDown size={14} strokeWidth={1.75} className="text-gray-400 ml-1" /></Link>
+            <Link to="/about-us" className="text-gray-650 hover:text-blue-600 flex items-center gap-1 px-3 xl:px-5 py-7 transition-colors">About Us <ChevronDown size={14} strokeWidth={1.75} className="text-gray-400 ml-1" /></Link>
             <div className="absolute hidden group-hover:block bg-white shadow-xl border border-gray-100 py-4 w-56 left-0 mt-0 z-50 rounded-xl">
-              <ul className="text-[15px] font-medium text-gray-700">
+              <ul className="text-[17px] font-medium text-gray-700">
                 <li><Link to="/about-us" className="hover:bg-gray-50 hover:text-blue-600 block px-6 py-3 transition-colors">About Us</Link></li>
                 <li><Link to="/csr-initiative" className="hover:bg-gray-50 hover:text-blue-600 block px-6 py-3 transition-colors">CSR Initiative</Link></li>
                 <li><Link to="/guest-photos" className="hover:bg-gray-50 hover:text-blue-600 block px-6 py-3 transition-colors">Guest Photos</Link></li>

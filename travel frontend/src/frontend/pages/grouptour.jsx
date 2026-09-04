@@ -44,7 +44,7 @@ export default function CustomizeTrip({ onClose }) {
   if (!isOpen) return null;
 
   const inputStyle =
-    "w-full min-w-0 px-4 py-3.5 rounded-md bg-white border border-gray-300 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent";
+    "w-full min-w-0 px-4 py-3.5 rounded-md bg-white border border-gray-300 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent";
 
   return (
     <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center overflow-y-auto bg-black/60 p-3 sm:p-4">

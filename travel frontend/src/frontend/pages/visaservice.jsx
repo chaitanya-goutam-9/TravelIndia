@@ -172,19 +172,20 @@ export default function VisaServices() {
       {/* Hero / Banner */}
 
       {/* Upcoming Visa Appointment Date */}
-      <section className="py-10 bg-white">
+      <section className="py-14 bg-white">
         <div className="max-w-[1400px] mx-auto px-10 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-[2rem] font-bold text-[#1a2b48] mb-4 leading-tight">
-              <span className="italic font-serif font-semibold">Upcoming</span>{" "}
-              Visa Appointment Date
-            </h2>
-            <p className="text-gray-600 text-sm max-w-3xl mx-auto leading-relaxed whitespace-nowrap">
-              We are delighted to inform you of the upcoming visa appointment dates for this{" "}
-              <span className="text-red-500 font-bold">(-)</span>{" "}
-              month, specifically for the United Kingdom, France, and Switzerland.
-            </p>
-          </div>
+       <div className="text-center mb-12">
+  <h2 className="text-[2.2rem] font-bold text-[#00083D] mb-4 leading-tight">
+    <span className="italic font-serif font-semibold">Upcoming</span>{" "}
+    Visa Appointment Date
+  </h2>
+
+  <p className="text-gray-650 text-md leading-relaxed whitespace-nowrap text-center">
+    We are delighted to inform you of the upcoming visa appointment dates for this{" "}
+    <span className="text-red-500 font-bold">(-)</span>{" "}
+    month, specifically for the United Kingdom, France, and Switzerland.
+  </p>
+</div>
 
           {error && (
             <div className="text-center text-red-500 mb-8">
@@ -218,13 +219,13 @@ export default function VisaServices() {
       {/* Contact Section */}
       <section className="bg-white py-12 sm:py-16">
         <div className="mx-auto w-full max-w-[1200px] px-5 lg:px-8">
-          <h2 className="mb-8 text-center font-serif text-4xl font-bold text-[#0a1b33] sm:mb-10 sm:text-5xl">
+          <h2 className="mb-8 text-center font-serif text-3xl font-medium text-[#00083D] sm:mb-10 sm:text-5xl">
             Contact Us
           </h2>
           <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-16">
             {/* Left Side - Contact Form */}
             <div className="rounded-3xl bg-white p-6 shadow-xl sm:p-8">
-              <h3 className="mb-6 text-2xl font-bold text-[#0a1b33]">Send a message</h3>
+              <h3 className="mb-6 text-2xl font-medium text-gray-600">Send a message</h3>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -281,7 +282,7 @@ export default function VisaServices() {
                   type="submit"
                   className="mt-2 flex items-center justify-center gap-2 rounded-full bg-[#101d70] px-8 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#0a1b33]"
                 >
-                  Send Message <Send size={18} />
+                  Submit <Send size={15} />
                 </button>
               </form>
             </div>

@@ -49,9 +49,9 @@ const FAQSection = () => {
       <div className="mx-auto max-w-[1400px] px-5 lg:px-8">
         <div className="flex flex-col items-start gap-10 lg:flex-row lg:gap-14">
           {/* Left: heading, description, and illustration */}
-          <div className="w-full lg:w-[46%]">
+          <div className="w-full lg:w-[44%]">
             <div className="mb-10 lg:mb-12">
-              <h2 className="text-4xl font-extrabold leading-[0.98] text-[#111111] sm:text-5xl">
+              <h2 className="text-4xl font-bold leading-[0.98] text-[#111111] sm:text-5xl">
                 Frequently Asked
                 <span className="block text-[#1EDAC6]">Questions</span>
               </h2>
@@ -63,13 +63,13 @@ const FAQSection = () => {
             <img
               src="https://travelindiatourism.com/wp-content/uploads/2026/05/faq.png.webp"
               alt="FAQ Illustration"
-              className="h-auto w-[95%] object-contain"
+              className="h-auto w-[90%] object-contain"
               loading="lazy"
             />
           </div>
 
           {/* Right: FAQ accordion */}
-          <div className="w-full lg:w-[54%] lg:pt-8">
+          <div className="w-full lg:w-[54%] lg:pt-8 px-12">
             <div className="overflow-hidden">
               {faqs.map((faq, i) => (
                 <div 
@@ -78,7 +78,7 @@ const FAQSection = () => {
                 >
                   <button
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="flex w-full items-center gap-4 py-6 text-left transition-colors duration-200 hover:bg-gray-50"
+                    className="flex w-full items-center gap-8 py-6 text-left transition-colors duration-200 hover:bg-gray-50"
                     aria-expanded={openFaq === i}
                   >
                     {openFaq === i ? (

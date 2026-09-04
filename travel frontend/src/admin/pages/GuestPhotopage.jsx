@@ -310,7 +310,7 @@ await axios.patch(`${API_URL}/api/guest-photos/${editingPhoto._id}`, {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 m-0">Guest Photos</h1>
+          <h1 className="text-5xl font-bold text-slate-800 m-0">Guest Photos</h1>
           <p className="text-sm text-slate-400 mt-0.5">
             Manage guest photos from tours and experiences
           </p>

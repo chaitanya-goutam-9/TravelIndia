@@ -202,10 +202,10 @@ export default function AboutUs() {
         <div className="max-w-[1350px] mx-auto px-5 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="bg-white rounded-3xl p-8 shadow-sm border border-black-100">
-              <h3 className="text-2xl md:text-3xl font-bold text-[#1a2b48] mb-4 text-center">
+              <h3 className="text-2xl md:text-5xl font-semibold text-black mb-4 text-center">
                 Our Vision
               </h3>
-              <p className="text-gray-600 text-md leading-relaxed">
+              <p className="text-gray-600 text-2md leading-relaxed">
                 We look beyond the horizon to anticipate change. We are
                 passionate about shaping the next generation of business travel
                 by being the most trusted and respected Travel Agency & Tour
@@ -213,10 +213,10 @@ export default function AboutUs() {
               </p>
             </div>
             <div className="bg-white rounded-3xl p-8 shadow-sm border border-black-100">
-              <h3 className="text-2xl md:text-3xl font-bold text-[#1a2b48] mb-4 text-center">
+              <h3 className="text-2xl md:text-5xl font-semibold text-black mb-4 text-center">
                 Our Mission
               </h3>
-              <p className="text-gray-600 text-md leading-relaxed">
+              <p className="text-gray-600 text-2md leading-relaxed">
                 To serve our clients with enhanced travel experience by
                 providing quality service that address their travel needs
                 through the most efficient arrangements so that customer
@@ -232,64 +232,64 @@ export default function AboutUs() {
       <section className="bg-white py-14 sm:py-16">
         <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
           <div className="mb-8 text-center sm:mb-10">
-            <h2 className="mb-3 text-[2rem] font-bold text-[#0a1b33] sm:text-[2.2rem] italic font-serif">
-              Our Services
+            <h2 className="mb-3 text-[1.5rem] font-medium text-[#000733] sm:text-[2rem] italic font-serif">
+              Our <span>Services</span> 
             </h2>
           </div>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6 ">
             <a
               href="/location/india"
-              className="about-services-card group flex min-h-[255px] flex-col items-center justify-between border border-[#d7b16b] bg-[#f8f8f8] px-4 py-10 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              className="about-services-card group flex min-h-[250px] flex-col items-center justify-between border border-[#d7b16b] bg-[#f8f8f8] px-4 py-10 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
               style={{ animationDelay: "0ms" }}
             >
               <img
                 src="https://travelindiatourism.com/wp-content/uploads/2026/05/Stylized-gold-map-of-India.png.webp"
                 alt="India Tour"
-                className="h-35 w-35 object-contain transition-transform group-hover:scale-110"
+                className="h-35 w-35 object-contain transition-transform group-hover:scale-150"
               />
               <h3 className="text-base font-bold text-[#0a1b33]">India Tour</h3>
             </a>
             <a
               href="/location/world"
-              className="about-services-card group flex min-h-[255px] flex-col items-center justify-between border border-[#d7b16b] bg-[#f8f8f8] px-4 py-10 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              className="about-services-card group flex min-h-[250px] flex-col items-center justify-between border border-[#d7b16b] bg-[#f8f8f8] px-4 py-10 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
               style={{ animationDelay: "120ms" }}
             >
               <img
                 src="https://travelindiatourism.com/wp-content/uploads/2026/05/Gold-Earth-and-airplane-icon.png.webp"
                 alt="International Tour"
-                className="h-35 w-35 object-contain transition-transform group-hover:scale-110"
+                className="h-35 w-35 object-contain transition-transform group-hover:scale-150"
               />
               <h3 className="text-base font-bold text-[#0a1b33]">
                 International Tour
               </h3>
             </a>
-            <div className="about-services-card group flex min-h-[255px] flex-col items-center justify-between border border-[#d7b16b] bg-[#f8f8f8] px-4 py-10 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg" style={{ animationDelay: "240ms" }}>
+            <div className="about-services-card group flex min-h-[250px] flex-col items-center justify-between border border-[#d7b16b] bg-[#f8f8f8] px-4 py-10 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg" style={{ animationDelay: "240ms" }}>
               <img
                 src="https://travelindiatourism.com/wp-content/uploads/2026/05/Gold-airplane-ticket-icon-on-gray-checkered-background.png.webp"
                 alt="Air Ticket"
-                className="h-35 w-35 object-contain transition-transform group-hover:scale-110"
+                className="h-35 w-35 object-contain transition-transform group-hover:scale-150"
               />
               <h3 className="text-base font-bold text-[#0a1b33]">Air Ticket</h3>
             </div>
             <a
               href="/visa-services"
-              className="about-services-card group flex min-h-[255px] flex-col items-center justify-between border border-[#d7b16b] bg-[#f8f8f8] px-4 py-10 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              className="about-services-card group flex min-h-[250px] flex-col items-center justify-between border border-[#d7b16b] bg-[#f8f8f8] px-4 py-10 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
               style={{ animationDelay: "360ms" }}
             >
               <img
                 src="https://travelindiatourism.com/wp-content/uploads/2026/05/Golden-passport-and-ID-card-icons.png.webp"
                 alt="Visa Services"
-                className="h-35 w-35 object-contain transition-transform group-hover:scale-110"
+                className="h-35 w-35 object-contain transition-transform group-hover:scale-150"
               />
               <h3 className="text-base font-bold text-[#0a1b33]">
                 Visa Services
               </h3>
             </a>
-            <div className="about-services-card group flex min-h-[255px] flex-col items-center justify-between border border-[#d7b16b] bg-[#f8f8f8] px-4 py-10 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg" style={{ animationDelay: "480ms" }}>
+            <div className="about-services-card group flex min-h-[250px] flex-col items-center justify-between border border-[#d7b16b] bg-[#f8f8f8] px-4 py-10 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg" style={{ animationDelay: "480ms" }}>
               <img
                 src="https://travelindiatourism.com/wp-content/uploads/2026/05/Golden-moon-with-floating-hearts.png.webp"
                 alt="Honeymoon Package"
-                className="h-35 w-35 object-contain transition-transform group-hover:scale-110"
+                className="h-35 w-35 object-contain transition-transform group-hover:scale-150"
               />
               <h3 className="text-base font-bold text-[#0a1b33]">
                 Honeymoon Package
@@ -303,13 +303,13 @@ export default function AboutUs() {
       <section className="py-16 bg-[#f7f8fa]">
         <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-[2rem] font-bold text-[#1a2b48] mb-3 italic font-serif">
+            <h2 className="text-[2.3rem] font-semibold text-[#1a2b48] mb-3 italic font-serif">
               Our Leadership Team
             
             </h2>
           
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
             {leadership.map((member, i) => (
               <div
                 key={i}
@@ -319,7 +319,7 @@ export default function AboutUs() {
                     : ""
                 }`}
               >
-                <div className="h-[320px] overflow-hidden bg-gray-50">
+                <div className="h-[340px] overflow-hidden bg-gray-50 p-5">
                   <img
                     src={member.image}
                     alt={member.name}
@@ -394,28 +394,28 @@ export default function AboutUs() {
 
 
         {/* Team Photo Section */}
-      <section className="py-0 bg-white">
+      <section className="py-8 bg-white">
         <p className="text-gray-600 text-1xl md:text-2xl font- text-center px-4 mb-4">
           life at Travel India Tourism
         </p>
-        <h3 className="text-gray-800 text-3xl md:text-4xl font-bold text-center px-4 mb-5">
+        <h3 className="text-[#00083D] text-3xl md:text-4xl font-bold text-center px-4 mb-5">
           The Travel India Tourism family!
         </h3>
         <div className="relative h-[600px]">
           <img
             src="https://travelindiatourism.com/wp-content/uploads/2026/06/TIT-Teams-one.jpeg"
             alt="Travel India Tourism Family"
-            className="mx-auto h-[600px] w-[90%] object-cover"
+            className="mx-auto h-[500px] w-[80%] object-cover"
           />
           <div className="absolute inset-0  flex items-center justify-center"></div>
         </div>
       </section>
 
       {/* Our Affiliations */}
-      <section className="py-16 bg-[#f7f8fa]">
+      <section className="mb-10 bg-[#f7f8fa]">
         <div className="max-w-[1300px] mx-auto px-5 lg:px-8 border border-gray-100 rounded-3xl shadow-sm bg-white">
           <div className="text-center mb-12">
-            <h2 className="text-[2rem] font-bold text-[#1a2b48] mb-3 italic font-serif">
+            <h2 className="text-[2.3rem] font-semibold text-[#00083D] mb-3 italic font-serif">
               Our  Affiliations
             
             </h2>
@@ -440,15 +440,15 @@ export default function AboutUs() {
 
       {/* Our Offices */}
       <section className="py-16 bg-white relative">
-        <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
+        <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-[2rem] text-[#1a2b48]">
-              <span className="italic font-serif font-bold">Our
+            <h2 className="text-[2.5rem] text-[#00083D]">
+              <span className="italic font-serif font-semibold">Our
              Offices </span>
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start ">
             {/* Left: Office details */}
             <div className="space-y-5 pt-2">
               <div className="flex gap-3">
@@ -456,7 +456,7 @@ export default function AboutUs() {
                   className="text-orange-500 flex-shrink-0 mt-0.5"
                   size={18}
                 />
-                <p className="text-gray-700 text-[15px] leading-relaxed">
+                <p className="text-gray-700 text-[17px] leading-relaxed">
                   <span className="font-bold text-[#1a2b48]">Head Office</span>{" "}
                   : Vande Matram Square, C-27 Parijat Complex Bittan Market,
                   E-5, Arera Colony, Bhopal, Madhya Pradesh 462016
@@ -468,7 +468,7 @@ export default function AboutUs() {
                   className="text-orange-500 flex-shrink-0 mt-0.5"
                   size={18}
                 />
-                <p className="text-gray-700 text-[15px] leading-relaxed">
+                <p className="text-gray-700 text-[17px] leading-relaxed">
                   <span className="font-bold text-[#1a2b48]">
                     Branch Office
                   </span>
@@ -482,14 +482,14 @@ export default function AboutUs() {
                 <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
                   <a
                     href="tel:+919893574731"
-                    className="flex items-center gap-2.5 text-gray-700 text-[15px] hover:text-blue-600 transition-colors"
+                    className="flex items-center gap-2.5 text-gray-700 text-[17px] hover:text-blue-600 transition-colors"
                   >
                     <Phone className="text-orange-500" size={17} />
                     +91 98935 74731
                   </a>
                   <a
                     href="tel:+919893225370"
-                    className="flex items-center gap-2.5 text-gray-700 text-[15px] hover:text-blue-600 transition-colors"
+                    className="flex items-center gap-2.5 text-gray-700 text-[17px] hover:text-blue-600 transition-colors"
                   >
                     <Phone className="text-orange-500" size={17} />
                     +91 98932 25370
@@ -499,14 +499,14 @@ export default function AboutUs() {
                 <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
                   <a
                     href="tel:+919893121733"
-                    className="flex items-center gap-2.5 text-gray-700 text-[15px] hover:text-blue-600 transition-colors"
+                    className="flex items-center gap-2.5 text-gray-700 text-[17px] hover:text-blue-600 transition-colors"
                   >
                     <Phone className="text-orange-500" size={17} />
                     +91 98931 21733
                   </a>
                   <a
                     href="mailto:info@travelindiatourism.com"
-                    className="flex items-center gap-2.5 text-gray-700 text-[15px] hover:text-blue-600 transition-colors"
+                    className="flex items-center gap-2.5 text-gray-700 text-[17px] hover:text-blue-600 transition-colors"
                   >
                     <Mail className="text-orange-500" size={17} />
                     info@travelindiatourism.com
@@ -517,7 +517,7 @@ export default function AboutUs() {
                   href="https://wa.me/919893539555"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2.5 text-gray-700 text-[15px] hover:text-green-600 transition-colors"
+                  className="flex items-center gap-2.5 text-gray-700 text-[17px] hover:text-green-600 transition-colors"
                 >
                   <WhatsAppIcon size={17} className="text-orange-500" />
                   Messege on Whatsapp &gt;&gt;
@@ -527,12 +527,15 @@ export default function AboutUs() {
 
             {/* Right: Location map image */}
             <div className="rounded-md overflow-hidden shadow-md">
-              <img
-                src="https://travelindiatourism.com/wp-content/uploads/2026/05/Screenshot-2026-05-26-151638.png"
-                alt="Travel India Tourism Pvt Location Map"
-                className="w-full h-auto object-cover"
-              />
-            </div>
+  <iframe
+    title="Travel India Tourism Pvt Location Map"
+    src="https://www.google.com/maps?q=1sr+Floor,+Guru+Bakshish+Arced,+Danapani+Rd,+opposite+Priyadarshini+Adhishthan,+Bawadiya+Kalan,+Pallavi+Nagar,+Bhopal,+Madhya+Pradesh+462039,+India&output=embed"
+    className="w-full h-[380px] border-0"
+    loading="lazy"
+    allowFullScreen
+    referrerPolicy="no-referrer-when-downgrade"
+  />
+</div>
           </div>
         </div>
       </section>
@@ -540,7 +543,7 @@ export default function AboutUs() {
       {/* Follow Us */}
       <section className="py-14 bg-[#fdf9e9] border-t border-b border-[#d7b16b]">
         <div className="max-w-[1200px] mx-auto px-5 lg:px-8 text-center ">
-          <h3 className="text-[1.9rem] italic font-serif font-bold text-[#1a2b48] mb-3">
+          <h3 className="text-[2.3rem] italic font-serif font-semibold text-[#1a2b48] mb-3">
             Follow Us
           </h3>
           <p className="text-gray-500 text-xl mb-8">

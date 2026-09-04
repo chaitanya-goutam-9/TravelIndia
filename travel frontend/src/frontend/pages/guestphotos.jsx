@@ -94,7 +94,7 @@ export default function GuestPhotos() {
           <img
             src="https://travelindiatourism.com/wp-content/uploads/2026/06/Guest-Photos1.png"
             alt="Guest Photos background"
-            className="w-full h-full object-cover opacity-80"
+            className="w-full h-full object-cover opacity-70"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/70" />
         </div>
@@ -106,10 +106,10 @@ export default function GuestPhotos() {
           />
         </div>
         <div className="relative z-10 text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Guest <span className="text-white">Photos</span>
-          </h1>
-          <p className="text-yellow-300 text-4xl max-w-4xl mx-auto font-bold text-2xl">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 -translate-y-2">
+  Guest <span className="text-white">Photos</span>
+</h1>
+          <p className="text-[#FFE605] text-4xl max-w-4xl mx-auto font-bold text-2xl">
             Real journeys, real memories, and unforgettable experiences shared by our happy travelers.
           </p>
           {/* Stats */}
@@ -121,10 +121,10 @@ export default function GuestPhotos() {
       <section className="py-16 bg-white">
         <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
           <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-[3rem] font-semibold text-[#1a2b48] mb-6 leading-tight whitespace-nowrap  italic font-serif ">
+            <h2 className="text-[3rem] font-medium text-[#1a2b48] mb-6 leading-tight whitespace-nowrap  italic font-serif ">
               Memories Created With Travel India Tourism
             </h2>
-            <p className="text-gray-600 text-2md leading-relaxed">
+            <p className="text-gray-650 text-2md leading-relaxed">
               <span className="block md:whitespace-nowrap">
                 Every journey tells a story. Explore the beautiful moments captured by our guests during their holidays, family vacations, honeymoon trips,
               </span>
@@ -171,7 +171,7 @@ export default function GuestPhotos() {
                     }}
                   />
                   {/* Optional: Show customer name on hover */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {/* <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <p className="text-white text-sm font-medium">
                       {photo.customerName || "Guest"}
                     </p>
@@ -180,7 +180,7 @@ export default function GuestPhotos() {
                         Booking: {photo.bookingId}
                       </p>
                     )}
-                  </div>
+                  </div> */}
                 </div>
               ))
             ) : (

@@ -133,7 +133,7 @@ export default function DestinationDetails() {
     return {
       _id: 'fallback-id',
       name: currentSlug ? currentSlug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Destination',
-      bannerImage: 'https://travelindiatourism.com/wp-content/uploads/2022/04/Jaipur-ranthmabhore-tour-Rajasthan-1.jpg.webp'
+      bannerImage: 'https://travelindiatourism.com/wp-content/uploads/2022/04/nashik-shirdi-tour-maharashtra-2.jpg.webp'
     };
   };
 

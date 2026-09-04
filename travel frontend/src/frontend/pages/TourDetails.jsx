@@ -59,67 +59,76 @@ export default function TourDetails() {
 
   return (
     <div className="bg-white min-h-screen pb-20 font-sans">
+       <h1 className="text-3xl md:text-[40px] font-medium text-[#1a2b49] mb-8 px-10 py-5">{tour.title}</h1>
       
       {/* Header Image Gallery */}
-      <div className="relative w-full h-[50vh] md:h-[60vh] bg-gray-100 group">
-        <div
-          ref={carouselRef}
-          className="flex h-full w-full overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {images.length > 0 ? (
-            images.map((img, idx) => (
-              <img
-                key={idx}
-                src={typeof img === 'string' ? img.replace(/[<>]/g, '') : img}
-                alt={`Banner ${idx + 1}`}
-                className="w-full md:w-[60%] lg:w-[45%] h-full object-cover snap-start flex-shrink-0 border-r-[3px] border-white"
-              />
-            ))
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-500">
-              No images available
-            </div>
-          )}
-        </div>
-        
-        {images.length > 1 && (
-          <>
-            <button
-              onClick={() => {
-                if (carouselRef.current) {
-                  carouselRef.current.scrollBy({ left: -carouselRef.current.offsetWidth / 2, behavior: 'smooth' });
-                }
-              }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-3 shadow-md hover:bg-gray-50 transition-colors z-10"
-              aria-label="Previous image"
-            >
-              <ChevronLeft size={20} className="text-gray-800" />
-            </button>
-            <button
-              onClick={() => {
-                if (carouselRef.current) {
-                  carouselRef.current.scrollBy({ left: carouselRef.current.offsetWidth / 2, behavior: 'smooth' });
-                }
-              }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-3 shadow-md hover:bg-gray-50 transition-colors z-10"
-              aria-label="Next image"
-            >
-              <ChevronRight size={20} className="text-gray-800" />
-            </button>
-          </>
-        )}
-
-        <button className="absolute bottom-6 right-6 bg-black/70 hover:bg-black/80 text-white px-5 py-2.5 rounded-full flex items-center gap-2 text-sm font-medium transition-colors z-10">
-          <Grid size={16} />
-          All photos
-        </button>
+     <div className="relative w-[95%] mx-auto h-[50vh] md:h-[60vh] bg-gray-100 group">
+  <div
+    ref={carouselRef}
+    className="flex h-full w-full overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide"
+    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+  >
+    {images.length > 0 ? (
+      images.map((img, idx) => (
+        <img
+          key={idx}
+          src={typeof img === 'string' ? img.replace(/[<>]/g, '') : img}
+          alt={`Banner ${idx + 1}`}
+          className="w-full md:w-[60%] lg:w-[45%] h-full object-cover snap-start flex-shrink-0 border-r-[3px] border-white"
+        />
+      ))
+    ) : (
+      <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-500">
+        No images available
       </div>
+    )}
+  </div>
+
+  {/* Buttons */}
+  {images.length > 1 && (
+    <>
+      <button
+        onClick={() => {
+          if (carouselRef.current) {
+            carouselRef.current.scrollBy({
+              left: -carouselRef.current.offsetWidth / 2,
+              behavior: 'smooth'
+            });
+          }
+        }}
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-3 shadow-md hover:bg-gray-50 transition-colors z-10"
+        aria-label="Previous image"
+      >
+        <ChevronLeft size={20} className="text-gray-800" />
+      </button>
+
+      <button
+        onClick={() => {
+          if (carouselRef.current) {
+            carouselRef.current.scrollBy({
+              left: carouselRef.current.offsetWidth / 2,
+              behavior: 'smooth'
+            });
+          }
+        }}
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-3 shadow-md hover:bg-gray-50 transition-colors z-10"
+        aria-label="Next image"
+      >
+        <ChevronRight size={20} className="text-gray-800" />
+      </button>
+    </>
+  )}
+
+  <button className="absolute bottom-6 right-6 bg-black/70 hover:bg-black/80 text-white px-5 py-2.5 rounded-full flex items-center gap-2 text-sm font-medium transition-colors z-10">
+    <Grid size={16} />
+    All photos
+  </button>
+</div>
 
       <div className="container mx-auto px-4 md:px-8 py-10 max-w-7xl">
         <div className="flex flex-col md:flex-row justify-between items-start mb-8 border-b pb-8 gap-4">
           <div className="w-full">
-            <h1 className="text-3xl md:text-[40px] font-bold text-[#1a2b49] mb-8">{tour.title}</h1>
+           
             <div className="flex flex-wrap items-center gap-x-35 gap-y-6 text-gray-700">
               <div className="flex items-center gap-4">
                 <div className="p-2.5 border rounded-xl shadow-sm bg-white"><Clock size={20} className="text-gray-600" /></div>

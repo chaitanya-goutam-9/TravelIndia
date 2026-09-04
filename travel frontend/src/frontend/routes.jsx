@@ -16,6 +16,7 @@ import LocationPage from './pages/IndiaPage';
 import WorldPage from './pages/WorldPage';
 import DestinationDetails from './pages/IndiaDestinationDetails';
 import review from './components/GoogleReviews';
+import NewsletterSection  from './pages/NewsletterSection';
 
 /**
  * Frontend public routes config.

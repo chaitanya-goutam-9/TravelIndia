@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Search, Star, Clock, MapPin, ChevronRight, Plus, Minus } from "lucide-react";
+import {
+  Search,
+  Star,
+  Clock,
+  MapPin,
+  ChevronRight,
+  Plus,
+  Minus,
+} from "lucide-react";
 import axios from "axios";
-import FAQSection from '../pages/faq';
+import FAQSection from "../pages/faq";
 import { ArrowUpRight } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
@@ -19,7 +27,8 @@ const topSelling = [
     price: 18500,
     rating: 4.5,
     reviews: 215,
-    image: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=600&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=600&auto=format&fit=crop",
   },
   {
     id: "leh-ladakh",
@@ -30,7 +39,8 @@ const topSelling = [
     price: 26999,
     rating: 4.7,
     reviews: 189,
-    image: "https://images.unsplash.com/photo-1605640840605-14ac1855827b?w=600&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1605640840605-14ac1855827b?w=600&auto=format&fit=crop",
   },
   {
     id: "bhutan",
@@ -41,7 +51,8 @@ const topSelling = [
     price: 32999,
     rating: 4.9,
     reviews: 301,
-    image: "https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=600&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=600&auto=format&fit=crop",
   },
   {
     id: "andaman",
@@ -52,7 +63,8 @@ const topSelling = [
     price: 28999,
     rating: 4.8,
     reviews: 203,
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop",
   },
   {
     id: "rajasthan",
@@ -63,7 +75,8 @@ const topSelling = [
     price: 22999,
     rating: 4.7,
     reviews: 298,
-    image: "https://images.unsplash.com/photo-1477587458883-47145ed94b7c?w=600&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1477587458883-47145ed94b7c?w=600&auto=format&fit=crop",
   },
   {
     id: "kashmir",
@@ -74,18 +87,55 @@ const topSelling = [
     price: 24999,
     rating: 4.8,
     reviews: 312,
-    image: "https://images.unsplash.com/photo-1566837945700-30057527ade0?w=600&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1566837945700-30057527ade0?w=600&auto=format&fit=crop",
   },
 ];
 
 // Explore India — portrait grid cards
 const exploreIndia = [
-  { name: "North India", slug: "north-india", sub: "Kashmir, Himachal…", image: "https://images.unsplash.com/photo-1566837945700-30057527ade0?w=400&auto=format&fit=crop" },
-  { name: "South India", slug: "south-india", sub: "Kerala, Goa…",       image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=400&auto=format&fit=crop" },
-  { name: "East India",  slug: "east-india",  sub: "Assam, Sikkim…",     image: "https://images.unsplash.com/photo-1647416345915-d3ec41c0e8ba?w=400&auto=format&fit=crop" },
-  { name: "West India",  slug: "west-india",  sub: "Goa, Gujarat…",      image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=400&auto=format&fit=crop" },
-  { name: "Central India", slug: "central-india", sub: "Madhya Pradesh…", image: "https://images.unsplash.com/photo-1612892483236-52d32a0e0ac1?w=400&auto=format&fit=crop" },
-  { name: "North East",  slug: "north-east",  sub: "Meghalaya, Arunachal…", image: "https://images.unsplash.com/photo-1608020757613-fd25a3b5b5e8?w=400&auto=format&fit=crop" },
+  {
+    name: "North India",
+    slug: "north-india",
+    sub: "Kashmir, Himachal…",
+    image:
+      "https://images.unsplash.com/photo-1566837945700-30057527ade0?w=400&auto=format&fit=crop",
+  },
+  {
+    name: "South India",
+    slug: "south-india",
+    sub: "Kerala, Goa…",
+    image:
+      "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=400&auto=format&fit=crop",
+  },
+  {
+    name: "East India",
+    slug: "east-india",
+    sub: "Assam, Sikkim…",
+    image:
+      "https://images.unsplash.com/photo-1647416345915-d3ec41c0e8ba?w=400&auto=format&fit=crop",
+  },
+  {
+    name: "West India",
+    slug: "west-india",
+    sub: "Goa, Gujarat…",
+    image:
+      "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=400&auto=format&fit=crop",
+  },
+  {
+    name: "Central India",
+    slug: "central-india",
+    sub: "Madhya Pradesh…",
+    image:
+      "https://images.unsplash.com/photo-1612892483236-52d32a0e0ac1?w=400&auto=format&fit=crop",
+  },
+  {
+    name: "North East",
+    slug: "north-east",
+    sub: "Meghalaya, Arunachal…",
+    image:
+      "https://images.unsplash.com/photo-1608020757613-fd25a3b5b5e8?w=400&auto=format&fit=crop",
+  },
 ];
 
 // World destinations — same big card style as top selling
@@ -96,7 +146,8 @@ const worldDestinations = [
     title: "Malaysia",
     subtitle: "Nature Meets Modern Beauty",
     price: 45500,
-    image: "https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?w=600&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?w=600&auto=format&fit=crop",
   },
   {
     id: "singapore",
@@ -104,7 +155,8 @@ const worldDestinations = [
     title: "Singapore",
     subtitle: "Futuristic City Escapes",
     price: 89999,
-    image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=600&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=600&auto=format&fit=crop",
   },
   {
     id: "vietnam",
@@ -112,7 +164,8 @@ const worldDestinations = [
     title: "Vietnam",
     subtitle: "Culture & Scenic Landscapes",
     price: 53999,
-    image: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=600&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=600&auto=format&fit=crop",
   },
   {
     id: "thailand-world",
@@ -120,7 +173,8 @@ const worldDestinations = [
     title: "Thailand",
     subtitle: "Beaches, Nightlife & Culture",
     price: 26999,
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&auto=format&fit=crop",
   },
   {
     id: "bhutan-world",
@@ -128,7 +182,8 @@ const worldDestinations = [
     title: "Bhutan",
     subtitle: "Peaceful Himalayan Beauty",
     price: 29999,
-    image: "https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=600&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=600&auto=format&fit=crop",
   },
   {
     id: "dubai-world",
@@ -136,7 +191,8 @@ const worldDestinations = [
     title: "Dubai (UAE)",
     subtitle: "City of Gold & Wonder",
     price: 58999,
-    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&auto=format&fit=crop",
   },
 ];
 
@@ -151,7 +207,8 @@ const spiritualDestinations = [
     price: 42000,
     rating: 4.9,
     reviews: 301,
-    image: "https://images.unsplash.com/photo-1617653202525-79e44af9aba3?w=300&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1617653202525-79e44af9aba3?w=300&auto=format&fit=crop",
   },
   {
     id: "kedarnath-rishikesh",
@@ -162,7 +219,8 @@ const spiritualDestinations = [
     price: 18500,
     rating: 4.8,
     reviews: 224,
-    image: "https://images.unsplash.com/photo-1591019479261-1a103585c559?w=300&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1591019479261-1a103585c559?w=300&auto=format&fit=crop",
   },
   {
     id: "badrinath",
@@ -173,7 +231,8 @@ const spiritualDestinations = [
     price: 14999,
     rating: 4.7,
     reviews: 187,
-    image: "https://images.unsplash.com/photo-1584553421349-3557471bed79?w=300&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1584553421349-3557471bed79?w=300&auto=format&fit=crop",
   },
   {
     id: "kedarnath",
@@ -184,7 +243,8 @@ const spiritualDestinations = [
     price: 12999,
     rating: 4.9,
     reviews: 412,
-    image: "https://images.unsplash.com/photo-1602649172674-44a23df1f4db?w=300&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1602649172674-44a23df1f4db?w=300&auto=format&fit=crop",
   },
   {
     id: "uttarakhand-do-dham",
@@ -195,7 +255,8 @@ const spiritualDestinations = [
     price: 16999,
     rating: 4.8,
     reviews: 156,
-    image: "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=300&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=300&auto=format&fit=crop",
   },
   {
     id: "haridwar-rishikesh",
@@ -206,7 +267,8 @@ const spiritualDestinations = [
     price: 10999,
     rating: 4.6,
     reviews: 289,
-    image: "https://images.unsplash.com/photo-1561361058-c24e03e5c128?w=300&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1561361058-c24e03e5c128?w=300&auto=format&fit=crop",
   },
 ];
 
@@ -214,8 +276,14 @@ const whyChooseUs = [
   {
     icon: (
       <svg viewBox="0 0 60 60" className="w-10 h-10" fill="none">
-        <circle cx="30" cy="30" r="28" stroke="#E2AD63" strokeWidth="2.5"/>
-        <path d="M20 30l7 7 13-14" stroke="#E2AD63" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <circle cx="30" cy="30" r="28" stroke="#E2AD63" strokeWidth="2.5" />
+        <path
+          d="M20 30l7 7 13-14"
+          stroke="#E2AD63"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     ),
     title: "21+ Years of Experience",
@@ -224,8 +292,13 @@ const whyChooseUs = [
   {
     icon: (
       <svg viewBox="0 0 60 60" className="w-10 h-10" fill="none">
-        <circle cx="30" cy="30" r="28" stroke="#E2AD63" strokeWidth="2.5"/>
-        <path d="M30 18v12l6 6" stroke="#E2AD63" strokeWidth="2.5" strokeLinecap="round"/>
+        <circle cx="30" cy="30" r="28" stroke="#E2AD63" strokeWidth="2.5" />
+        <path
+          d="M30 18v12l6 6"
+          stroke="#E2AD63"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        />
       </svg>
     ),
     title: "Government Approved",
@@ -234,8 +307,13 @@ const whyChooseUs = [
   {
     icon: (
       <svg viewBox="0 0 60 60" className="w-10 h-10" fill="none">
-        <circle cx="30" cy="30" r="28" stroke="#E2AD63" strokeWidth="2.5"/>
-        <path d="M22 30h16M30 22v16" stroke="#E2AD63" strokeWidth="2.5" strokeLinecap="round"/>
+        <circle cx="30" cy="30" r="28" stroke="#E2AD63" strokeWidth="2.5" />
+        <path
+          d="M22 30h16M30 22v16"
+          stroke="#E2AD63"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        />
       </svg>
     ),
     title: "Customized Tour Packages",
@@ -244,9 +322,14 @@ const whyChooseUs = [
   {
     icon: (
       <svg viewBox="0 0 60 60" className="w-10 h-10" fill="none">
-        <circle cx="30" cy="30" r="28" stroke="#E2AD63" strokeWidth="2.5"/>
-        <path d="M24 36c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#E2AD63" strokeWidth="2.5" strokeLinecap="round"/>
-        <circle cx="30" cy="24" r="3" stroke="#E2AD63" strokeWidth="2.5"/>
+        <circle cx="30" cy="30" r="28" stroke="#E2AD63" strokeWidth="2.5" />
+        <path
+          d="M24 36c0-3.3 2.7-6 6-6s6 2.7 6 6"
+          stroke="#E2AD63"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        />
+        <circle cx="30" cy="24" r="3" stroke="#E2AD63" strokeWidth="2.5" />
       </svg>
     ),
     title: "Visa Assistance",
@@ -255,9 +338,22 @@ const whyChooseUs = [
   {
     icon: (
       <svg viewBox="0 0 60 60" className="w-10 h-10" fill="none">
-        <rect x="8" y="8" width="44" height="44" rx="4" stroke="#E2AD63" strokeWidth="2.5"/>
-        <circle cx="30" cy="30" r="10" stroke="#E2AD63" strokeWidth="2.5"/>
-        <path d="M20 30h20" stroke="#E2AD63" strokeWidth="2.5" strokeLinecap="round"/>
+        <rect
+          x="8"
+          y="8"
+          width="44"
+          height="44"
+          rx="4"
+          stroke="#E2AD63"
+          strokeWidth="2.5"
+        />
+        <circle cx="30" cy="30" r="10" stroke="#E2AD63" strokeWidth="2.5" />
+        <path
+          d="M20 30h20"
+          stroke="#E2AD63"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        />
       </svg>
     ),
     title: "Global Travel Network",
@@ -266,8 +362,14 @@ const whyChooseUs = [
   {
     icon: (
       <svg viewBox="0 0 60 60" className="w-10 h-10" fill="none">
-        <circle cx="30" cy="30" r="28" stroke="#E2AD63" strokeWidth="2.5"/>
-        <path d="M20 30l7 7 13-14" stroke="#E2AD63" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <circle cx="30" cy="30" r="28" stroke="#E2AD63" strokeWidth="2.5" />
+        <path
+          d="M20 30l7 7 13-14"
+          stroke="#E2AD63"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     ),
     title: "Reach us for 24/7",
@@ -276,15 +378,42 @@ const whyChooseUs = [
 ];
 
 const faqs = [
-  { q: "Do you provide customized India tour packages?", a: "Yes, we offer fully customized India tour packages based on your budget, travel duration, preferred destinations, and travel style." },
-  { q: "Do you provide visa assistance?", a: "Yes, we provide complete visa assistance including documentation guidance, appointment support, and biometric assistance for various destinations." },
-  { q: "Can I customize my itinerary after booking?", a: "Yes, itineraries can be customized after booking depending on availability and travel arrangements." },
-  { q: "What happens if my flight gets delayed or canceled?", a: "Our team assists you with rescheduling, alternative arrangements, and travel support in case of flight delays or cancellations." },
-  { q: "How many years of experience does your company have?", a: "We have 21 years of experience in the travel industry, providing trusted travel services, customized tour packages, and visa assistance to travelers across the world." },
-  { q: "Can I get a last-minute travel package?", a: "Yes, we can arrange last-minute travel packages based on flight, hotel, and destination availability." },
-  { q: "Do you book flight tickets and hotels separately?", a: "Yes. We also provide standalone flight bookings, hotel reservations, airport transfers, and other travel-related services even if you are not booking a complete tour package with us." },
-  { q: "Who can I contact if I want to book directly?", a: "You can directly get in touch with our travel experts through phone- +91 9993717120, +91 9893574731, Email- info@travelindiatourism.com for personalized assistance, itinerary planning, and booking support. Our team will guide you through every step of your travel planning process." },
-  { q: "Can you plan trips for families, honeymooners, groups, and corporate travelers?", a: "Yes, we create customized travel experiences for families, honeymooners, groups, students, and corporate travelers based on their preferences and budget." },
+  {
+    q: "Do you provide customized India tour packages?",
+    a: "Yes, we offer fully customized India tour packages based on your budget, travel duration, preferred destinations, and travel style.",
+  },
+  {
+    q: "Do you provide visa assistance?",
+    a: "Yes, we provide complete visa assistance including documentation guidance, appointment support, and biometric assistance for various destinations.",
+  },
+  {
+    q: "Can I customize my itinerary after booking?",
+    a: "Yes, itineraries can be customized after booking depending on availability and travel arrangements.",
+  },
+  {
+    q: "What happens if my flight gets delayed or canceled?",
+    a: "Our team assists you with rescheduling, alternative arrangements, and travel support in case of flight delays or cancellations.",
+  },
+  {
+    q: "How many years of experience does your company have?",
+    a: "We have 21 years of experience in the travel industry, providing trusted travel services, customized tour packages, and visa assistance to travelers across the world.",
+  },
+  {
+    q: "Can I get a last-minute travel package?",
+    a: "Yes, we can arrange last-minute travel packages based on flight, hotel, and destination availability.",
+  },
+  {
+    q: "Do you book flight tickets and hotels separately?",
+    a: "Yes. We also provide standalone flight bookings, hotel reservations, airport transfers, and other travel-related services even if you are not booking a complete tour package with us.",
+  },
+  {
+    q: "Who can I contact if I want to book directly?",
+    a: "You can directly get in touch with our travel experts through phone- +91 9993717120, +91 9893574731, Email- info@travelindiatourism.com for personalized assistance, itinerary planning, and booking support. Our team will guide you through every step of your travel planning process.",
+  },
+  {
+    q: "Can you plan trips for families, honeymooners, groups, and corporate travelers?",
+    a: "Yes, we create customized travel experiences for families, honeymooners, groups, students, and corporate travelers based on their preferences and budget.",
+  },
 ];
 
 // ─── HELPER COMPONENTS ────────────────────────────────────────────────────────
@@ -292,8 +421,16 @@ const faqs = [
 function StarRating({ rating }) {
   return (
     <div className="flex items-center gap-0.5">
-      {[1,2,3,4,5].map((s) => (
-        <Star key={s} size={12} className={s <= Math.round(rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300 fill-gray-300"} />
+      {[1, 2, 3, 4, 5].map((s) => (
+        <Star
+          key={s}
+          size={12}
+          className={
+            s <= Math.round(rating)
+              ? "text-yellow-400 fill-yellow-400"
+              : "text-gray-300 fill-gray-300"
+          }
+        />
       ))}
     </div>
   );
@@ -313,39 +450,51 @@ function OverlayCard({ tour }) {
       />
       {/* dark gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80" />
-      
+
       {/* top-left: title + description/subtitle */}
       <div className="absolute top-5 left-5 right-5">
-        <h3 className="text-white font-extrabold text-[1.8rem] leading-tight mb-1" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
+        <h3
+          className="text-white font-extrabold text-[1.8rem] leading-tight mb-1"
+          style={{ textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}
+        >
           {tour.destination?.name || tour.location || tour.title}
         </h3>
         {(tour.description || tour.subtitle) && (
-          <p className="text-white/95 text-[15px] font-bold tracking-wide line-clamp-2" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
+          <p
+            className="text-white/95 text-[15px] font-bold tracking-wide line-clamp-2"
+            style={{ textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}
+          >
             {tour.description || tour.subtitle}
           </p>
         )}
       </div>
-      
+
       {/* bottom-left: price */}
       <div className="absolute bottom-5 left-5">
-        <p className="text-white/90 text-[11px] font-bold uppercase tracking-widest mb-1" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
+        <p
+          className="text-white/90 text-[11px] font-bold uppercase tracking-widest mb-1"
+          style={{ textShadow: "0 1px 2px rgba(0,0,0,0.5)" }}
+        >
           Starting From
         </p>
-        <p className="text-white font-extrabold text-[1.4rem]" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+        <p
+          className="text-white font-extrabold text-[1.4rem]"
+          style={{ textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}
+        >
           ₹ {(tour.startingPrice || tour.price || 0).toLocaleString()}
         </p>
       </div>
-      
+
       {/* bottom-right: arrow button */}
-   {/* bottom-right: arrow button */}
-<div
-  className="absolute bottom-5 right-5 w-10 h-10 rounded-full border-2 border-white 
+      {/* bottom-right: arrow button */}
+      <div
+        className="absolute bottom-5 right-5 w-10 h-10 rounded-full border-2 border-white 
              flex items-center justify-center text-white 
              group-hover:bg-white group-hover:text-[#1a2b48] 
              transition-colors duration-300 backdrop-blur-sm"
->
-  <ArrowUpRight size={22} strokeWidth={2} />
-</div>
+      >
+        <ArrowUpRight size={22} strokeWidth={2} />
+      </div>
     </Link>
   );
 }
@@ -353,64 +502,59 @@ function OverlayCard({ tour }) {
 // World destination card — matching the new dark theme UI
 function WorldCard({ tour }) {
   return (
-   <Link
-  to={`/tour/${tour._id || tour.slug}`}
-  className="group relative flex flex-col overflow-hidden rounded-[30px] bg-[#172f55] p-3 shadow-lg transition-all duration-300 hover:shadow-2xl"
->
-  {/* Image Section */}
-  <div className="relative aspect-[4/4] w-full overflow-hidden rounded-[30px]">
-    <img
-      src={tour.thumbnailImage || tour.image}
-      alt={tour.title}
-      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-    />
-
-    {/* Dark Gradient */}
-    <div className="absolute inset-0 bg-gradient-to-t from-[#0b1d36]/90 via-[#0b1d36]/20 to-transparent" />
-
-    {/* Destination Content */}
-    <div className="absolute bottom-8 left-6 right-6">
-      <h3 className="mb-2 text-[1.8rem] font-extrabold leading-tight text-white drop-shadow-lg">
-        {tour.destination?.name || tour.location || tour.title}
-      </h3>
-
-      <p className="text-[15px] font-bold tracking-wide text-white/90">
-        {tour.subtitle}
-      </p>
-    </div>
-  </div>
-
-  {/* Bottom Section */}
-  <div className="flex items-center justify-between px-5 py-5">
-    
-    {/* Price */}
-    <p className="text-[1.5rem] font-extrabold text-[#e2ad63]">
-      ₹ {(tour.startingPrice || tour.price || 0).toLocaleString()}
-    </p>
-
-    {/* Explore Button */}
-    <div
-      className="flex items-center gap-2 rounded-full bg-[#e2ad63] px-6 py-3 text-[15px] font-medium text-[#0a1b33] transition-all duration-300 group-hover:bg-[#d6a86c]"
+    <Link
+      to={`/tour/${tour._id || tour.slug}`}
+      className="group relative flex flex-col overflow-hidden rounded-[30px] bg-[#172f55] p-3 shadow-lg transition-all duration-300 hover:shadow-2xl"
     >
-      Explore Now
+      {/* Image Section */}
+      <div className="relative aspect-[4/4] w-full overflow-hidden rounded-[30px]">
+        <img
+          src={tour.thumbnailImage || tour.image}
+          alt={tour.title}
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
 
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M5 12h14" />
-        <path d="m12 5 7 7-7 7" />
-      </svg>
-    </div>
+        {/* Dark Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0b1d36]/90 via-[#0b1d36]/20 to-transparent" />
 
-  </div>
-</Link>
+        {/* Destination Content */}
+        <div className="absolute bottom-8 left-6 right-6">
+          <h3 className="mb-2 text-[1.8rem] font-extrabold leading-tight text-white drop-shadow-lg">
+            {tour.destination?.name || tour.location || tour.title}
+          </h3>
+
+          <p className="text-[15px] font-bold tracking-wide text-white/90">
+            {tour.subtitle}
+          </p>
+        </div>
+      </div>
+
+      {/* Bottom Section */}
+      <div className="flex items-center justify-between px-5 py-5">
+        {/* Price */}
+        <p className="text-[1.5rem] font-extrabold text-[#e2ad63]">
+          ₹ {(tour.startingPrice || tour.price || 0).toLocaleString()}
+        </p>
+
+        {/* Explore Button */}
+        <div className="flex items-center gap-2 rounded-full bg-[#e2ad63] px-6 py-3 text-[15px] font-medium text-[#0a1b33] transition-all duration-300 group-hover:bg-[#d6a86c]">
+          Explore Now
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </Link>
   );
 }
 
@@ -433,10 +577,14 @@ function TourCard({ tour }) {
           <MapPin size={12} className="text-blue-500 flex-shrink-0" />
           <span>{tour.destination?.name || tour.location}</span>
         </div>
-        <h3 className="font-bold text-[#1a2b48] text-base leading-snug mb-2 group-hover:text-blue-600 transition-colors">{tour.title}</h3>
+        <h3 className="font-bold text-[#1a2b48] text-base leading-snug mb-2 group-hover:text-blue-600 transition-colors">
+          {tour.title}
+        </h3>
         <div className="flex items-center gap-2 mb-2">
           <StarRating rating={tour.rating} />
-          <span className="text-gray-400 text-xs">({tour.reviews} reviews)</span>
+          <span className="text-gray-400 text-xs">
+            ({tour.reviews} reviews)
+          </span>
         </div>
         <div className="flex items-center gap-1.5 text-gray-400 text-xs mb-4">
           <Clock size={12} className="text-blue-500 flex-shrink-0" />
@@ -444,8 +592,12 @@ function TourCard({ tour }) {
         </div>
         <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
           <div>
-            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Starting from</p>
-            <p className="text-blue-600 font-extrabold text-lg">₹{(tour.startingPrice || tour.price || 0).toLocaleString()}</p>
+            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+              Starting from
+            </p>
+            <p className="text-blue-600 font-extrabold text-lg">
+              ₹{(tour.startingPrice || tour.price || 0).toLocaleString()}
+            </p>
           </div>
           <span className="bg-blue-600 group-hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-full transition-colors">
             View Details
@@ -470,27 +622,41 @@ function SpiritualCard({ tour }) {
         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
-      
+
       {/* top-left: title */}
       <div className="absolute top-4 left-4 right-4">
-        <h3 className="text-white font-bold text-[1.4rem] leading-tight mb-1" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
+        <h3
+          className="text-white font-bold text-[1.4rem] leading-tight mb-1"
+          style={{ textShadow: "0 1px 3px rgba(0,0,0,0.5)" }}
+        >
           {tour.destination?.name || tour.location || tour.title}
         </h3>
       </div>
 
       {/* bottom-left: price */}
       <div className="absolute bottom-4 left-4">
-        <p className="text-white/90 text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
+        <p
+          className="text-white/90 text-[10px] font-bold uppercase tracking-widest mb-0.5"
+          style={{ textShadow: "0 1px 2px rgba(0,0,0,0.5)" }}
+        >
           Starting From
         </p>
-        <p className="text-white font-extrabold text-[1.2rem]" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+        <p
+          className="text-white font-extrabold text-[1.2rem]"
+          style={{ textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}
+        >
           ₹ {(tour.startingPrice || tour.price || 0).toLocaleString()}
         </p>
       </div>
 
       {/* bottom-right: arrow button */}
-      <div className="absolute bottom-4 right-4 border-[1.5px] border-white/80 rounded-full p-1.5 text-white group-hover:bg-white group-hover:text-[#1a2b48] transition-colors duration-300 backdrop-blur-sm">
-        <ChevronRight size={16} strokeWidth={2.5} />
+     <div
+        className="absolute bottom-5 right-5 w-10 h-10 rounded-full border-2 border-white 
+             flex items-center justify-center text-white 
+             group-hover:bg-white group-hover:text-[#1a2b48] 
+             transition-colors duration-300 backdrop-blur-sm"
+      >
+        <ArrowUpRight size={22} strokeWidth={2} />
       </div>
     </Link>
   );
@@ -511,11 +677,17 @@ function TopSellingCard({ tour }) {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
       <div className="absolute bottom-5 left-5 right-5">
-        <h3 className="text-white font-bold text-[1.6rem] leading-tight mb-1" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+        <h3
+          className="text-white font-bold text-[1.6rem] leading-tight mb-1"
+          style={{ textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}
+        >
           {tour.destination?.name || tour.location || tour.title}
         </h3>
         {(tour.description || tour.subtitle) && (
-          <p className="text-white/90 text-[13px] font-semibold tracking-wide line-clamp-1" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
+          <p
+            className="text-white/90 text-[13px] font-semibold tracking-wide line-clamp-1"
+            style={{ textShadow: "0 1px 2px rgba(0,0,0,0.5)" }}
+          >
             {tour.description || tour.subtitle}
           </p>
         )}
@@ -556,18 +728,97 @@ function TopSellingSlider({ tours }) {
         }
       `}</style>
       <div className="overflow-hidden w-full slider-container px-2">
-        <div 
+        <div
           className="flex transition-transform duration-1000 ease-in-out"
-          style={{ transform: `translateX(calc(-${currentIndex} * var(--card-width)))` }}
+          style={{
+            transform: `translateX(calc(-${currentIndex} * var(--card-width)))`,
+          }}
         >
           {extendedTours.map((tour, idx) => (
-            <div key={idx} className="flex-shrink-0 px-2" style={{ width: 'var(--card-width)' }}>
+            <div
+              key={idx}
+              className="flex-shrink-0 px-2"
+              style={{ width: "var(--card-width)" }}
+            >
               <TopSellingCard tour={tour} />
             </div>
           ))}
         </div>
       </div>
     </>
+  );
+}
+
+const managerSliderImages = [
+  "https://travelindiatourism.com/wp-content/uploads/2022/04/Srinagar-Kasmir-Tour-4.jpg.webp",
+  "https://travelindiatourism.com/wp-content/uploads/2022/04/Kolkata-Tour-2.jpg.webp",
+  "https://travelindiatourism.com/wp-content/uploads/2022/04/Jaipur-ranthmabhore-tour-Rajasthan-1.jpg.webp",
+  "https://travelindiatourism.com/wp-content/uploads/2023/09/Thailand-tour.jpg.webp",
+  "https://travelindiatourism.com/wp-content/uploads/2023/09/Thailand-tour-1.jpg.webp",
+  "https://travelindiatourism.com/wp-content/uploads/2023/09/singapore-tour.jpg.webp",
+  "https://travelindiatourism.com/wp-content/uploads/2022/04/Srinagar-Kasmir-Tour-3.jpg.webp",
+  "https://travelindiatourism.com/wp-content/uploads/2023/09/Dubai-tour-4.jpg.webp",
+];
+
+function PersonalTourManagerSlider() {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((index) => (index + 1) % managerSliderImages.length);
+    }, 3500);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const previous = () => {
+    setCurrent((index) =>
+      index === 0 ? managerSliderImages.length - 1 : index - 1,
+    );
+  };
+
+  const next = () => {
+    setCurrent((index) => (index + 1) % managerSliderImages.length);
+  };
+
+  return (
+    <div className="relative w-full h-[350px] lg:h-[400px] overflow-hidden rounded-[4px] group">
+      <div
+        className="flex h-full transition-transform duration-700 ease-in-out"
+        style={{ transform: `translateX(-${current * 100}%)` }}
+      >
+        {managerSliderImages.map((image, index) => (
+          <img
+            key={image}
+            src={image}
+            alt={`Travel destination ${index + 1}`}
+            className="w-full h-full shrink-0 object-cover"
+          />
+        ))}
+      </div>
+
+      <button
+        type="button"
+        onClick={previous}
+        aria-label="Previous destination"
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-md p-3 opacity-0 group-hover:opacity-100 transition-all duration-300"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="m15 18-6-6 6-6" />
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        onClick={next}
+        aria-label="Next destination"
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-md p-3 opacity-0 group-hover:opacity-100 transition-all duration-300"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="m9 18 6-6-6-6" />
+        </svg>
+      </button>
+    </div>
   );
 }
 
@@ -585,20 +836,15 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [
-          monsoonRes, 
-          topSellingRes, 
-          indiaRes, 
-          spiritualRes, 
-          worldRes
-        ] = await Promise.all([
-          axios.get(`${API_URL}/api/tours?category=chaitanya-goutam`),
-          axios.get(`${API_URL}/api/tours?category=top-selling-destinations`),
-          axios.get(`${API_URL}/api/tours?category=explore-india`),
-          axios.get(`${API_URL}/api/tours?category=spiritual-destinations`),
-          axios.get(`${API_URL}/api/tours?category=explore-the-world`)
-        ]);
-        
+        const [monsoonRes, topSellingRes, indiaRes, spiritualRes, worldRes] =
+          await Promise.all([
+            axios.get(`${API_URL}/api/tours?category=chaitanya-goutam`),
+            axios.get(`${API_URL}/api/tours?category=top-selling-destinations`),
+            axios.get(`${API_URL}/api/tours?category=explore-india`),
+            axios.get(`${API_URL}/api/tours?category=spiritual-destinations`),
+            axios.get(`${API_URL}/api/tours?category=explore-the-world`),
+          ]);
+
         setMonsoonTours((monsoonRes.data.data || []).slice(0, 6));
         setTopSelling((topSellingRes.data.data || []).slice(0, 6));
         setExploreIndia((indiaRes.data.data || []).slice(0, 6));
@@ -613,43 +859,58 @@ export default function Home() {
 
   return (
     <div className="w-full font-sans">
-
       {/* ══════════ HERO ══════════ */}
-      <section className="relative flex items-end justify-center overflow-hidden" style={{ height: "92vh" }}>
+      <section
+        className="relative flex items-end justify-center overflow-hidden"
+        style={{ height: "92vh" }}
+      >
         <div className="absolute inset-0 bg-[#0a1b33]">
-          <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-80">
-            <source src="https://travelindiatourism.com/wp-content/uploads/2026/03/larana-journey-1.mp4" type="video/mp4" />
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-80"
+          >
+            <source
+              src="https://travelindiatourism.com/wp-content/uploads/2026/03/larana-journey-1.mp4"
+              type="video/mp4"
+            />
           </video>
           <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/75" />
         </div>
-      
       </section>
-  {/* search bar pinned to bottom of hero */}
-        <div className="relative z-10 w-full px-4  mt-5">
-          <div className="bg-white rounded-full max-w-xl mx-auto flex items-center shadow-2xl overflow-hidden py-1 px-1 border border-gray-200">
-            <div className="flex-1 flex items-center px-4">
-              <Search className="text-gray-600 mr-2 flex-shrink-0 p-5 " size={25} />
-              <input
-                type="text"
-                placeholder="Search here..."
-                className="w-full py-2.5 focus:outline-none text-gray-700 text-sm bg-transparent"
-              />
-            </div>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-7 py-2.5 rounded-full text-sm font-bold transition-colors whitespace-nowrap">
-              Search
-            </button>
+      {/* search bar pinned to bottom of hero */}
+      <div className="relative z-10 w-full px-4  mt-5">
+        <div className="bg-white rounded-full max-w-xl mx-auto flex items-center shadow-2xl overflow-hidden py-1 px-1 border border-gray-200">
+          <div className="flex-1 flex items-center px-4">
+            <Search
+              className="text-gray-600 mr-2 flex-shrink-0 p-5 "
+              size={25}
+            />
+            <input
+              type="text"
+              placeholder="Search here..."
+              className="w-full py-2.5 focus:outline-none text-gray-700 text-sm bg-transparent"
+            />
           </div>
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-7 py-2.5 rounded-full text-sm font-bold transition-colors whitespace-nowrap">
+            Search
+          </button>
         </div>
+      </div>
       {/* ══════════ INDIAN DESTINATION FOR MONSOON ══════════ */}
       <section className="py-10 bg-white">
         <div className="max-w-[1300px] mx-auto px-5 lg:px-8 ">
           {/* heading */}
           <div className="text-center mb-10">
-            <h2 className="text-2.5xl md:text-5xl  italic font-serif text-black mb-3 leading-tight">
-              Indian Destination For Monsoon
-            </h2>
-            <p className="text-black-500 max-w-2xl mx-auto text-md leading-relaxed max-w-none text-center ">
-              Discover lush green landscapes, misty hills, cascading waterfalls, and unforgettable monsoon getaways across India.
+           <h2 className="text-[#192A46] text-2.5xl md:text-4xl font-serif mb-3 leading-tight">
+  <span className="italic">Indian Destination</span>{" "}
+  For Monsoon
+</h2>
+            <p className="text-black-00 max-w-2xl mx-auto text-md leading-relaxed max-w-none text-center ">
+              Discover lush green landscapes, misty hills, cascading waterfalls,
+              and unforgettable monsoon getaways across India.
             </p>
           </div>
           {/* 3-column overlay grid */}
@@ -662,49 +923,45 @@ export default function Home() {
       </section>
 
       {/* ══════════ TOP SELLING DESTINATIONS ══════════ */}
-     {/* ══════════ TOP SELLING DESTINATIONS ══════════ */}
-<section className="py-20 bg-white">
-  <div className="max-w-[1350px] mx-auto px-5 lg:px-8">
+      {/* ══════════ TOP SELLING DESTINATIONS ══════════ */}
+      <section className="py-20 bg-white">
+        <div className="max-w-[1350px] mx-auto px-5 lg:px-8">
+          {/* Heading */}
+          <div className="text-center mb-10">
+            <h2 className="text-[#192A46] text-2.5xl md:text-4xl font-serif mb-3 leading-tight">
+  <span className="italic font-medium">Top Selling</span>{" "}
+  Destinations
+</h2>
 
-    {/* Heading */}
-    <div className="text-center mb-10">
-      <h2 className="text-[2.6rem] text-[#1a2b48] mb-2 leading-tight">
-        <span className="italic font-serif ">
-          Top Selling
-        </span>{" "}
-        <span className="">
-          Destinations
-        </span>
-      </h2>
+            <p className="text-gray-700 text-[17px] leading-relaxed font-medium max-w-none text-center">
+              Discover India's enchanting destinations, from the tranquil seas
+              to majestic mountains.
+              <br />
+              With Travel India Tourism Pvt.Ltd
+            </p>
+          </div>
 
-      <p className="text-gray-700 text-[17px] leading-relaxed font-medium max-w-none text-center">
-        Discover India's enchanting destinations, from the tranquil seas to majestic mountains.
-        <br />
-        With Travel India Tourism Pvt.Ltd
-      </p>
-    </div>
-
-    {/* Auto Slider */}
-    <div className="-mx-2">
-      <TopSellingSlider tours={topSelling} />
-    </div>
-
-  </div>
-</section>
+          {/* Auto Slider */}
+          <div className="-mx-2">
+            <TopSellingSlider tours={topSelling} />
+          </div>
+        </div>
+      </section>
 
       {/* ══════════ EXPLORE INDIA ══════════ */}
-      <section className="py-20 bg-white">
+      <section className="py-10 bg-white">
         <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
           <div className="text-center mb-10">
-  <h2 className="text-[2.6rem] text-[#1a2b48] mb-2 leading-tight">
-    <span className="italic font-serif ">Explore</span>{" "}
-    <span className="">India</span>
-  </h2>
+            <h2 className="text-[2.5rem] text-[#1a2b48] mb-2 leading-tight">
+              <span className="italic font-serif font-medium">Explore</span>{" "}
+              <span className="">India</span>
+            </h2>
 
-  <p className="text-gray-700 text-[17px] leading-relaxed font-medium">
-    Discover breathtaking hill stations, cool mountain escapes, and unforgettable summer vacation destinations across India.
-  </p>
-</div>
+            <p className="text-gray-700 text-[17px] leading-relaxed font-medium">
+              Discover breathtaking hill stations, cool mountain escapes, and
+              unforgettable summer vacation destinations across India.
+            </p>
+          </div>
           {/* 3-column overlay grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {exploreIndia.map((tour) => (
@@ -717,16 +974,17 @@ export default function Home() {
       {/* ══════════ SPIRITUAL DESTINATIONS ══════════ */}
       <section className="py-20 bg-white">
         <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
-         <div className="text-center mb-10">
-  <h2 className="text-[2.6rem] text-[#1a2b48] mb-2 leading-tight">
-    <span className="italic font-serif ">Spiritual</span>{" "}
-    <span className="">Destinations</span>
-  </h2>
+          <div className="text-center mb-10">
+            <h2 className="text-[#192A46] text-2.5xl md:text-4xl font-serif mb-3 leading-tight">
+  <span className="italic font-medium">Spiritual</span>{" "}
+  Destinations
+</h2>
 
-  <p className="text-gray-700 text-[17px] leading-relaxed font-medium">
-    Discover India's most sacred temples, peaceful pilgrimage sites, and spiritual journeys that bring peace to your soul.
-  </p>
-</div>
+            <p className="text-gray-700 text-[17px] leading-relaxed font-medium">
+              Discover India's most sacred temples, peaceful pilgrimage sites,
+              and spiritual journeys that bring peace to your soul.
+            </p>
+          </div>
           {/* 3-column overlay grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {spiritualDestinations.map((tour) => (
@@ -740,13 +998,16 @@ export default function Home() {
       <section className="py-20 bg-[#0b1727]">
         <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
           <div className="text-center mb-12">
-            <h3 className="text-[#e2ad63] font-semibold text-[2rem] mb-2 tracking-wide">Explore The World</h3>
+            <h3 className="text-[#e2ad63] font-semibold text-[2rem] mb-2 tracking-wide">
+              Explore The World
+            </h3>
             <h2 className="text-[2.6rem] text-white mb-3 leading-tight">
               <span className="italic font-serif ">International</span>{" "}
               <span className="">Destinations</span>
             </h2>
             <p className="text-[#e2ad63] text-[18px] max-w-3xl mx-auto leading-relaxed max-w-none text-center">
-              Explore premium international destinations with unforgettable luxury, adventure, and breathtaking experiences.
+              Explore premium international destinations with unforgettable
+              luxury, adventure, and breathtaking experiences.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -754,198 +1015,111 @@ export default function Home() {
               <WorldCard key={tour._id || tour.slug} tour={tour} />
             ))}
           </div>
-          
         </div>
       </section>
-     
 
 
+
+{/* image and content section with personal tour manager */}
       <section className="py-16 bg-[#071735] mt-10">
-  {/* Outer blue frame */}
-  <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
-    <div className="bg-[#16345f] rounded-[22px] p-3 md:p-4">
+        {/* Outer blue frame */}
+        <div className="max-w-[1300px] mx-auto px-5 lg:px-8">
+          <div className="bg-[#16345f] rounded-[22px] p-3 md:p-4">
+            {/* Main White Card */}
+            <div className="bg-white rounded-[18px] overflow-hidden flex flex-col lg:flex-row min-h-[420px] max-w-[1400px] mx-auto">
+              {/* LEFT - Image Slider */}
+              <div className="lg:w-[52%] w-full p-3">
+                <PersonalTourManagerSlider />
+              </div>
 
-      {/* Main White Card */}
-     <div className="bg-white rounded-[18px] overflow-hidden flex flex-col lg:flex-row min-h-[420px] max-w-[1400px] mx-auto">
+              {/* RIGHT - Content */}
+              <div className="lg:w-[48%] w-full flex flex-col justify-center px-8 md:px-12 lg:px-10 py-6">
+                {/* Heading */}
+                <div className="border-l-[5px] border-[#f28c00] pl-4 mb-6">
+                  <h2 className="text-[#000000] text-xl md:text-2xl font-bold leading-tight whitespace-nowrap">
+                    Plan Your Travel With Personal Tour Manager
+                  </h2>
+                </div>
 
-        {/* LEFT - Image Slider */}
-        <div className="lg:w-[52%] w-full p-3">
-          <div className="relative w-full h-[350px] lg:h-[400px] overflow-hidden rounded-[4px] group">
+                {/* Description */}
+                <p className="text-gray-500 text-base md:text-[17px] leading-relaxed mb-6 max-w-[650px]">
+                  Unable to figure out where to go? Contact your personal tour
+                  manager and let us plan the perfect trip for you with
+                  customized destinations, hotels, transportation, and
+                  unforgettable travel experiences.
+                </p>
 
-            {(() => {
-              const sliderImages = [
-                "https://travelindiatourism.com/wp-content/uploads/2026/05/Andman-Island-1.jpeg.webp",
-                "https://travelindiatourism.com/wp-content/uploads/2022/04/Srinagar-Kasmir-Tour-4.jpg.webp",
-                "https://travelindiatourism.com/wp-content/uploads/2022/04/Kolkata-Tour-2.jpg.webp",
-                "https://travelindiatourism.com/wp-content/uploads/2022/04/Jaipur-ranthmabhore-tour-Rajasthan-1.jpg.webp",
-                "https://travelindiatourism.com/wp-content/uploads/2026/05/Shimla-Manali-1.jpeg.webp",
-                "https://travelindiatourism.com/wp-content/uploads/2026/05/Leh-ladhakh.jpeg.webp",
-                "https://travelindiatourism.com/wp-content/uploads/2023/09/Thailand-tour.jpg.webp",
-                "https://travelindiatourism.com/wp-content/uploads/2023/09/Thailand-tour-1.jpg.webp",
-                "https://travelindiatourism.com/wp-content/uploads/2023/09/singapore-tour.jpg.webp",
-                "https://travelindiatourism.com/wp-content/uploads/2022/04/Srinagar-Kasmir-Tour-3.jpg.webp",
-                "https://travelindiatourism.com/wp-content/uploads/2023/09/Dubai-tour-4.jpg.webp",
-              ];
-
-              const [current, setCurrent] = useState(0);
-
-              const prev = () =>
-                setCurrent((c) =>
-                  c === 0 ? sliderImages.length - 1 : c - 1
-                );
-
-              const next = () =>
-                setCurrent((c) =>
-                  c === sliderImages.length - 1 ? 0 : c + 1
-                );
-
-              return (
-                <>
+                {/* Manager */}
+                <div className="flex flex-col items-center">
                   <img
-                    src={sliderImages[current]}
-                    alt="Travel"
-                    className="w-full h-full object-cover transition-opacity duration-500"
+                    src="https://travelindiatourism.com/wp-content/uploads/2026/05/your_manager-removebg-preview-300x300.png.webp"
+                    alt="Tour Manager"
+                    className="h-24 w-auto object-contain mb-2"
+                    onError={(e) => {
+                      e.target.style.display = "none";
+                    }}
                   />
 
-                  {/* Previous */}
-                  <button
-                    onClick={prev}
-                    className="absolute left-4 top-1/2 -translate-y-1/2
-                               bg-black/30 hover:bg-black/50
-                               text-white rounded-md p-3
-                               opacity-0 group-hover:opacity-100
-                               transition-all duration-300"
-                  >
-                    <svg
-                      width="22"
-                      height="22"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="m15 18-6-6 6-6" />
-                    </svg>
-                  </button>
-
-                  {/* Next */}
-                  <button
-                    onClick={next}
-                    className="absolute right-4 top-1/2 -translate-y-1/2
-                               bg-black/30 hover:bg-black/50
-                               text-white rounded-md p-3
-                               opacity-0 group-hover:opacity-100
-                               transition-all duration-300"
-                  >
-                    <svg
-                      width="22"
-                      height="22"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="m9 18 6-6-6-6" />
-                    </svg>
-                  </button>
-                </>
-              );
-            })()}
-
-          </div>
-        </div>
-
-      {/* RIGHT - Content */}
-<div className="lg:w-[48%] w-full flex flex-col justify-center px-8 md:px-12 lg:px-10 py-6">
-
-  {/* Heading */}
-  <div className="border-l-[5px] border-[#f28c00] pl-4 mb-6">
-    <h2 className="text-[#050505] text-2xl md:text-3xl font-extrabold leading-tight">
-      Plan Your Travel With Personal Tour Manager
-    </h2>
-  </div>
-
-  {/* Description */}
-  <p className="text-gray-500 text-base md:text-[17px] leading-relaxed mb-6 max-w-[650px]">
-    Unable to figure out where to go? Contact your personal tour manager
-    and let us plan the perfect trip for you with customized destinations,
-    hotels, transportation, and unforgettable travel experiences.
-  </p>
-
-  {/* Manager */}
-  <div className="flex flex-col items-center">
-
-    <img
-      src="https://travelindiatourism.com/wp-content/uploads/2026/05/your_manager-removebg-preview-300x300.png.webp"
-      alt="Tour Manager"
-      className="h-24 w-auto object-contain mb-6"
-      onError={(e) => {
-        e.target.style.display = "none";
-      }}
-    />
-
-    {/* Enquiry Button */}
-    <Link
-      to="/contact"
-      className="inline-flex items-center justify-center gap-3
+                  {/* Enquiry Button */}
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center justify-center gap-3
                  bg-[#3566cc] hover:bg-[#2855b5]
                  text-white font-bold
-                 w-[170px] h-[56px]
+                 w-[140px] h-[56px]
                  text-[17px]
                  transition-colors rounded-2xl"
-    >
-      Enquiry Now
-      <ChevronRight size={20} strokeWidth={2.5} />
-    </Link>
-
-  </div>
-
-</div>
-
-      </div>
-    </div>
-  </div>
-</section>
-
-      {/* ══════════ WHY CHOOSE US ══════════ */}
-      {/* ══════════ WHY CHOOSE US ══════════ */}
-<section className="py-16 bg-[#f7f8fa]">
-  <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
-    <div className="text-center mb-12">
-      <h2 className="text-[2rem] font-bold text-[#1a2b48] leading-tight">
-        <span className="italic font-serif">Why</span> Choose Us
-      </h2>
-     <p className="text-[#C8A26B] text-md mt-3 leading-relaxed text-center whitespace-nowrap w-full">
-  Trusted travel experts offering customized domestic &amp; international tours with 24/7 support, visa assistance, and unforgettable travel experiences.
-</p>
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {whyChooseUs.map((item, i) => (
-        <div
-          key={i}
-          className="bg-white rounded-2xl p-10 shadow-sm border border-white hover:shadow-lg transition-all duration-300"
-        >
-          <div className="flex items-start gap-7">
-            <div className="flex-shrink-0 mt-1">{item.icon}</div>
-            <div>
-              <h3 className="font-bold text-[#1a2b48] text-base mb-2 leading-tight">{item.title}</h3>
-              <p className="text-[#7a7a7a] text-sm leading-relaxed">{item.desc}</p>
+                  >
+                    Enquiry Now
+                    <ChevronRight size={18} strokeWidth={2.5} />
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      ))}
-    </div>
-  </div>
-</section>
+      </section>
+
+      {/* ══════════ WHY CHOOSE US ══════════ */}
+      {/* ══════════ WHY CHOOSE US ══════════ */}
+      <section className="py-16 bg-[#f7f8fa]">
+        <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-[2rem] font-bold text-[#1a2b48] leading-tight">
+              <span className="italic font-serif">Why</span> Choose Us
+            </h2>
+            <p className="text-[#C8A26B] text-md mt-3 leading-relaxed text-center whitespace-nowrap w-full">
+              Trusted travel experts offering customized domestic &amp;
+              international tours with 24/7 support, visa assistance, and
+              unforgettable travel experiences.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {whyChooseUs.map((item, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-2xl p-10 shadow-sm border border-white hover:shadow-lg transition-all duration-300"
+              >
+                <div className="flex items-start gap-7">
+                  <div className="flex-shrink-0 mt-1">{item.icon}</div>
+                  <div>
+                    <h3 className="font-bold text-[#1a2b48] text-base mb-2 leading-tight">
+                      {item.title}
+                    </h3>
+                    <p className="text-[#7a7a7a] text-sm leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ══════════ FAQ ══════════ */}
       <FAQSection />
-
     </div>
   );
 }
