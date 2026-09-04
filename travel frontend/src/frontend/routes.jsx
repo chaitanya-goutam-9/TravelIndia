@@ -12,9 +12,9 @@ import FAQSection from './pages/faq';
 import CareersPage from './pages/CareersPage';
 import BlogPage from './pages/BlogPage';
 
-import LocationPage from './pages/LocationPage';
+import LocationPage from './pages/IndiaPage';
 import WorldPage from './pages/WorldPage';
-import DestinationDetails from './pages/DestinationDetails';
+import DestinationDetails from './pages/IndiaDestinationDetails';
 import review from './components/GoogleReviews';
 
 /**
@@ -29,7 +29,7 @@ const frontendRoutes = [
   { path: 'location/world', element: <WorldPage /> },
   { path: 'location/world/:countrySlug', element: <WorldPage /> },
   { path: 'location/india', element: <LocationPage /> },
-  { path: 'location/india/:stateSlug', element: <LocationPage /> },
+  { path: 'location/india/:stateSlug', element: <DestinationDetails /> },
   { path: 'location/:destId', element: <DestinationDetails /> },
   { path: 'about-us', element: <AboutUs /> },
   { path: 'csr-initiative', element: <AboutCsr /> },

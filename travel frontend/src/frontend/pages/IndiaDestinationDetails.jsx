@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Clock } from 'lucide-react';
+import { INDIA_STATES } from './IndiaPage';
 
 export default function DestinationDetails() {
   // If the route is /location/:destId, this will have destId
   // You might also use it for /location/india/:stateSlug if you update routes.jsx
   const { destId, stateSlug } = useParams();
   const slug = destId || stateSlug;
+  const stateImage = INDIA_STATES.find((state) => state.slug === slug);
 
   const [dest, setDest] = useState(null);
   const [tours, setTours] = useState([]);
@@ -57,7 +59,11 @@ export default function DestinationDetails() {
         try {
           const res = await axios.get(`${baseUrl}/api/destinations/${slug}`);
           if (res.data.success && res.data.data) {
-            currentDest = res.data.data;
+            currentDest = {
+              ...res.data.data,
+              name: stateImage?.name || res.data.data.name,
+              bannerImage: stateImage?.image || res.data.data.bannerImage,
+            };
             setDest(currentDest);
           } else {
             currentDest = getFallbackData(slug);
@@ -102,6 +108,14 @@ export default function DestinationDetails() {
 
   // Fallback function so that the page looks good even without backend data
   const getFallbackData = (currentSlug) => {
+    if (stateImage) {
+      return {
+        _id: `${stateImage.slug}-id`,
+        name: stateImage.name,
+        bannerImage: stateImage.image,
+      };
+    }
+
     const normalized = currentSlug?.toLowerCase() || '';
     if (normalized.includes('ladakh')) {
       return {

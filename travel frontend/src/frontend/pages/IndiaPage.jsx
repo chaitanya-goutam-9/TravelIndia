@@ -72,7 +72,7 @@ const TOUR_CATEGORIES = [
 /* ─────────────────────────────────────────────
    STATIC STATE DATA  (images from reference site)
 ───────────────────────────────────────────── */
-const INDIA_STATES = [
+export const INDIA_STATES = [
   {
     name: 'Rajasthan',
     slug: 'rajasthan',
@@ -172,7 +172,7 @@ const WORLD_TOUR_CATEGORIES = [
 function StateCard({ state, className = '' }) {
   return (
     <Link
-      to={`/location/${state.slug}`}
+      to={`/location/india/${state.slug}`}
       className={`group relative min-h-[220px] overflow-hidden rounded-2xl shadow-md transition-all duration-300 hover:shadow-2xl ${className}`}
     >
       <img
